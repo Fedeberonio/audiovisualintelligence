@@ -14,7 +14,7 @@
       background:var(--bg); color:var(--fg); font-family:system-ui, Arial, sans-serif;
       text-align:center; padding:24px;
     }
-    img { width:min(380px, 80vw); max-height:60vh; object-fit:contain; margin-bottom:20px; }
+    img, video { width:min(380px, 80vw); max-height:60vh; object-fit:contain; margin-bottom:20px; }
     h1 { margin:0 0 8px; letter-spacing:.08em; text-transform:uppercase; }
     p  { margin:0; color:var(--muted); }
     footer { position:fixed; bottom:14px; left:0; right:0; text-align:center; font-size:12px; color:var(--muted); }
@@ -22,7 +22,9 @@
 </head>
 <body>
   <!-- Replace the gif filename below with your actual GIF if you prefer -->
-  <img src="comingsoon.gif" alt="Audiovisual Intelligence" />
+  <video autoplay muted loop playsinline aria-label="Audiovisual Intelligence">
+    <source src="/media/landing.mp4" type="video/mp4" />
+  </video>
   <p>audiovisualintelligence.ai</p>
   <footer>© <span id="y"></span> Audiovisual Intelligence</footer>
   <script>document.getElementById("y").textContent=new Date().getFullYear();</script>
