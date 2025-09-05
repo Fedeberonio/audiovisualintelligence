@@ -114,8 +114,8 @@ img { display: block; max-width: 100%; height: auto; }
 
 /* Modal (Nexus-like, minimal) */
 .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.55); backdrop-filter: blur(6px); opacity: 0; pointer-events: none; transition: opacity .25s ease; }
-.modal { position: fixed; inset: 0; display: grid; place-items: center; pointer-events: none; }
-.modal[open] { pointer-events: auto; }
+.modal { display: none; }
+.modal[open] { position: fixed; inset: 0; display: grid; place-items: center; pointer-events: auto; }
 .modal[open] .modal-backdrop { opacity: 1; pointer-events: auto; }
 .modal-dialog { width:min(980px, 94vw); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: linear-gradient(180deg, #0c0c0c, #0a0a0a); box-shadow: 0 40px 80px rgba(0,0,0,.6); transform: translateY(12px) scale(.98); opacity: 0; transition: transform .3s ease, opacity .3s ease; }
 .modal[open] .modal-dialog { transform: translateY(0) scale(1); opacity: 1; }
