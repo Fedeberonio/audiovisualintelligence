@@ -108,7 +108,8 @@
       // Mapeo de teasers por curso (videos ubicados en /media)
       const slugToVideo = {
         'vision-ia': 'media/Teaser.mp4',
-        'taller-intensivo-ia': 'media/taller-intensivo-ia:teaser.mp4',
+        // Nota: el archivo tiene dos puntos en el nombre; lo referimos URL-encoded
+        'taller-intensivo-ia': 'media/taller-intensivo-ia%3Ateaser.mp4',
         'laboratorio-ia-personalizado': 'media/laboratorio-ia.mp4'
       };
       const grid = document.getElementById('grid');
