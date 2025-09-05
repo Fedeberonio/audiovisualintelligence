@@ -1,0 +1,116 @@
+{
+  "section": {
+    "id": "capacitaciones",
+    "title": "Capacitaciones",
+    "subtitle": "IA aplicada a desarrollo, pre, producción y post",
+    "auth_required": true
+  },
+  "capacitaciones": [
+    {
+      "slug": "vision-ia",
+      "titulo": "Visión IA",
+      "nivel": "Intro",
+      "duracion_total": "6 h (3×2 h)",
+      "formato": "En vivo por Google Meet + grabaciones",
+      "grupo": "Sugerido 10–15 participantes",
+      "resumen_corto": "Mapa completo del ecosistema IA con demos en tiempo real.",
+      "objetivos": [
+        "Comprender el ecosistema IA aplicado a producción audiovisual",
+        "Ver procesos clave demostrados end-to-end",
+        "Identificar oportunidades rápidas de adopción"
+      ],
+      "temario_resumido": [
+        "Fundamentos: de reglas a sistemas generativos",
+        "LLMs y asistentes personalizados (GPTs/Projects)",
+        "Desarrollo: ideación, research, guion asistido",
+        "Pre-producción: breakdown, presupuesto, scheduling",
+        "Producción y Post: storyboard/frames, video, upscaling y audio",
+        "Tendencias y próximos pasos"
+      ],
+      "modalidad_horarios": [
+        "L-M-V 19:00–21:00",
+        "Sábado intensivo 14:00–20:00 (descanso intermedio)"
+      ],
+      "incluye": [
+        "Grabaciones",
+        "Presentación en español",
+        "Lista curada de herramientas",
+        "Templates descargables",
+        "Certificado + grupo privado",
+        "Soporte post-curso (breve)"
+      ],
+      "requisitos": "Conexión a internet (las demos las realiza el instructor)",
+      "tags": ["Desarrollo", "Pre-producción", "Producción", "Post"],
+      "cta_label": "Solicitar información"
+    },
+    {
+      "slug": "taller-intensivo-ia",
+      "titulo": "Taller Intensivo IA",
+      "nivel": "Hands-on",
+      "duracion_total": "12 h (6×2 h) o 2 sábados",
+      "formato": "En vivo por Google Meet + grabaciones",
+      "grupo": "Sugerido 10–15 participantes",
+      "resumen_corto": "Visión IA + práctica guiada paso a paso.",
+      "objetivos": [
+        "Configurar asistentes y flujos propios",
+        "Aplicar herramientas en casos reales",
+        "Producir entregables (breakdown, assets, clip corto)"
+      ],
+      "temario_resumido": [
+        "Ecosistema y pipeline IA",
+        "GPTs/Projects personalizados",
+        "Pre-pro hands-on (Filmustage, Rivet)",
+        "Generación coherente de imágenes y video",
+        "Post: upscaling/edición/audio",
+        "Proyecto final aplicado"
+      ],
+      "modalidad_horarios": [
+        "2 semanas: L-M-V 19:00–21:00",
+        "2 sábados: 14:00–20:00 (descanso)"
+      ],
+      "incluye": [
+        "Grabaciones, presentación, lista de herramientas",
+        "Templates + certificado + grupo privado",
+        "Soporte post-curso (extendido)"
+      ],
+      "requisitos": "Accesos a herramientas IA para las prácticas (free/paid según caso)",
+      "tags": ["Desarrollo", "Pre-producción", "Producción", "Post"],
+      "cta_label": "Ver temario"
+    },
+    {
+      "slug": "laboratorio-ia-personalizado",
+      "titulo": "Laboratorio IA Personalizado",
+      "nivel": "Implementación",
+      "duracion_total": "Fase 1 (3×2 h) + Fase 2 (4×3 h)",
+      "formato": "En vivo por Google Meet + grabaciones",
+      "grupo": "Sugerido 10–15 participantes (flexible por área)",
+      "resumen_corto": "Diseño y despliegue de workflows IA para tu proyecto/equipo.",
+      "objetivos": [
+        "Diagnóstico y diseño de procesos a medida",
+        "Implementación con el equipo en proyecto piloto",
+        "Creación de templates y manuales internos"
+      ],
+      "temario_resumido": [
+        "Fase 1: bases compartidas",
+        "Fase 2: workflows por área",
+        "Asistentes y automatizaciones",
+        "Pilotaje con métricas",
+        "Manual IA + handover"
+      ],
+      "modalidad_horarios": [
+        "Fase 1: según Visión IA",
+        "Fase 2: 4×3 h, agenda flexible"
+      ],
+      "incluye": [
+        "Análisis previo de proyectos",
+        "GPTs/Asistentes exclusivos",
+        "Manual IA personalizado",
+        "Soporte extendido + seguimiento a 30 días"
+      ],
+      "requisitos": "Herramientas específicas según el proyecto (definidas en el análisis previo)",
+      "tags": ["Implementación", "Eficiencia", "Automatización", "Pilotaje"],
+      "cta_label": "Agendar diagnóstico"
+    }
+  ]
+}
+
