@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Salir — AVI</title>
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body>
+    <script>
+      try { sessionStorage.removeItem('avi_auth'); } catch (e) {}
+      try { document.cookie = 'avi_auth=; Max-Age=0; Path=/; SameSite=Lax'; } catch (e) {}
+      location.replace('/');
+    </script>
+  </body>
+</html>
+
