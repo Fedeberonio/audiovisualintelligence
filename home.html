@@ -151,6 +151,11 @@
       }
       skeleton();
 
+      const slugToVideo = {
+        'vision-ia': 'media/Teaser.mp4',
+        'taller-intensivo-ia': 'media/taller-intensivo-ia:teaser.mp4',
+        'laboratorio-ia-personalizado': 'media/laboratorio-ia.mp4'
+      };
       fetch('data/capacitaciones.json', {cache:'no-store'})
         .then(r=>r.json())
         .then(data=>{
@@ -159,8 +164,12 @@
           for(const it of items){
             const a=document.createElement('a');
             a.href='capacitaciones.html'; a.className='card reveal'; a.setAttribute('aria-label',`Abrir detalle ${it.titulo}`);
+            const teaser = slugToVideo[it.slug];
+            const mediaHTML = teaser
+              ? `<video src="${teaser}" muted autoplay loop playsinline preload="metadata"></video>`
+              : `<img src="comingsoon.gif" alt="${it.titulo}" />`;
             a.innerHTML=`
-              <div class="card-media"><img src="comingsoon.gif" alt="${it.titulo}" /></div>
+              <div class="card-media">${mediaHTML}</div>
               <div class="card-body">
                 <div class="card-title">${it.titulo}</div>
                 <span class="chip">${it.duracion_total.split(' ')[0]} • ${it.nivel}</span>

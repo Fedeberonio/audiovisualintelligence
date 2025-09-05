@@ -105,6 +105,12 @@
       }
 
       // Dinámica: cargar capacitaciones desde JSON
+      // Mapeo de teasers por curso (videos ubicados en /media)
+      const slugToVideo = {
+        'vision-ia': 'media/Teaser.mp4',
+        'taller-intensivo-ia': 'media/taller-intensivo-ia:teaser.mp4',
+        'laboratorio-ia-personalizado': 'media/laboratorio-ia.mp4'
+      };
       const grid = document.getElementById('grid');
       function skeleton(n=3){
         grid.innerHTML='';
@@ -126,9 +132,13 @@
           for(const it of items){
             const a=document.createElement('a');
             a.href='#'; a.className='card reveal'; a.setAttribute('aria-label',`Abrir detalle ${it.titulo}`);
+            const teaser = slugToVideo[it.slug];
+            const mediaHTML = teaser
+              ? `<video src="${teaser}" muted autoplay loop playsinline preload="metadata"></video>`
+              : `<img src="comingsoon.gif" alt="${it.titulo}" />`;
             a.innerHTML=`
               <div class="card-media">
-                <img src="comingsoon.gif" alt="${it.titulo}" />
+                ${mediaHTML}
               </div>
               <div class="card-body">
                 <div class="card-title">${it.titulo}</div>
