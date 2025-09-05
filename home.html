@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AVI — Home</title>
+    <meta name="description" content="Audiovisual Intelligence — Área interna" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preload" as="style" href="assets/styles.css" />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="assets/gate.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container inner">
+        <a class="brand" href="home.html" aria-label="Inicio">AVI</a>
+        <nav class="nav" aria-label="Navegación principal">
+          <a href="home.html" class="pill" aria-current="page">Inicio</a>
+          <a href="capacitaciones.html" class="pill">Capacitaciones</a>
+          <a href="quienes-somos.html" class="pill">Quienes somos</a>
+          <a href="contenidos.html" class="pill">Contenidos de estudio</a>
+          <a href="clientes.html" class="pill">Clientes</a>
+          <a href="id-lab.html" class="pill">I+D Lab</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero principal -->
+      <section class="hero container">
+        <div class="eyebrow">Storytelling en cada dimensión</div>
+        <h1 class="title-xxl">Audiovisual Intelligence</h1>
+        <p class="subtitle">Estudio de producción y diseño de experiencias con IA aplicada a cine, TV y marcas.</p>
+        <div class="spacer-lg"></div>
+      </section>
+
+      <!-- Sección destacada (mock) -->
+      <section class="container">
+        <div class="grid">
+          <a class="card reveal" href="capacitaciones.html" aria-label="Ir a Capacitaciones">
+            <div class="card-media"><img src="comingsoon.gif" alt="Capacitaciones" /></div>
+            <div class="card-body">
+              <div class="card-title">Capacitaciones</div>
+              <span class="chip">Programas y workshops</span>
+            </div>
+          </a>
+          <a class="card reveal" href="quienes-somos.html" aria-label="Ir a Quienes somos">
+            <div class="card-media"><img src="comingsoon.gif" alt="Quienes somos" /></div>
+            <div class="card-body">
+              <div class="card-title">Quienes somos</div>
+              <span class="chip">Equipo y enfoque</span>
+            </div>
+          </a>
+          <a class="card reveal" href="id-lab.html" aria-label="Ir a I+D Lab">
+            <div class="card-media"><img src="comingsoon.gif" alt="I+D Lab" /></div>
+            <div class="card-body">
+              <div class="card-title">I+D Lab</div>
+              <span class="chip">Exploración y prototipos</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- Capacitaciones dinámicas (extracto) -->
+      <section class="container">
+        <div class="spacer-xl"></div>
+        <div class="eyebrow">Cursos destacados</div>
+        <div id="caps-grid" class="grid"></div>
+        <div class="spacer-lg"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="copyright">© <span id="y"></span> Audiovisual Intelligence</div>
+      </div>
+    </footer>
+
+    <dialog id="modal" class="modal">
+      <div class="modal-backdrop" onclick="this.closest('dialog').close()"></div>
+      <div class="modal-dialog">
+        <div class="modal-hd">
+          <div>
+            <div id="m-nivel" class="badge"></div>
+            <h3 id="m-titulo" style="margin:6px 0 0"></h3>
+          </div>
+          <button id="m-close" class="btn">Cerrar</button>
+        </div>
+        <div class="modal-bd">
+          <div>
+            <div class="kicker">Resumen</div>
+            <p id="m-resumen" class="muted"></p>
+            <div class="kicker" style="margin-top:12px">Objetivos</div>
+            <ul id="m-objetivos" class="list"></ul>
+            <div class="kicker" style="margin-top:12px">Temario</div>
+            <ul id="m-temario" class="list"></ul>
+          </div>
+          <div>
+            <div class="kicker">Duración y formato</div>
+            <p id="m-duracion" class="muted"></p>
+            <div class="kicker" style="margin-top:12px">Modalidad y horarios</div>
+            <ul id="m-horarios" class="list"></ul>
+            <div class="kicker" style="margin-top:12px">Incluye</div>
+            <ul id="m-incluye" class="list"></ul>
+            <div class="kicker" style="margin-top:12px">Requisitos</div>
+            <p id="m-requisitos" class="muted"></p>
+          </div>
+        </div>
+        <div class="modal-ft">
+          <a id="m-mailto" class="btn" href="#">Solicitar información</a>
+        </div>
+      </div>
+    </dialog>
+
+    <script>
+      // Año
+      document.getElementById('y').textContent = new Date().getFullYear();
+
+      // Reveal
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!prefersReduced && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+      } else {
+        document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+      }
+
+      // Cargar extracto de capacitaciones
+      const g = document.getElementById('caps-grid');
+      function skeleton(n=3){
+        g.innerHTML='';
+        for(let i=0;i<n;i++){
+          const d=document.createElement('div');
+          d.className='card';
+          d.innerHTML=`<div class="card-media" style="background:linear-gradient(90deg,#111,#161616,#111);background-size:200% 100%;animation:sh 1.2s linear infinite"></div>
+            <div class="card-body"><div class="card-title" style="opacity:.6">&nbsp;</div><span class="chip" style="opacity:.4">&nbsp;&nbsp;&nbsp;</span></div>`;
+          g.appendChild(d);
+        }
+      }
+      skeleton();
+
+      fetch('data/capacitaciones.json', {cache:'no-store'})
+        .then(r=>r.json())
+        .then(data=>{
+          const items=(data.capacitaciones||[]).slice(0,3);
+          g.innerHTML='';
+          for(const it of items){
+            const a=document.createElement('a');
+            a.href='capacitaciones.html'; a.className='card reveal'; a.setAttribute('aria-label',`Abrir detalle ${it.titulo}`);
+            a.innerHTML=`
+              <div class="card-media"><img src="comingsoon.gif" alt="${it.titulo}" /></div>
+              <div class="card-body">
+                <div class="card-title">${it.titulo}</div>
+                <span class="chip">${it.duracion_total.split(' ')[0]} • ${it.nivel}</span>
+              </div>`;
+            a.addEventListener('click', (e)=>{ e.preventDefault(); openModal(it); });
+            g.appendChild(a);
+          }
+        })
+        .catch(()=>{ g.innerHTML='<p class="muted">No se pudo cargar el contenido.</p>'; });
+
+      // Modal
+      const modal = document.getElementById('modal');
+      const mClose = document.getElementById('m-close');
+      const mTitulo = document.getElementById('m-titulo');
+      const mNivel = document.getElementById('m-nivel');
+      const mResumen = document.getElementById('m-resumen');
+      const mDuracion = document.getElementById('m-duracion');
+      const mObjetivos = document.getElementById('m-objetivos');
+      const mTemario = document.getElementById('m-temario');
+      const mHorarios = document.getElementById('m-horarios');
+      const mIncluye = document.getElementById('m-incluye');
+      const mRequisitos = document.getElementById('m-requisitos');
+      const mMail = document.getElementById('m-mailto');
+
+      function listify(arr){ return (arr||[]).map(x=>`<li>${x}</li>`).join(''); }
+      function openModal(it){
+        mTitulo.textContent = it.titulo;
+        mNivel.textContent = it.nivel;
+        mResumen.textContent = it.resumen_corto||'';
+        mDuracion.textContent = `${it.duracion_total || ''} · ${it.formato || ''}`;
+        mObjetivos.innerHTML = listify(it.objetivos);
+        mTemario.innerHTML = listify(it.temario_resumido);
+        mHorarios.innerHTML = listify(it.modalidad_horarios);
+        mIncluye.innerHTML = listify(it.incluye);
+        mRequisitos.textContent = it.requisitos || '';
+        const subject = encodeURIComponent(`Consulta — ${it.titulo}`);
+        const body = encodeURIComponent(`Hola, quiero más información sobre "${it.titulo}".`);
+        mMail.href = `mailto:avi.info.desk@gmail.com?subject=${subject}&body=${body}`;
+        modal.showModal();
+      }
+      mClose?.addEventListener('click', ()=> modal.close());
+    </script>
+  </body>
+</html>
+
+
