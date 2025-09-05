@@ -14,7 +14,7 @@
       background:var(--bg); color:var(--fg); font-family:system-ui, Arial, sans-serif;
       text-align:center; padding:24px;
     }
-    img, video { width:min(380px, 80vw); max-height:60vh; object-fit:contain; margin-bottom:20px; }
+    img, video { width:min(380px, 80vw); max-height:60vh; object-fit:contain; margin-bottom:20px; cursor:pointer; }
     h1 { margin:0 0 8px; letter-spacing:.08em; text-transform:uppercase; }
     p  { margin:0; color:#ff8a00; }
     a.btn { display:inline-block; margin-top:16px; padding:10px 16px; color:#1b0e00; border-radius:8px; text-decoration:none; font-weight:700;
@@ -37,10 +37,11 @@
 </head>
 <body>
   <!-- Replace the gif filename below with your actual GIF if you prefer -->
-  <video autoplay muted loop playsinline aria-label="Audiovisual Intelligence">
-    <source src="/media/landing2.mp4" type="video/mp4" />
-  </video>
-  <a class="btn" href="https://audiovisual-intelligence--preview-mxuc4do0.web.app" aria-label="Acceder">🚀</a>
+  <a href="https://audiovisual-intelligence--preview-mxuc4do0.web.app" aria-label="Acceder">
+    <video autoplay muted loop playsinline aria-label="Audiovisual Intelligence">
+      <source src="/media/landing2.mp4" type="video/mp4" />
+    </video>
+  </a>
   <footer>© <span id="y"></span> Audiovisual Intelligence</footer>
   <script>document.getElementById("y").textContent=new Date().getFullYear();</script>
 </body>
