@@ -6,7 +6,7 @@
   <title>Audiovisual Intelligence</title>
   <meta name="description" content="Audiovisual Intelligence" />
   <style>
-    :root { --bg:#000; --fg:#fff; --muted:#9aa0a6; }
+    :root { --bg:#000; --fg:#fff; --muted:#9aa0a6; --accent:#ff8a00; }
     * { box-sizing: border-box; }
     html, body { height:100%; margin:0; }
     body {
@@ -14,7 +14,10 @@
       background:var(--bg); color:var(--fg); font-family:system-ui, Arial, sans-serif;
       text-align:center; padding:24px;
     }
-    img, video { width:min(380px, 80vw); max-height:60vh; object-fit:contain; margin-bottom:20px; cursor:pointer; }
+    img, video { width:min(380px, 80vw); max-height:60vh; object-fit:contain; margin-bottom:20px; cursor:pointer; border-radius:12px; transition: transform .25s ease, filter .25s ease; }
+    a.video-link:hover video { transform: scale(1.02); filter: drop-shadow(0 0 24px rgba(255,138,0,.35)) brightness(1.05); }
+    /* Cursor naranja para elementos interactivos */
+    a, button, video { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path fill='%23ff8a00' d='M3 2l15 7-6 2 2 6-7-15z'/></svg>") 2 2, pointer; }
     h1 { margin:0 0 8px; letter-spacing:.08em; text-transform:uppercase; }
     p  { margin:0; color:#ff8a00; }
     a.btn { display:inline-block; margin-top:16px; padding:10px 16px; color:#1b0e00; border-radius:8px; text-decoration:none; font-weight:700;
@@ -37,7 +40,7 @@
 </head>
 <body>
   <!-- Replace the gif filename below with your actual GIF if you prefer -->
-  <a href="https://audiovisual-intelligence--preview-mxuc4do0.web.app" aria-label="Acceder">
+  <a class="video-link" href="https://audiovisual-intelligence--preview-mxuc4do0.web.app" aria-label="Acceder">
     <video autoplay muted loop playsinline aria-label="Audiovisual Intelligence">
       <source src="/media/landing2.mp4" type="video/mp4" />
     </video>
