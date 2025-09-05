@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Autenticación correcta — AVI</title>
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body>
+    <script>
+      // Marca la sesión como autenticada y envía al área interna
+      try { sessionStorage.setItem('avi_auth', 'ok'); } catch (e) {}
+      try { document.cookie = 'avi_auth=ok; Max-Age=3600; Path=/; SameSite=Lax'; } catch (e) {}
+      location.replace('capacitaciones.html');
+    </script>
+  </body>
+</html>
+
