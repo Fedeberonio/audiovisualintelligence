@@ -29,7 +29,7 @@
     <main>
       <section class="hero hero-vid">
         <div class="vid-wrap" aria-hidden="true">
-          <video src="media/enter_0.mp4" autoplay muted loop playsinline></video>
+          <video src="media/enter_0.mp4" autoplay muted loop playsinline preload="metadata"></video>
         </div>
         <div class="container hero-content">
           <div class="eyebrow">Formación avanzada</div>
@@ -110,12 +110,6 @@
       }
 
       // Dinámica: cargar capacitaciones desde JSON
-      // Mapeo de teasers por curso (videos ubicados en /media)
-      const slugToVideo = {
-        'vision-ia': 'media/vision-ia-teaser.mp4',
-        'taller-intensivo-ia': 'media/taller-intensivo-ia-teaser.mp4',
-        'laboratorio-ia-personalizado': 'media/laboratorio-ia-teaser.mp4'
-      };
       const grid = document.getElementById('grid');
       function skeleton(n=3){
         grid.innerHTML='';
@@ -137,14 +131,9 @@
           for(const it of items){
             const a=document.createElement('a');
             a.href='#'; a.className='card reveal'; a.setAttribute('aria-label',`Abrir detalle ${it.titulo}`);
-            const teaser = slugToVideo[it.slug];
-            const mediaHTML = teaser
-              ? `<video src="${teaser}" muted autoplay loop playsinline preload="metadata"></video>`
-              : `<img src="comingsoon.gif" alt="${it.titulo}" />`;
+            const mediaHTML = `<div class="card-media" style="background:linear-gradient(135deg,#0f0f0f,#171717);"></div>`;
             a.innerHTML=`
-              <div class="card-media">
-                ${mediaHTML}
-              </div>
+              ${mediaHTML}
               <div class="card-body">
                 <div class="card-title">${it.titulo}</div>
                 <span class="chip">${it.duracion_total.split(' ')[0]} • ${it.nivel}</span>
