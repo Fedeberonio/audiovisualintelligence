@@ -9,16 +9,16 @@
     :root { --bg:#000; --fg:#fff; --muted:#9aa0a6; --accent:#ff8a00; }
     * { box-sizing: border-box; }
     html, body { height:100%; margin:0; }
-    body {
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      background:var(--bg); color:var(--fg); font-family:system-ui, Arial, sans-serif;
-      text-align:center; padding:24px;
-    }
+    body { background:var(--bg); color:var(--fg); font-family:system-ui, Arial, sans-serif; text-align:center; padding:0; }
     img, video { width:min(380px, 80vw); max-height:60vh; object-fit:contain; margin-bottom:20px; cursor:pointer; border-radius:12px; transition: transform .25s ease, filter .25s ease; }
+    /* Sección principal a 100vh */
+    .stage { position: relative; height: 100vh; width: 100%; display: grid; place-items: center; overflow: hidden; }
     /* Video de fondo a pantalla completa */
-    .bg-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none; }
+    .bg-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none; }
     /* Botón de video al 50% de tamaño y 50% de opacidad */
     a.video-link video { width: 50vw; max-height: 50vh; opacity: .5; }
+    /* Segunda sección */
+    .next { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 16px; }
     a.video-link:hover video { transform: scale(1.02); filter: drop-shadow(0 0 24px rgba(255,138,0,.35)) brightness(1.05); }
     /* Cursor naranja para elementos interactivos */
     a, button, video { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path fill='%23ff8a00' d='M3 2l15 7-6 2 2 6-7-15z'/></svg>") 2 2, pointer; }
@@ -43,16 +43,27 @@
   </style>
 </head>
 <body>
-  <!-- Video de fondo -->
-  <video class="bg-video" autoplay muted loop playsinline aria-hidden="true">
-    <source src="/media/landing_0.mp4" type="video/mp4" />
-  </video>
-  <!-- Replace the gif filename below with your actual GIF if you prefer -->
-  <a class="video-link" href="https://audiovisual-intelligence.web.app/login/?next=%2Fcapacitaciones%2F" aria-label="Acceder">
-    <video autoplay muted loop playsinline aria-label="Audiovisual Intelligence">
-      <source src="/media/landing2.mp4" type="video/mp4" />
-    </video>
-  </a>
+  <main>
+    <section class="stage">
+      <!-- Video de fondo -->
+      <video class="bg-video" autoplay muted loop playsinline aria-hidden="true">
+        <source src="/media/landing_0.mp4" type="video/mp4" />
+      </video>
+      <!-- Botón central -->
+      <a class="video-link" href="https://audiovisual-intelligence.web.app/login/?next=%2Fcapacitaciones%2F" aria-label="Acceder">
+        <video autoplay muted loop playsinline aria-label="Audiovisual Intelligence">
+          <source src="/media/landing2.mp4" type="video/mp4" />
+        </video>
+      </a>
+    </section>
+    <section class="next">
+      <div>
+        <h1 style="letter-spacing:.08em;text-transform:uppercase;margin:0 0 12px">Audiovisual Intelligence</h1>
+        <p style="color:#ff8a00;margin:0 0 12px">Desliza para explorar</p>
+        <a class="btn" href="https://audiovisual-intelligence.web.app/login/?next=%2Fcapacitaciones%2F">Entrar</a>
+      </div>
+    </section>
+  </main>
   <footer>© <span id="y"></span> Audiovisual Intelligence</footer>
   <script>document.getElementById("y").textContent=new Date().getFullYear();</script>
 </body>
