@@ -25,13 +25,18 @@
       </div>
     </header>
 
-    <!-- Hero -->
+    <!-- Hero con video de fondo -->
     <main>
-      <section class="hero container">
-        <div class="eyebrow">Formación avanzada</div>
-        <h1 class="title-xxl">Capacitaciones en IA Audiovisual</h1>
-        <p class="subtitle">IA aplicada a desarrollo, pre, producción y post.</p>
-        <div class="spacer-lg"></div>
+      <section class="hero hero-vid">
+        <div class="vid-wrap" aria-hidden="true">
+          <video src="media/enter_0.mp4" autoplay muted loop playsinline></video>
+        </div>
+        <div class="container hero-content">
+          <div class="eyebrow">Formación avanzada</div>
+          <h1 class="title-xxl">Capacitaciones en IA Audiovisual</h1>
+          <p class="subtitle">IA aplicada a desarrollo, pre, producción y post.</p>
+          <div class="spacer-lg"></div>
+        </div>
       </section>
 
       <!-- Grid cursos dinámico -->
@@ -127,7 +132,7 @@
       fetch('data/capacitaciones.json', {cache:'no-store'})
         .then(r=>r.json())
         .then(data=>{
-          const items = data.capacitaciones||[];
+          const items = (data.capacitaciones||[]).slice(0,3);
           grid.innerHTML='';
           for(const it of items){
             const a=document.createElement('a');
