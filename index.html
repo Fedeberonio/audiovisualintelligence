@@ -19,18 +19,30 @@
     a.video-link video { width: 50vw; max-height: 50vh; opacity: .5; }
     /* Segunda sección: video ancho completo que funciona como botón */
     .next { background: #000; padding: 0; }
-    .video-wide { position:relative; display:block; width:100vw; max-width:100%; margin:0 auto; }
+    .video-wide { position:relative; display:block; width:100vw; max-width:100%; margin:0 auto; outline:none; }
     .video-wide video { display:block; width:100%; height:auto; object-fit:cover; margin:0; }
+    /* Vignette inferior para legibilidad del CTA */
+    .video-wide::after { content:""; position:absolute; left:0; right:0; bottom:0; height:34vh; pointer-events:none;
+      background: linear-gradient(0deg, rgba(0,0,0,.55), rgba(0,0,0,0)); }
     .stage .video-link video { margin:0; }
     /* CTA sutil sobre el video */
-    .video-wide .cta-overlay { position:absolute; left:50%; bottom:8vh; transform:translateX(-50%); pointer-events:none;
-      padding:12px 18px; border-radius:999px; color:#1b0e00; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
-      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0) 40%),
-                  repeating-linear-gradient(25deg, rgba(0,0,0,.08) 0, rgba(0,0,0,.08) 2px, rgba(0,0,0,0) 3px, rgba(0,0,0,0) 6px),
-                  linear-gradient(0deg, #ff8a00, #ff6a00);
-      box-shadow:0 2px 0 rgba(0,0,0,.25); opacity:0; animation: ctaIn .8s ease-out .8s forwards; }
-    @keyframes ctaIn { from { opacity:0; transform:translate(-50%, 8px); } to { opacity:1; transform:translate(-50%, 0); } }
-    .video-wide:hover .cta-overlay { filter: brightness(1.08); }
+    .video-wide .cta-overlay { position:absolute; left:50%; bottom:10vh; transform:translateX(-50%); pointer-events:none;
+      padding:12px 20px; border-radius:999px; color:#1b0e00; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0) 40%),
+        repeating-linear-gradient(25deg, rgba(0,0,0,.08) 0, rgba(0,0,0,.08) 2px, rgba(0,0,0,0) 3px, rgba(0,0,0,0) 6px),
+        linear-gradient(0deg, #ff8a00, #ff6a00);
+      box-shadow: 0 2px 0 rgba(0,0,0,.28), 0 0 0 0 rgba(255,138,0,.0);
+      opacity:0; transform-origin:center; animation: ctaIn .7s cubic-bezier(.21,1,.21,1) .6s forwards; }
+    .video-wide .cta-overlay::before { content:""; position:absolute; inset:-6px; border-radius:inherit; border:2px solid rgba(255,138,0,.5); opacity:.0; transform:scale(.9);
+      filter: blur(0); animation: ringPulse 2.6s ease-out 1.2s infinite; }
+    @keyframes ctaIn { from { opacity:0; transform:translate(-50%, 10px) scale(.98); } to { opacity:1; transform:translate(-50%, 0) scale(1); } }
+    @keyframes ringPulse { 0% { opacity:.0; transform:scale(.92); } 30% { opacity:.8; transform:scale(1.05); } 100% { opacity:0; transform:scale(1.18); } }
+    .video-wide:hover .cta-overlay { filter: brightness(1.08); box-shadow: 0 2px 0 rgba(0,0,0,.28), 0 0 22px 0 rgba(255,138,0,.22); }
+    .video-wide:focus .cta-overlay, .video-wide:focus-visible .cta-overlay { box-shadow: 0 0 0 3px rgba(255,138,0,.35), 0 2px 0 rgba(0,0,0,.25); }
+    @media (prefers-reduced-motion: reduce) {
+      .video-wide .cta-overlay, .video-wide .cta-overlay::before { animation: none; }
+    }
     a.video-link:hover video { transform: scale(1.02); filter: drop-shadow(0 0 24px rgba(255,138,0,.35)) brightness(1.05); }
     /* Cursor naranja para elementos interactivos */
     a, button, video { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path fill='%23ff8a00' d='M3 2l15 7-6 2 2 6-7-15z'/></svg>") 2 2, pointer; }
