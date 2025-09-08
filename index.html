@@ -15,6 +15,10 @@
       text-align:center; padding:24px;
     }
     img, video { width:min(380px, 80vw); max-height:60vh; object-fit:contain; margin-bottom:20px; cursor:pointer; border-radius:12px; transition: transform .25s ease, filter .25s ease; }
+    /* Video de fondo a pantalla completa */
+    .bg-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+    /* Botón de video al 50% de tamaño y 50% de opacidad */
+    a.video-link video { width: 50vw; max-height: 50vh; opacity: .5; }
     a.video-link:hover video { transform: scale(1.02); filter: drop-shadow(0 0 24px rgba(255,138,0,.35)) brightness(1.05); }
     /* Cursor naranja para elementos interactivos */
     a, button, video { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path fill='%23ff8a00' d='M3 2l15 7-6 2 2 6-7-15z'/></svg>") 2 2, pointer; }
@@ -39,6 +43,10 @@
   </style>
 </head>
 <body>
+  <!-- Video de fondo -->
+  <video class="bg-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="/media/landing_0.mp4" type="video/mp4" />
+  </video>
   <!-- Replace the gif filename below with your actual GIF if you prefer -->
   <a class="video-link" href="https://audiovisual-intelligence.web.app/login/?next=%2Fcapacitaciones%2F" aria-label="Acceder">
     <video autoplay muted loop playsinline aria-label="Audiovisual Intelligence">
