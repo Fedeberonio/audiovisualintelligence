@@ -14,13 +14,14 @@
     /* Sección principal a 100vh */
     .stage { position: relative; height: 100vh; width: 100%; display: grid; place-items: center; overflow: hidden; }
     /* Video de fondo a pantalla completa */
-    .bg-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none; }
+    .bg-video { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; object-fit: cover; z-index: 0; pointer-events: none; border-radius: 0; }
     /* Botón de video al 50% de tamaño y 50% de opacidad */
     a.video-link video { width: 50vw; max-height: 50vh; opacity: .5; }
     /* Segunda sección: video ancho completo que funciona como botón */
     .next { background: #000; padding: 0; }
     .video-wide { display:block; width:100vw; max-width:100%; margin:0 auto; }
-    .video-wide video { display:block; width:100%; height:auto; object-fit:cover; }
+    .video-wide video { display:block; width:100%; height:auto; object-fit:cover; margin:0; }
+    .stage .video-link video { margin:0; }
     a.video-link:hover video { transform: scale(1.02); filter: drop-shadow(0 0 24px rgba(255,138,0,.35)) brightness(1.05); }
     /* Cursor naranja para elementos interactivos */
     a, button, video { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path fill='%23ff8a00' d='M3 2l15 7-6 2 2 6-7-15z'/></svg>") 2 2, pointer; }
