@@ -16,7 +16,7 @@
     }
     img, video { width:min(380px, 80vw); max-height:60vh; object-fit:contain; margin-bottom:20px; cursor:pointer; border-radius:12px; transition: transform .25s ease, filter .25s ease; }
     /* Video de fondo a pantalla completa */
-    .bg-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+    .bg-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none; }
     /* Botón de video al 50% de tamaño y 50% de opacidad */
     a.video-link video { width: 50vw; max-height: 50vh; opacity: .5; }
     a.video-link:hover video { transform: scale(1.02); filter: drop-shadow(0 0 24px rgba(255,138,0,.35)) brightness(1.05); }
