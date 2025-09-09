@@ -129,20 +129,8 @@
       }
 
       // Dinámica: cargar capacitaciones desde JSON
-      const grid = document.getElementById('grid');
       const names = document.getElementById('course-names');
       const panels = document.getElementById('panels');
-      function skeleton(n=3){
-        grid.innerHTML='';
-        for(let i=0;i<n;i++){
-          const d=document.createElement('div');
-          d.className='card';
-          d.innerHTML=`<div class="card-media" style="background:linear-gradient(90deg,#111,#161616,#111);background-size:200% 100%;animation:sh 1.2s linear infinite"></div>
-            <div class="card-body"><div class="card-title" style="opacity:.6">&nbsp;</div><span class="chip" style="opacity:.4">&nbsp;&nbsp;&nbsp;</span></div>`;
-          grid.appendChild(d);
-        }
-      }
-      skeleton();
 
       fetch('data/capacitaciones.json', {cache:'no-store'})
         .then(r=>r.json())
@@ -208,7 +196,7 @@
             document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
           }
         })
-        .catch(()=>{ grid.innerHTML='<p class="muted">No se pudo cargar el contenido.</p>'; });
+        .catch(()=>{ panels.innerHTML='<p class="muted">No se pudo cargar el contenido.</p>'; });
 
       // Utilidad: SVG de flecha
       function arrowSVG(){ return '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 16 L24 32 L40 16"/></svg>'; }
