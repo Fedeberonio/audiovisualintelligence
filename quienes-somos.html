@@ -41,12 +41,12 @@
 
       <!-- Perfil: Federico Berón -->
       <section id="fb" class="course-panel reveal">
-        <div class="avatar" aria-hidden="true">
-          <video class="avatar-video" src="media/Fede_01.mp4" autoplay muted loop playsinline></video>
-        </div>
         <div class="hdr">
           <div class="ttl">Federico Berón</div>
           <span class="meta">Director de A.V.I — Audiovisual Intelligence</span>
+        </div>
+        <div class="avatar" aria-hidden="true">
+          <video class="avatar-video" src="media/Fede_01.mp4" autoplay muted loop playsinline></video>
         </div>
         <div class="cols">
           <div>
@@ -68,6 +68,10 @@
     </footer>
     <script>
       document.getElementById('y').textContent = new Date().getFullYear();
+      // Zoom al click en el video del avatar
+      document.querySelectorAll('.avatar-video').forEach(v=>{
+        v.addEventListener('click', ()=> v.classList.toggle('is-zoomed'));
+      });
       // Scroll a primer panel desde la flecha
       document.querySelector('.scroll-arrow')?.addEventListener('click', ()=>{
         document.getElementById('fb')?.scrollIntoView({behavior:'smooth', block:'start'});
