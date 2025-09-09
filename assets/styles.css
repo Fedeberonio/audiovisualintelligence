@@ -62,6 +62,24 @@ img { display: block; max-width: 100%; height: auto; }
   display:inline-block; padding:6px 10px; border:1px solid var(--border); border-radius:999px; font-size:12px; opacity:.9;
 }
 
+/* Hamburger menu */
+.hamburger { display:inline-flex; width:40px; height:40px; align-items:center; justify-content:center; border:1px solid var(--border); border-radius:10px; background:#121212; cursor:pointer; margin-left:12px; }
+.hamburger span { position:relative; display:block; width:18px; height:2px; background:#fff; }
+.hamburger span::before, .hamburger span::after { content:""; position:absolute; left:0; width:18px; height:2px; background:#fff; transition: transform .2s ease, opacity .2s ease; }
+.hamburger span::before { top:-6px; }
+.hamburger span::after { top:6px; }
+.hamburger.is-open span { opacity:0; }
+.hamburger.is-open span::before { transform: translateY(6px) rotate(45deg); opacity:1; }
+.hamburger.is-open span::after { transform: translateY(-6px) rotate(-45deg); opacity:1; }
+
+.mobile-menu { position: fixed; top:72px; left:0; right:0; background: rgba(10,10,10,.96); border-top:1px solid var(--border); display:none; z-index:100; }
+.mobile-menu.is-open { display:block; }
+.mobile-menu .menu-list { list-style:none; margin:0; padding:12px; display:grid; gap:10px; }
+.mobile-menu .menu-list a { display:block; padding:12px 14px; border:1px solid var(--border); border-radius:12px; text-align:center; }
+
+/* Hide desktop nav when using hamburger */
+.site-header .inner .nav { display:none; }
+
 /* Hero */
 .hero { position: relative; padding: 56px 0 8px; }
 .hero-vid { position: relative; padding: 0; min-height: clamp(340px, 70vh, 760px); display:grid; align-items:end; }

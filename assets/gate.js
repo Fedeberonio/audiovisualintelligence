@@ -18,3 +18,14 @@
     try { location.replace('/'); } catch (__) {}
   }
 })();
+
+// Toggle mobile menu if hamburger exists
+document.addEventListener('DOMContentLoaded', function(){
+  var btn = document.getElementById('hamburger');
+  var menu = document.getElementById('mobileMenu');
+  if (!btn || !menu) return;
+  btn.addEventListener('click', function(){
+    var isOpen = menu.classList.toggle('is-open');
+    btn.classList.toggle('is-open', isOpen);
+  });
+});
