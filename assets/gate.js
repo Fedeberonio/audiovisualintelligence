@@ -24,8 +24,15 @@ document.addEventListener('DOMContentLoaded', function(){
   var btn = document.getElementById('hamburger');
   var menu = document.getElementById('mobileMenu');
   if (!btn || !menu) return;
+  function setOpen(open){
+    if (open){ menu.classList.add('is-open'); menu.hidden=false; btn.classList.add('is-open'); }
+    else { menu.classList.remove('is-open'); menu.hidden=true; btn.classList.remove('is-open'); }
+  }
+  setOpen(false);
   btn.addEventListener('click', function(){
-    var isOpen = menu.classList.toggle('is-open');
-    btn.classList.toggle('is-open', isOpen);
+    var willOpen = !menu.classList.contains('is-open');
+    setOpen(willOpen);
   });
+  // Close when clicking a link
+  menu.addEventListener('click', function(e){ if (e.target.tagName==='A') setOpen(false); });
 });
