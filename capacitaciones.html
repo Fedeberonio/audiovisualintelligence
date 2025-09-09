@@ -37,6 +37,10 @@
           <h1 class="title-xxl">Capacitaciones en IA Audiovisual</h1>
           <p class="subtitle">IA aplicada a desarrollo, pre, producción y post.</p>
           <div class="spacer-lg"></div>
+          <div class="scroll-cta-hero">
+            <button class="scroll-arrow scroll-arrow-xl" aria-label="Ver">${arrowSVG()}</button>
+            <div class="scroll-label">VER</div>
+          </div>
         </div>
       </section>
 
@@ -169,6 +173,11 @@
           }).join('') + `<section class="between-panels"><button class="scroll-arrow" aria-label="Bajar">${arrowSVG()}</button></section>`;
 
           // Click en flechas: scroll a siguiente bloque
+          // Héroe: flecha VER hace scroll al primer panel
+          document.querySelector('.scroll-cta-hero .scroll-arrow')?.addEventListener('click', ()=>{
+            document.getElementById('p0')?.scrollIntoView({behavior:'smooth', block:'start'});
+          });
+          // Entre paneles: flechas hacen scroll al siguiente bloque
           panels.querySelectorAll('.scroll-arrow').forEach((b, idx)=>{
             b.addEventListener('click', ()=>{
               const next = panels.querySelector(`#p${idx}`) || panels.querySelector(`#p${idx-1}`);
