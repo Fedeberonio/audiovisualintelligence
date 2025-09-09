@@ -15,8 +15,9 @@
     .stage { position: relative; height: 100vh; width: 100%; display: grid; place-items: center; overflow: hidden; }
     /* Video de fondo a pantalla completa */
     .bg-video { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; object-fit: cover; z-index: 0; pointer-events: none; border-radius: 0; }
-    /* Botón de video al 50% de tamaño y 50% de opacidad */
-    a.video-link video { width: 50vw; max-height: 50vh; opacity: .5; }
+    /* Botón de video reducido (~1/4 del tamaño previo) y reubicado sobre el footer */
+    .stage .video-link { position:absolute; left:50%; bottom:48px; transform:translateX(-50%); z-index:1; }
+    a.video-link video { width: 12.5vw; max-height: 12.5vh; opacity: .5; }
     /* Segunda sección: video ancho completo que funciona como botón */
     .next { background: #000; padding: 0; }
     .video-wide { position:relative; display:block; width:100vw; max-width:100%; margin:0 auto; outline:none; }
@@ -71,21 +72,13 @@
     <section class="stage">
       <!-- Video de fondo -->
       <video class="bg-video" autoplay muted loop playsinline aria-hidden="true">
-        <source src="/media/landing_0.mp4" type="video/mp4" />
+        <source src="/media/landing2.mp4" type="video/mp4" />
       </video>
       <!-- Botón central -->
       <a class="video-link" href="https://audiovisual-intelligence.web.app/login/?next=%2Fcapacitaciones%2F" aria-label="Acceder">
         <video autoplay muted loop playsinline aria-label="Audiovisual Intelligence">
           <source src="/media/landing2.mp4" type="video/mp4" />
         </video>
-      </a>
-    </section>
-    <section class="next">
-      <a class="video-wide" href="https://audiovisual-intelligence.web.app/login/?next=%2Fcapacitaciones%2F" aria-label="Acceder">
-        <video autoplay muted loop playsinline aria-label="Audiovisual Intelligence">
-          <source src="/media/enter_0.mp4" type="video/mp4" />
-        </video>
-        <div class="cta-overlay">Entrar</div>
       </a>
     </section>
   </main>
