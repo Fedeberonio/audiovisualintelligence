@@ -63,7 +63,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 
 /* Hamburger menu */
-.hamburger { display:inline-flex; width:40px; height:40px; align-items:center; justify-content:center; border:1px solid var(--border); border-radius:10px; background:#121212; cursor:pointer; margin-left:12px; }
+.hamburger { display:inline-flex; width:40px; height:40px; align-items:center; justify-content:center; border:1px solid var(--border); border-radius:10px; background:#121212; cursor:pointer; margin-left:12px; position: fixed; top: 14px; right: 14px; z-index: 200; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
 .hamburger span { position:relative; display:block; width:18px; height:2px; background:#fff; }
 .hamburger span::before, .hamburger span::after { content:""; position:absolute; left:0; width:18px; height:2px; background:#fff; transition: transform .2s ease, opacity .2s ease; }
 .hamburger span::before { top:-6px; }
@@ -72,10 +72,10 @@ img { display: block; max-width: 100%; height: auto; }
 .hamburger.is-open span::before { transform: translateY(6px) rotate(45deg); opacity:1; }
 .hamburger.is-open span::after { transform: translateY(-6px) rotate(-45deg); opacity:1; }
 
-.mobile-menu { position: fixed; top:72px; left:0; right:0; background: rgba(10,10,10,.96); border-top:1px solid var(--border); display:none; z-index:100; }
+.mobile-menu { position: fixed; top:64px; right:14px; width: min(280px, 92vw); max-height: 72vh; overflow:auto; background: rgba(12,12,12,.96); border:1px solid var(--border); border-radius: 14px; display:none; z-index:190; box-shadow: 0 20px 48px rgba(0,0,0,.55); backdrop-filter: blur(8px); }
 .mobile-menu.is-open { display:block; }
-.mobile-menu .menu-list { list-style:none; margin:0; padding:12px; display:grid; gap:10px; }
-.mobile-menu .menu-list a { display:block; padding:12px 14px; border:1px solid var(--border); border-radius:12px; text-align:center; }
+.mobile-menu .menu-list { list-style:none; margin:0; padding:10px; display:grid; gap:10px; }
+.mobile-menu .menu-list a { display:block; padding:12px 14px; border:1px solid var(--border); border-radius:10px; text-align:left; background:#151515; }
 
 /* Hide desktop nav when using hamburger */
 .site-header .inner .nav { display:none; }
