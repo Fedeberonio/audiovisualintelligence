@@ -21,7 +21,7 @@ body {
 body.has-bg-video { background: transparent; }
 
 /* Video de fondo global */
-.bg-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; z-index: 0; pointer-events: none; filter: saturate(1.05) contrast(1.05) brightness(.86); transition: filter .35s ease; }
+.bg-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% var(--bgY, 0%); z-index: 0; pointer-events: none; filter: saturate(1.05) contrast(1.05) brightness(.86); transition: filter .35s ease, object-position .12s linear; }
 body.bg-soften .bg-video { filter: saturate(1.05) contrast(1.08) brightness(.72) blur(1.2px); }
 
 a { color: inherit; text-decoration: none; }
@@ -85,6 +85,9 @@ img { display: block; max-width: 100%; height: auto; }
   gap: 16px;
 }
 
+/* Scroll section to permitir recorrer el video completo */
+.spacer-scroll { height: 120vh; }
+
 .card {
   position: relative;
   background: linear-gradient(180deg, #0d0d0d, #0a0a0a);
@@ -115,6 +118,7 @@ img { display: block; max-width: 100%; height: auto; }
 @media (prefers-reduced-motion: no-preference) {
   .reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
   .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  .reveal.rise { transform: translateY(22px); }
 }
 
 /* Modal (Nexus-like, minimal) */

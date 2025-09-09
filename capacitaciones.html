@@ -42,6 +42,7 @@
 
       <!-- Grid cursos dinámico -->
       <section class="container">
+        <div class="spacer-scroll"></div>
         <div id="grid" class="grid"></div>
       </section>
 
@@ -104,6 +105,11 @@
         const y = window.scrollY || 0;
         if (y > 40) document.body.classList.add('bg-soften');
         else document.body.classList.remove('bg-soften');
+        // Pan del video de fondo: mapear scroll a object-position Y (0% → 100%)
+        const docH = document.body.scrollHeight - window.innerHeight;
+        const p = docH > 0 ? Math.min(Math.max(y / docH, 0), 1) : 0;
+        const yPct = Math.round(p * 100);
+        document.documentElement.style.setProperty('--bgY', `${yPct}%`);
       };
       softenOnScroll();
       window.addEventListener('scroll', softenOnScroll, { passive: true });
@@ -138,9 +144,10 @@
         .then(data=>{
           const items = (data.capacitaciones||[]).slice(0,3);
           grid.innerHTML='';
+          let idx = 0;
           for(const it of items){
             const a=document.createElement('a');
-            a.href='#'; a.className='card reveal'; a.setAttribute('aria-label',`Abrir detalle ${it.titulo}`);
+            a.href='#'; a.className='card reveal rise'; a.setAttribute('aria-label',`Abrir detalle ${it.titulo}`);
             const mediaHTML = `<div class="card-media" style="background:linear-gradient(135deg,#0f0f0f,#171717);"></div>`;
             a.innerHTML=`
               ${mediaHTML}
@@ -148,8 +155,10 @@
                 <div class="card-title">${it.titulo}</div>
                 <span class="chip">${it.duracion_total.split(' ')[0]} • ${it.nivel}</span>
               </div>`;
+            a.style.transitionDelay = `${Math.min(idx*80, 240)}ms`;
             a.addEventListener('click', (e)=>{ e.preventDefault(); openModal(it); });
             grid.appendChild(a);
+            idx++;
           }
           if (!prefersReduced && 'IntersectionObserver' in window) {
             const io = new IntersectionObserver((entries) => {
