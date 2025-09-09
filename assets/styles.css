@@ -20,7 +20,8 @@ body {
 }
 
 /* Video de fondo global */
-.bg-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; z-index: 0; pointer-events: none; }
+.bg-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; z-index: 0; pointer-events: none; filter: saturate(1.05) contrast(1.05) brightness(.86); transition: filter .35s ease; }
+body.bg-soften .bg-video { filter: saturate(1.05) contrast(1.08) brightness(.72) blur(1.2px); }
 
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; height: auto; }

@@ -99,6 +99,15 @@
       // Año en footer
       document.getElementById('y').textContent = new Date().getFullYear();
 
+      // Suavizar fondo al hacer scroll
+      const softenOnScroll = () => {
+        const y = window.scrollY || 0;
+        if (y > 40) document.body.classList.add('bg-soften');
+        else document.body.classList.remove('bg-soften');
+      };
+      softenOnScroll();
+      window.addEventListener('scroll', softenOnScroll, { passive: true });
+
       // Scroll reveal (sin librerías)
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!prefersReduced && 'IntersectionObserver' in window) {
