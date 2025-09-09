@@ -25,11 +25,39 @@
     </header>
 
     <main>
+      <!-- Héroe -->
       <section class="hero container">
-        <div class="eyebrow">Próximamente</div>
-        <h1 class="title-xxl">Quienes somos</h1>
-        <p class="subtitle">Esta sección estará disponible pronto. Manteniendo el estilo minimalista y la paleta actual.</p>
-        <div class="spacer-xl"></div>
+        <div class="eyebrow">Equipo</div>
+        <h1 class="title-xxl" style="text-align:center">Quienes somos</h1>
+        <p class="subtitle" style="text-align:center">Conoce a las personas detrás de A.V.I — Audiovisual Intelligence.</p>
+        <div class="spacer-lg"></div>
+      </section>
+
+      <section class="between-panels">
+        <button class="scroll-arrow scroll-arrow-lg" aria-label="Bajar">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 16 L24 32 L40 16"/></svg>
+        </button>
+      </section>
+
+      <!-- Perfil: Federico Berón -->
+      <section id="fb" class="course-panel reveal">
+        <div class="avatar" aria-hidden="true">
+          <video class="avatar-video" src="media/Fede_01.mp4" autoplay muted loop playsinline></video>
+        </div>
+        <div class="hdr">
+          <div class="ttl">Federico Berón</div>
+          <span class="meta">Director de A.V.I — Audiovisual Intelligence</span>
+        </div>
+        <div class="cols">
+          <div>
+            <p class="muted">Federico Berón es un pionero en la integración de inteligencia artificial en producción cinematográfica, con más de 25 años de experiencia en la industria audiovisual internacional.</p>
+            <p class="muted">Como director, Primer Asistente de Dirección y Director de Segunda Unidad, ha colaborado con cineastas de primer nivel internacional incluyendo David Fincher en <em>The Killer</em> (2023), además de participar en producciones como <em>Shotgun Wedding</em> (2022), <em>On the Road</em> (2012), y la aclamada coproducción latinoamericana <em>The Motorcycle Diaries</em> (2004).</p>
+            <p class="muted">Su trayectoria abarca desde producciones hollywoodenses hasta el cine de autor latinoamericano, trabajando en el ecosistema que incluye obras como <em>El Aura</em> (2005) de Fabián Bielinsky y formando parte de la tradición cinematográfica argentina junto a directores ganadores del Oscar como Juan José Campanella y Walter Salles.</p>
+            <p class="muted">Actualmente forma parte del equipo ejecutivo de Lantica Studios (República Dominicana), uno de los complejos audiovisuales más avanzados del Caribe, capaz de albergar múltiples producciones internacionales simultáneamente.</p>
+            <p class="muted">Fundador de A.V.I — Audiovisual Intelligence, Federico ha desarrollado metodologías que integran IA en todos los workflows de producción, logrando reducciones de hasta 70% en costos y 50% en tiempos sin sacrificar calidad creativa.</p>
+            <p class="muted">Como consultor internacional y formador especializado, comparte su expertise con profesionales de la industria en México, España, Reino Unido y Latinoamérica, combinando un profundo conocimiento práctico de rodajes con dominio de tecnologías emergentes.</p>
+          </div>
+        </div>
       </section>
     </main>
 
@@ -38,7 +66,23 @@
         <div class="copyright">© <span id="y"></span> Audiovisual Intelligence</div>
       </div>
     </footer>
-    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+      document.getElementById('y').textContent = new Date().getFullYear();
+      // Scroll a primer panel desde la flecha
+      document.querySelector('.scroll-arrow')?.addEventListener('click', ()=>{
+        document.getElementById('fb')?.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+      // Reveal simple
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!prefersReduced && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+      } else {
+        document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+      }
+    </script>
   </body>
   
 </html>

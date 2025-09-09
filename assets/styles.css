@@ -95,6 +95,8 @@ img { display: block; max-width: 100%; height: auto; }
 /* Panel de curso (glass) */
 .course-panel { position:relative; z-index:1; margin: 0 auto; padding: 36px 24px; width:min(1100px, 94vw); min-height: 100vh; display:grid; align-content:center; gap: 20px; border:1px solid var(--border); border-radius: 16px;
   background: linear-gradient(180deg, rgba(10,10,10,.78), rgba(8,8,8,.72)); backdrop-filter: blur(12px); box-shadow: 0 30px 60px rgba(0,0,0,.45); text-align: center; }
+.course-panel .avatar { display:flex; align-items:center; justify-content:center; }
+.avatar-video { width:min(680px, 92vw); height:auto; border-radius: 14px; box-shadow: 0 20px 40px rgba(0,0,0,.5); }
 .course-panel .hdr { display:flex; align-items:center; justify-content:center; gap: 12px; margin-bottom: 12px; flex-wrap:wrap; }
 .course-panel .ttl { font-weight:800; letter-spacing:-.01em; font-size: clamp(26px, 4vw, 36px); }
 .course-panel .meta { font-size: 12px; color: var(--accent); border:1px solid #2a1705; background:#140a03; padding:6px 10px; border-radius:999px; }
