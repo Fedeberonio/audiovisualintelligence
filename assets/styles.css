@@ -123,7 +123,7 @@ img { display: block; max-width: 100%; height: auto; }
 .between-panels { display:flex; align-items:center; justify-content:center; padding: 8px 0 4px; }
 
 /* CTA de flecha en héroe */
-.scroll-cta-hero { position:absolute; left:50%; bottom: 18px; transform: translateX(-50%); text-align:center; }
+.scroll-cta-hero { position:absolute; left:50%; top: 65vh; transform: translate(-50%, -50%); text-align:center; }
 .scroll-label { margin-top: 6px; color: var(--accent); font-weight:800; letter-spacing:.18em; text-transform:uppercase; }
 
 /* Scroll section to permitir recorrer el video completo */
