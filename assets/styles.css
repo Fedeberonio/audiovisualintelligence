@@ -85,6 +85,31 @@ img { display: block; max-width: 100%; height: auto; }
   gap: 16px;
 }
 
+/* Nombres de cursos como botones */
+.course-names { display:flex; align-items:center; justify-content:center; gap: 18px; flex-wrap: wrap; padding: 20px 0 8px; }
+.name-btn { display:inline-flex; align-items:center; justify-content:center; padding:12px 18px; border-radius:999px; border:1px solid var(--border); background: rgba(10,10,10,.55); backdrop-filter: blur(6px); font-weight:800; letter-spacing:.06em; text-transform:uppercase; transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+.name-btn:hover { transform: translateY(-1px); border-color:#262626; background: rgba(14,14,14,.66); }
+
+/* Panel de curso (glass) */
+.course-panel { position:relative; z-index:1; margin: 24px auto; padding: 18px; width:min(1100px, 94vw); border:1px solid var(--border); border-radius: 16px;
+  background: linear-gradient(180deg, rgba(12,12,12,.70), rgba(10,10,10,.66)); backdrop-filter: blur(10px); box-shadow: 0 30px 60px rgba(0,0,0,.45); }
+.course-panel .hdr { display:flex; align-items:center; justify-content:space-between; gap: 12px; margin-bottom: 10px; }
+.course-panel .ttl { font-weight:800; letter-spacing:-.01em; font-size: clamp(22px, 3vw, 30px); }
+.course-panel .meta { font-size: 12px; color: var(--accent); border:1px solid #2a1705; background:#140a03; padding:6px 10px; border-radius:999px; }
+.course-panel .cols { display:grid; grid-template-columns: repeat(2,1fr); gap: 18px; }
+.course-panel .cols .muted { color: var(--muted); }
+.course-panel .kicker { margin: 10px 0 6px; }
+
+@media (max-width: 720px) {
+  .course-panel .cols { grid-template-columns: 1fr; }
+}
+
+/* Flechas de scroll */
+.scroll-arrow { position: absolute; left:50%; transform: translateX(-50%); bottom: 20px; z-index: 1; background:none; border:0; padding:6px; cursor:pointer; }
+.scroll-arrow svg { display:block; width: 44px; height: 44px; stroke: var(--accent); stroke-width: 1.6; fill:none; opacity:.9; filter: drop-shadow(0 0 10px rgba(255,138,0,.15)); animation: arrowPulse 2s ease-in-out infinite; }
+@keyframes arrowPulse { 0%,100% { transform: translateY(0); opacity:.85; } 50% { transform: translateY(6px); opacity:1; } }
+.between-panels { display:flex; align-items:center; justify-content:center; padding: 8px 0 4px; }
+
 /* Scroll section to permitir recorrer el video completo */
 .spacer-scroll { height: 120vh; }
 

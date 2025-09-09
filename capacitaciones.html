@@ -43,7 +43,10 @@
       <!-- Grid cursos dinámico -->
       <section class="container">
         <div class="spacer-scroll"></div>
-        <div id="grid" class="grid"></div>
+        <!-- Nombres de cursos como botones -->
+        <div class="course-names reveal" id="course-names"></div>
+        <!-- Paneles de cursos -->
+        <div id="panels"></div>
       </section>
 
       <div class="container">
@@ -127,6 +130,8 @@
 
       // Dinámica: cargar capacitaciones desde JSON
       const grid = document.getElementById('grid');
+      const names = document.getElementById('course-names');
+      const panels = document.getElementById('panels');
       function skeleton(n=3){
         grid.innerHTML='';
         for(let i=0;i<n;i++){
@@ -143,23 +148,57 @@
         .then(r=>r.json())
         .then(data=>{
           const items = (data.capacitaciones||[]).slice(0,3);
-          grid.innerHTML='';
-          let idx = 0;
-          for(const it of items){
-            const a=document.createElement('a');
-            a.href='#'; a.className='card reveal rise'; a.setAttribute('aria-label',`Abrir detalle ${it.titulo}`);
-            const mediaHTML = `<div class="card-media" style="background:linear-gradient(135deg,#0f0f0f,#171717);"></div>`;
-            a.innerHTML=`
-              ${mediaHTML}
-              <div class="card-body">
-                <div class="card-title">${it.titulo}</div>
-                <span class="chip">${it.duracion_total.split(' ')[0]} • ${it.nivel}</span>
-              </div>`;
-            a.style.transitionDelay = `${Math.min(idx*80, 240)}ms`;
-            a.addEventListener('click', (e)=>{ e.preventDefault(); openModal(it); });
-            grid.appendChild(a);
-            idx++;
-          }
+          // Construir nombres como botones
+          names.innerHTML = items.map((it, i)=>`<button class="name-btn" data-i="${i}">${it.titulo}</button>`).join('');
+          // Construir paneles tipo glass con contenido del JSON
+          panels.innerHTML = items.map((it, i)=>{
+            const objetivos = (it.objetivos||[]).map(x=>`<li>${x}</li>`).join('');
+            const temario = (it.temario_resumido||[]).map(x=>`<li>${x}</li>`).join('');
+            const horarios = (it.modalidad_horarios||[]).map(x=>`<li>${x}</li>`).join('');
+            const incluye = (it.incluye||[]).map(x=>`<li>${x}</li>`).join('');
+            return `
+              <section class="between-panels">
+                ${i===0?'<button class="scroll-arrow" aria-label="Bajar">'+arrowSVG()+'</button>':''}
+              </section>
+              <section class="course-panel reveal rise" id="p${i}">
+                <div class="hdr">
+                  <div class="ttl">${it.titulo}</div>
+                  <span class="meta">${(it.duracion_total||'').split(' ')[0]} · ${it.nivel}</span>
+                </div>
+                <div class="cols">
+                  <div>
+                    <div class="kicker">Resumen</div>
+                    <p class="muted">${it.resumen_corto||''}</p>
+                    <div class="kicker">Objetivos</div>
+                    <ul class="list">${objetivos}</ul>
+                  </div>
+                  <div>
+                    <div class="kicker">Temario</div>
+                    <ul class="list">${temario}</ul>
+                    <div class="kicker">Modalidad y horarios</div>
+                    <ul class="list">${horarios}</ul>
+                    <div class="kicker">Incluye</div>
+                    <ul class="list">${incluye}</ul>
+                  </div>
+                </div>
+              </section>
+            `;
+          }).join('') + `<section class="between-panels"><button class="scroll-arrow" aria-label="Bajar">${arrowSVG()}</button></section>`;
+
+          // Click en nombres: scroll a panel
+          names.querySelectorAll('.name-btn').forEach(btn=>{
+            btn.addEventListener('click', (e)=>{
+              const i = +btn.getAttribute('data-i');
+              document.getElementById(`p${i}`)?.scrollIntoView({behavior:'smooth', block:'start'});
+            });
+          });
+          // Click en flechas: scroll a siguiente bloque
+          panels.querySelectorAll('.scroll-arrow').forEach((b, idx)=>{
+            b.addEventListener('click', ()=>{
+              const next = panels.querySelector(`#p${idx}`) || panels.querySelector(`#p${idx-1}`);
+              next?.scrollIntoView({behavior:'smooth', block:'start'});
+            });
+          });
           if (!prefersReduced && 'IntersectionObserver' in window) {
             const io = new IntersectionObserver((entries) => {
               for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
@@ -171,37 +210,8 @@
         })
         .catch(()=>{ grid.innerHTML='<p class="muted">No se pudo cargar el contenido.</p>'; });
 
-      // Modal logic
-      const modal = document.getElementById('modal');
-      const mClose = document.getElementById('m-close');
-      const mTitulo = document.getElementById('m-titulo');
-      const mNivel = document.getElementById('m-nivel');
-      const mResumen = document.getElementById('m-resumen');
-      const mDuracion = document.getElementById('m-duracion');
-      const mObjetivos = document.getElementById('m-objetivos');
-      const mTemario = document.getElementById('m-temario');
-      const mHorarios = document.getElementById('m-horarios');
-      const mIncluye = document.getElementById('m-incluye');
-      const mRequisitos = document.getElementById('m-requisitos');
-      const mMail = document.getElementById('m-mailto');
-
-      function listify(arr){ return (arr||[]).map(x=>`<li>${x}</li>`).join(''); }
-      function openModal(it){
-        mTitulo.textContent = it.titulo;
-        mNivel.textContent = it.nivel;
-        mResumen.textContent = it.resumen_corto||'';
-        mDuracion.textContent = `${it.duracion_total || ''} · ${it.formato || ''}`;
-        mObjetivos.innerHTML = listify(it.objetivos);
-        mTemario.innerHTML = listify(it.temario_resumido);
-        mHorarios.innerHTML = listify(it.modalidad_horarios);
-        mIncluye.innerHTML = listify(it.incluye);
-        mRequisitos.textContent = it.requisitos || '';
-        const subject = encodeURIComponent(`Consulta — ${it.titulo}`);
-        const body = encodeURIComponent(`Hola, quiero más información sobre "${it.titulo}".`);
-        mMail.href = `mailto:avi.info.desk@gmail.com?subject=${subject}&body=${body}`;
-        modal.showModal();
-      }
-      mClose?.addEventListener('click', ()=> modal.close());
+      // Utilidad: SVG de flecha
+      function arrowSVG(){ return '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 16 L24 32 L40 16"/></svg>'; }
     </script>
   </body>
   
