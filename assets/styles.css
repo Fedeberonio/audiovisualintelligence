@@ -63,7 +63,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 .hero-vid { position: relative; padding: 0; min-height: clamp(340px, 70vh, 760px); display:grid; align-items:end; }
 .hero-vid .vid-wrap { position:absolute; inset:0; overflow:hidden; border-radius: 0 0 18px 18px; }
-.hero-vid video { width:100%; height:100%; object-fit: cover; filter: saturate(1.05) contrast(1.05) brightness(.86); }
+.hero-vid video { width:100%; height:100%; object-fit: cover; object-position: center top; filter: saturate(1.05) contrast(1.05) brightness(.86); }
 .hero-vid::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.65) 60%, rgba(0,0,0,.85)); }
 .hero-content { position:relative; z-index:1; padding: 36px 0 28px; }
 .cta-row { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
