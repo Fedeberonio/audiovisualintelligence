@@ -43,8 +43,6 @@
       <!-- Grid cursos dinámico -->
       <section class="container">
         <div class="spacer-scroll"></div>
-        <!-- Nombres de cursos como botones -->
-        <div class="course-names reveal" id="course-names"></div>
         <!-- Paneles de cursos -->
         <div id="panels"></div>
       </section>
@@ -129,15 +127,12 @@
       }
 
       // Dinámica: cargar capacitaciones desde JSON
-      const names = document.getElementById('course-names');
       const panels = document.getElementById('panels');
 
       fetch('data/capacitaciones.json', {cache:'no-store'})
         .then(r=>r.json())
         .then(data=>{
           const items = (data.capacitaciones||[]).slice(0,3);
-          // Construir nombres como botones
-          names.innerHTML = items.map((it, i)=>`<button class="name-btn" data-i="${i}">${it.titulo}</button>`).join('');
           // Construir paneles tipo glass con contenido del JSON
           panels.innerHTML = items.map((it, i)=>{
             const objetivos = (it.objetivos||[]).map(x=>`<li>${x}</li>`).join('');
@@ -146,7 +141,7 @@
             const incluye = (it.incluye||[]).map(x=>`<li>${x}</li>`).join('');
             return `
               <section class="between-panels">
-                ${i===0?'<button class="scroll-arrow" aria-label="Bajar">'+arrowSVG()+'</button>':''}
+                ${i===0?'<button class="scroll-arrow scroll-arrow-lg" aria-label="Bajar">'+arrowSVG()+'</button>':''}
               </section>
               <section class="course-panel reveal rise" id="p${i}">
                 <div class="hdr">
@@ -173,13 +168,6 @@
             `;
           }).join('') + `<section class="between-panels"><button class="scroll-arrow" aria-label="Bajar">${arrowSVG()}</button></section>`;
 
-          // Click en nombres: scroll a panel
-          names.querySelectorAll('.name-btn').forEach(btn=>{
-            btn.addEventListener('click', (e)=>{
-              const i = +btn.getAttribute('data-i');
-              document.getElementById(`p${i}`)?.scrollIntoView({behavior:'smooth', block:'start'});
-            });
-          });
           // Click en flechas: scroll a siguiente bloque
           panels.querySelectorAll('.scroll-arrow').forEach((b, idx)=>{
             b.addEventListener('click', ()=>{

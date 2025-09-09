@@ -107,6 +107,7 @@ img { display: block; max-width: 100%; height: auto; }
 /* Flechas de scroll */
 .scroll-arrow { position: absolute; left:50%; transform: translateX(-50%); bottom: 20px; z-index: 1; background:none; border:0; padding:6px; cursor:pointer; }
 .scroll-arrow svg { display:block; width: 44px; height: 44px; stroke: var(--accent); stroke-width: 1.6; fill:none; opacity:.9; filter: drop-shadow(0 0 10px rgba(255,138,0,.15)); animation: arrowPulse 2s ease-in-out infinite; }
+.scroll-arrow-lg svg { width: 64px; height: 64px; opacity: .95; }
 @keyframes arrowPulse { 0%,100% { transform: translateY(0); opacity:.85; } 50% { transform: translateY(6px); opacity:1; } }
 .between-panels { display:flex; align-items:center; justify-content:center; padding: 8px 0 4px; }
 
