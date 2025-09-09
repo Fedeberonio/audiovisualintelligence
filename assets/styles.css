@@ -156,6 +156,10 @@ img { display: block; max-width: 100%; height: auto; }
   .reveal.rise { transform: translateY(22px); }
 }
 
+/* Fade-in más marcado para paneles de cursos */
+.course-panel.reveal { opacity: 0; transform: translateY(26px) scale(.98); will-change: opacity, transform; }
+.course-panel.reveal.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+
 /* Modal (Nexus-like, minimal) */
 .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.55); backdrop-filter: blur(6px); opacity: 0; pointer-events: none; transition: opacity .25s ease; }
 .modal { display: none; }
