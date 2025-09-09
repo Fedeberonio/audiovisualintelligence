@@ -34,11 +34,11 @@
       <section class="hero">
         <div class="container hero-content">
           <div class="eyebrow">Formación avanzada</div>
-          <h1 class="title-xxl">Capacitaciones en IA Audiovisual</h1>
-          <p class="subtitle">IA aplicada a desarrollo, pre, producción y post.</p>
+          <h1 class="title-xxl"><span class="avi-mark">A</span>udio<span class="avi-mark">V</span>isual<span class="avi-mark">I</span>ntelligence</h1>
+          <p class="subtitle">Capacitaciones en Inteligencia Artificial aplicada a la Industria Audiovisual.</p>
           <div class="spacer-lg"></div>
           <div class="scroll-cta-hero">
-            <button class="scroll-arrow scroll-arrow-xl" aria-label="Ver">${arrowSVG()}</button>
+            <button class="scroll-arrow scroll-arrow-xxl triple" aria-label="Ver">${arrowTripleSVG()}</button>
             <div class="scroll-label">VER</div>
           </div>
         </div>
@@ -196,7 +196,12 @@
         .catch(()=>{ panels.innerHTML='<p class="muted">No se pudo cargar el contenido.</p>'; });
 
       // Utilidad: SVG de flecha
-      function arrowSVG(){ return '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 16 L24 32 L40 16"/></svg>'; }
+      function arrowSVG(){ return '<svg viewBox="0 0 48 48" aria-hidden="true"><path class="line" d="M8 16 L24 32 L40 16"/></svg>'; }
+      function arrowTripleSVG(){ return '<svg viewBox="0 0 48 48" aria-hidden="true">\
+        <path class="line" d="M12 10 L24 22 L36 10"/>\
+        <path class="line" d="M12 20 L24 32 L36 20"/>\
+        <path class="line" d="M12 30 L24 42 L36 30"/>\
+      </svg>'; }
     </script>
   </body>
   
