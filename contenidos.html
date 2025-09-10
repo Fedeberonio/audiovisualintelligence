@@ -10,7 +10,11 @@
     <link rel="stylesheet" href="assets/styles.css" />
     <script src="assets/gate.js"></script>
   </head>
-  <body>
+  <body class="has-bg-video">
+    <!-- Fondo de video global -->
+    <video class="bg-video" autoplay muted loop playsinline aria-hidden="true">
+      <source src="media/Materiales_de_estudio_01.mp4" type="video/mp4" />
+    </video>
     <header class="site-header">
       <div class="container inner">
         <a class="brand" href="https://audiovisualintelligence.ai/" aria-label="Inicio">AVI</a>
@@ -38,7 +42,23 @@
         <div class="copyright">© <span id="y"></span> Audiovisual Intelligence</div>
       </div>
     </footer>
-    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+      // Año en footer
+      document.getElementById('y').textContent = new Date().getFullYear();
+
+      // Suavizar fondo al hacer scroll y paneo vertical del video
+      const softenOnScroll = () => {
+        const y = window.scrollY || 0;
+        if (y > 40) document.body.classList.add('bg-soften');
+        else document.body.classList.remove('bg-soften');
+        const docH = document.body.scrollHeight - window.innerHeight;
+        const p = docH > 0 ? Math.min(Math.max(y / docH, 0), 1) : 0;
+        const yPct = Math.round(p * 100);
+        document.documentElement.style.setProperty('--bgY', `${yPct}%`);
+      };
+      softenOnScroll();
+      window.addEventListener('scroll', softenOnScroll, { passive: true });
+    </script>
   </body>
   
 </html>
