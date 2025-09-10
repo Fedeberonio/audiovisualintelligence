@@ -13,15 +13,18 @@
   <body>
     <header class="site-header">
       <div class="container inner">
-        <a class="brand" href="capacitaciones.html" aria-label="Inicio">AVI</a>
-        <nav class="nav" aria-label="Navegación principal">
-          <a href="capacitaciones.html" class="pill">Capacitaciones</a>
-          <a href="quienes-somos.html" class="pill">Quienes somos</a>
-          <a href="contenidos.html" class="pill">Contenidos de estudio</a>
-          <a href="clientes.html" class="pill">Clientes</a>
-          <a href="id-lab.html" class="pill">I+D Lab</a>
-        </nav>
+        <a class="brand" href="https://audiovisualintelligence.ai/" aria-label="Inicio">AVI</a>
+        <button class="hamburger" id="hamburger" aria-label="Abrir menú"><span></span></button>
       </div>
+      <nav class="mobile-menu" id="mobileMenu" aria-label="Navegación principal" hidden>
+        <ul class="menu-list">
+          <li><a href="https://audiovisualintelligence.ai/capacitaciones.html">Capacitaciones</a></li>
+          <li><a href="https://audiovisualintelligence.ai/quienes-somos.html">Quienes somos</a></li>
+          <li><a href="https://audiovisualintelligence.ai/contenidos.html">Contenidos de estudio</a></li>
+          <li><a href="https://audiovisualintelligence.ai/clientes.html">Clientes</a></li>
+          <li><a href="https://audiovisualintelligence.ai/id-lab.html">I+D Lab</a></li>
+        </ul>
+      </nav>
     </header>
 
     <main>
@@ -35,6 +38,11 @@
 
     <footer class="site-footer">
       <div class="container">
+        <a class="footer-logo" href="capacitaciones.html" aria-label="Ir a Capacitaciones">
+          <video autoplay muted loop playsinline>
+            <source src="media/LogoHome.mp4" type="video/mp4" />
+          </video>
+        </a>
         <div class="copyright">© <span id="y"></span> Audiovisual Intelligence</div>
       </div>
     </footer>
