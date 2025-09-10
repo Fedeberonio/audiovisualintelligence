@@ -171,6 +171,10 @@ img { display: block; max-width: 100%; height: auto; }
 .site-footer { position: relative; z-index: 1; color: var(--muted); padding: 48px 0; border-top: 1px solid var(--border); margin-top: 48px; text-align:center; }
 .copyright { color: var(--muted); font-size: 12px; }
 
+/* Footer logo-button (mismo tamaño que hamburguesa) */
+.footer-logo { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border:1px solid var(--border); border-radius:10px; background:#121212; overflow:hidden; box-shadow: 0 6px 18px rgba(0,0,0,.35); margin: 0 auto 10px; }
+.footer-logo video { display:block; width:100%; height:100%; object-fit:cover; }
+
 /* Helpers */
 .muted { color: var(--muted); }
 .accent { color: var(--accent); }
