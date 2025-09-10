@@ -51,7 +51,22 @@
         <div class="copyright">© <span id="y"></span> Audiovisual Intelligence</div>
       </div>
     </footer>
-    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    <script>
+      // Año en footer
+      document.getElementById('y').textContent = new Date().getFullYear();
+      // Suavizar fondo y paneo vertical del video según scroll (mismo esquema que otras páginas)
+      const softenOnScroll = () => {
+        const y = window.scrollY || 0;
+        if (y > 40) document.body.classList.add('bg-soften');
+        else document.body.classList.remove('bg-soften');
+        const docH = document.body.scrollHeight - window.innerHeight;
+        const p = docH > 0 ? Math.min(Math.max(y / docH, 0), 1) : 0;
+        const yPct = Math.round(p * 100);
+        document.documentElement.style.setProperty('--bgY', `${yPct}%`);
+      };
+      softenOnScroll();
+      window.addEventListener('scroll', softenOnScroll, { passive: true });
+    </script>
   </body>
   
 </html>
