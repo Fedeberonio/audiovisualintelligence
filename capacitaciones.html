@@ -153,7 +153,7 @@
               <section class="course-panel reveal" id="p${i}">
                 <div class="hdr">
                   <div class="ttl">${it.titulo}</div>
-                  <span class="meta">${(it.duracion_total||'').split(' ')[0]} · ${it.nivel}</span>
+                  <span class="meta">${it.horas_totales ? it.horas_totales : (it.duracion_total||'').split(' ')[0]} hs totales</span>
                 </div>
                 <div class="cols">
                   <div>
