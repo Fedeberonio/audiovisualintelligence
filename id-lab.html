@@ -43,7 +43,7 @@
     <footer class="site-footer">
       <div class="container">
         <a class="footer-logo" href="capacitaciones.html" aria-label="Ir a Capacitaciones">
-          <video autoplay muted loop playsinline preload="none">
+          <video autoplay muted loop playsinline preload="none" style="opacity:0">
             <source src="media/LogoHome.mp4" type="video/mp4" />
           </video>
         </a>
@@ -69,7 +69,7 @@
       if ('IntersectionObserver' in window) {
         const fl = document.querySelector('.footer-logo');
         const ioFL = new IntersectionObserver((entries)=>{
-          for (const e of entries) if (e.isIntersecting) { fl.classList.add('is-visible'); ioFL.unobserve(fl); }
+          for (const e of entries) if (e.isIntersecting) { fl.classList.add('is-visible'); fl.querySelector('video')?.style && (fl.querySelector('video').style.opacity='1'); ioFL.unobserve(fl); }
         }, {rootMargin:'0px 0px -10% 0px'});
         if (fl) ioFL.observe(fl);
       } else { document.querySelector('.footer-logo')?.classList.add('is-visible'); }
