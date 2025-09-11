@@ -93,7 +93,7 @@
     <footer class="site-footer">
       <div class="container">
         <a class="footer-logo" href="capacitaciones.html" aria-label="Ir a Capacitaciones">
-          <video autoplay muted loop playsinline>
+          <video autoplay muted loop playsinline preload="none">
             <source src="media/LogoHome.mp4" type="video/mp4" />
           </video>
         </a>
@@ -120,6 +120,14 @@
       } else {
         document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
       }
+      // Mostrar logo de footer solo al entrar en viewport
+      if ('IntersectionObserver' in window) {
+        const fl = document.querySelector('.footer-logo');
+        const ioFL = new IntersectionObserver((entries)=>{
+          for (const e of entries) if (e.isIntersecting) { fl.classList.add('is-visible'); ioFL.unobserve(fl); }
+        }, {rootMargin:'0px 0px -10% 0px'});
+        if (fl) ioFL.observe(fl);
+      } else { document.querySelector('.footer-logo')?.classList.add('is-visible'); }
     </script>
   </body>
   
