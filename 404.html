@@ -3,16 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AVI — Contenidos de estudio</title>
-    <meta name="description" content="Contenidos de estudio — Audiovisual Intelligence" />
+    <title>Página no encontrada — AVI</title>
     <link rel="preload" as="style" href="assets/styles.css" />
     <link rel="stylesheet" href="assets/styles.css" />
-    <script src="assets/gate.js"></script>
   </head>
   <body class="has-bg-video">
-    <!-- Fondo de video global -->
     <video class="bg-video" autoplay muted loop playsinline aria-hidden="true" preload="metadata" poster="comingsoon.gif">
-      <source src="media/Materiales_de_estudio_01.mp4" type="video/mp4" />
+      <source src="media/enter_0.mp4" type="video/mp4" />
     </video>
     <header class="site-header">
       <div class="container inner">
@@ -23,23 +20,23 @@
         <ul class="menu-list">
           <li><a href="capacitaciones.html">Capacitaciones</a></li>
           <li><a href="quienes-somos.html">Quienes somos</a></li>
-          <li><a href="contenidos.html" aria-current="page">Contenidos de estudio</a></li>
+          <li><a href="contenidos.html">Contenidos de estudio</a></li>
           <li><a href="clientes.html">Clientes</a></li>
           <li><a href="id-lab.html">I+D Lab</a></li>
         </ul>
       </nav>
     </header>
-
     <main>
-      <section class="hero container">
-        <div class="eyebrow">Próximamente</div>
-        <h1 class="title-xxl">Contenidos de estudio</h1>
-        <p class="subtitle">Muy pronto publicaremos contenidos y programas. Manteniendo el enfoque minimalista.</p>
+      <section class="hero container" style="text-align:center">
+        <div class="eyebrow">Error 404</div>
+        <h1 class="title-xxl">Página no encontrada</h1>
+        <p class="subtitle">La URL no existe o cambió. Vuelve a Capacitaciones para continuar.</p>
+        <div class="spacer-lg"></div>
+        <a class="cta" href="capacitaciones.html">Ir a Capacitaciones</a>
         <div class="spacer-xl"></div>
       </section>
       <div class="spacer-scroll"></div>
     </main>
-
     <footer class="site-footer">
       <div class="container">
         <a class="footer-logo" href="capacitaciones.html" aria-label="Ir a Capacitaciones">
@@ -51,10 +48,7 @@
       </div>
     </footer>
     <script>
-      // Año en footer
       document.getElementById('y').textContent = new Date().getFullYear();
-
-      // Suavizar fondo al hacer scroll y paneo vertical del video
       const softenOnScroll = () => {
         const y = window.scrollY || 0;
         if (y > 40) document.body.classList.add('bg-soften');
@@ -70,3 +64,5 @@
   </body>
   
 </html>
+
+
