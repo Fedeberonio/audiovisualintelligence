@@ -155,7 +155,7 @@ img { display: block; max-width: 100%; height: auto; }
 .view-courses:hover { filter: brightness(1.08); transform: translateY(-1px); }
 
 /* Scroll section to permitir recorrer el video completo */
-.spacer-scroll { height: 120vh; }
+.spacer-scroll { height: 80vh; }
 
 .card {
   position: relative;
