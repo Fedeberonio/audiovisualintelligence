@@ -178,6 +178,17 @@ img { display: block; max-width: 100%; height: auto; }
 .site-footer { position: relative; z-index: 1; color: var(--muted); padding: 48px 0; border-top: 1px solid var(--border); margin-top: 48px; text-align:center; }
 .copyright { color: var(--muted); font-size: 12px; }
 
+/* Contenidos – grilla y tarjetas sutiles */
+.resource-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:16px; }
+.resource-card { background: linear-gradient(180deg, rgba(13,13,13,.92), rgba(10,10,10,.88)); border:1px solid var(--border); border-radius:12px; padding:12px; text-align:left; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.resource-card:hover { transform: translateY(-2px); border-color:#242424; box-shadow: 0 14px 30px rgba(0,0,0,.42); }
+.resource-thumb { aspect-ratio: 16/10; border-radius:10px; overflow:hidden; background: radial-gradient(80% 80% at 50% 50%, rgba(255,138,0,.16), rgba(0,0,0,0)); display:grid; place-items:center; }
+.resource-thumb .badge-pdf { width:56px; height:56px; border-radius:12px; display:grid; place-items:center; font-weight:900; color:#1b0e00; background: linear-gradient(0deg, #ff8a00, #ff6a00); box-shadow: 0 8px 20px rgba(255,138,0,.28); }
+.resource-title { font-weight:700; margin:10px 0 4px; }
+.resource-meta { font-size:12px; color:var(--muted); }
+.resource-actions { display:flex; gap:10px; margin-top:10px; }
+.link { color: var(--accent); font-weight:700; }
+
 /* Footer logo-button (mismo tamaño que hamburguesa) */
 .footer-logo { display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border:1px solid var(--border); border-radius:10px; background:#121212; overflow:hidden; box-shadow: 0 6px 18px rgba(0,0,0,.35); margin: 0 auto 10px; }
 .footer-logo video { display:block; width:100%; height:100%; object-fit:cover; opacity:0; transition: opacity .25s ease; }

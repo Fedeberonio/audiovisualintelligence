@@ -38,23 +38,20 @@
         <div class="spacer-xl"></div>
       </section>
       <section class="container" style="text-align:center">
-        <div class="card" style="padding:14px">
-          <div class="kicker">Presentación</div>
-          <h2 class="card-title">Guía Visión A.I.</h2>
-          <div class="spacer-sm"></div>
-          <div id="pdfBox" style="position:relative; width:min(1100px, 94vw); margin:0 auto; border:1px solid var(--border); border-radius:12px; overflow:hidden; background:#0f0f0f;">
-            <!-- Vista previa: miniatura clickeable -->
-            <button id="pdfPreview" class="pdf-preview" style="all:unset; display:block; cursor:pointer;">
-              <div style="display:grid; place-items:center; height:min(36vh, 320px); background:radial-gradient(80% 80% at 50% 50%, rgba(255,138,0,.22), rgba(0,0,0,0));">
-                <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
-                  <div style="width:72px; height:72px; border-radius:16px; background:linear-gradient(0deg,#ff8a00,#ff6a00); color:#1b0e00; display:grid; place-items:center; font-weight:900;">PDF</div>
-                  <div class="muted">Click para ver</div>
-                </div>
-              </div>
-            </button>
-          </div>
-          <div class="spacer-sm"></div>
-          <a class="cta" href="media/AVI-Presentacion_VISION_A.I._SPA_.pdf" target="_blank" rel="noopener">Abrir en pestaña nueva</a>
+        <div class="resource-grid">
+          <article class="resource-card">
+            <div class="resource-thumb">
+              <button id="pdfPreview" class="pdf-preview" style="all:unset; display:block; width:100%; height:100%; cursor:pointer;">
+                <div class="badge-pdf">PDF</div>
+              </button>
+            </div>
+            <div class="resource-title">Guía Visión A.I.</div>
+            <div class="resource-meta">Presentación — Español</div>
+            <div class="resource-actions">
+              <button id="openPdfModal" class="btn" style="padding:8px 12px">Ver</button>
+              <a class="link" href="media/AVI-Presentacion_VISION_A.I._SPA_.pdf" target="_blank" rel="noopener">Abrir en pestaña</a>
+            </div>
+          </article>
         </div>
       </section>
       <div class="spacer-scroll"></div>
@@ -86,13 +83,34 @@
       };
       softenOnScroll();
       window.addEventListener('scroll', softenOnScroll, { passive: true });
-      // Inyectar visor PDF al hacer click (oculta barra del visor)
-      document.getElementById('pdfPreview')?.addEventListener('click', ()=>{
-        const box = document.getElementById('pdfBox');
-        if (!box) return;
-        box.style.height = 'min(80vh, 860px)';
-        box.innerHTML = '<iframe title="Guía Visión A.I." src="media/AVI-Presentacion_VISION_A.I._SPA_.pdf#view=FitH&toolbar=0" style="position:absolute; inset:0; width:100%; height:100%; border:0; background:#0f0f0f"></iframe>';
-      });
+      // Modal simple para ver el PDF
+      const ensurePdfModal = () => {
+        let m = document.getElementById('pdfModal');
+        if (m) return m;
+        m = document.createElement('dialog');
+        m.id = 'pdfModal';
+        m.className = 'modal';
+        m.innerHTML = `
+          <div class="modal-backdrop" onclick="this.closest('dialog').close()"></div>
+          <div class="modal-dialog">
+            <div class="modal-hd">
+              <div class="kicker">Presentación</div>
+              <button class="btn" id="pdfClose">Cerrar</button>
+            </div>
+            <div class="modal-bd" style="display:block; padding:0;">
+              <iframe title="Guía Visión A.I." src="media/AVI-Presentacion_VISION_A.I._SPA_.pdf#view=FitH&toolbar=0" style="width:min(96vw, 1040px); height:min(80vh, 860px); border:0; background:#0f0f0f"></iframe>
+            </div>
+            <div class="modal-ft">
+              <a class="btn" href="media/AVI-Presentacion_VISION_A.I._SPA_.pdf" target="_blank" rel="noopener">Abrir en pestaña</a>
+            </div>
+          </div>`;
+        document.body.appendChild(m);
+        m.querySelector('#pdfClose')?.addEventListener('click', ()=>m.close());
+        return m;
+      };
+      const openPdf = () => { const md = ensurePdfModal(); md.showModal(); };
+      document.getElementById('openPdfModal')?.addEventListener('click', openPdf);
+      document.getElementById('pdfPreview')?.addEventListener('click', openPdf);
       // Mostrar logo de footer solo al entrar en viewport
       if ('IntersectionObserver' in window) {
         const fl = document.querySelector('.footer-logo');
