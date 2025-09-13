@@ -68,6 +68,7 @@
         <div class="copyright">© <span id="y"></span> Audiovisual Intelligence</div>
       </div>
     </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.min.js" integrity="sha512-7bS9h1n0sV8mV9uJ2cG2q8pR2x7w5K1G3S5F6O0cKJ9m1q9a3b4c5d6e7f8g9h0i" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
       // Año en footer
       document.getElementById('y').textContent = new Date().getFullYear();
@@ -112,6 +113,24 @@
       const openPdf = () => { const md = ensurePdfModal(); md.showModal(); };
       document.getElementById('openPdfModal')?.addEventListener('click', openPdf);
       document.getElementById('pdfPreview')?.addEventListener('click', openPdf);
+      // Render miniatura del PDF (primera página) con pdf.js
+      (async ()=>{
+        try {
+          if (!window['pdfjsLib']) return;
+          const url = 'media/AVI-Presentacion_VISION_A.I._SPA_.pdf';
+          const pdf = await pdfjsLib.getDocument(url).promise;
+          const page = await pdf.getPage(1);
+          const ratio = 1.2; // escala moderada para thumbs
+          const viewport = page.getViewport({ scale: ratio });
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          await page.render({ canvasContext: ctx, viewport }).promise;
+          const thumb = document.querySelector('.resource-thumb');
+          if (thumb) thumb.prepend(canvas);
+        } catch (_) { /* silent */ }
+      })();
       // Mostrar logo de footer solo al entrar en viewport
       if ('IntersectionObserver' in window) {
         const fl = document.querySelector('.footer-logo');

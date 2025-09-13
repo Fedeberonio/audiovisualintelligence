@@ -182,9 +182,10 @@ img { display: block; max-width: 100%; height: auto; }
 .resource-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:16px; }
 .resource-card { background: linear-gradient(180deg, rgba(13,13,13,.96), rgba(10,10,10,.92)); border:1px solid var(--border); border-radius:12px; padding:12px; text-align:left; box-shadow: 0 12px 26px rgba(0,0,0,.32); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
 .resource-card:hover { transform: translateY(-2px); border-color:#242424; box-shadow: 0 18px 36px rgba(0,0,0,.45); }
-.resource-thumb { aspect-ratio: 16/10; min-height: 160px; border-radius:10px; overflow:hidden; background: rgba(10,10,10,.82); border:1px solid var(--border); display:grid; place-items:center; padding: 10px; }
-.resource-thumb .badge-pdf { width:72px; height:72px; border-radius:14px; display:grid; place-items:center; font-weight:900; color:#1b0e00; background: linear-gradient(0deg, #ff8a00, #ff6a00); box-shadow: 0 8px 20px rgba(255,138,0,.28); border:2px solid rgba(255,255,255,.65); }
-.resource-thumb .thumb-label { margin-top:8px; color: var(--muted); font-size:12px; text-align:center; }
+.resource-thumb { position:relative; aspect-ratio: 16/10; min-height: 160px; border-radius:10px; overflow:hidden; background: rgba(10,10,10,.82); border:1px solid var(--border); display:grid; place-items:center; padding: 0; }
+.resource-thumb canvas { display:block; width:100%; height:auto; }
+.resource-thumb .badge-pdf { position:absolute; left:12px; top:12px; width:56px; height:56px; border-radius:12px; display:grid; place-items:center; font-weight:900; color:#1b0e00; background: linear-gradient(0deg, #ff8a00, #ff6a00); box-shadow: 0 8px 20px rgba(255,138,0,.28); border:2px solid rgba(255,255,255,.65); }
+.resource-thumb .thumb-label { position:absolute; right:12px; bottom:10px; color: var(--muted); font-size:12px; text-align:right; background: rgba(0,0,0,.35); padding:4px 8px; border-radius:8px; }
 .resource-title { font-weight:700; margin:10px 0 4px; }
 .resource-meta { font-size:12px; color:var(--muted); }
 .resource-actions { display:flex; gap:10px; margin-top:10px; }
