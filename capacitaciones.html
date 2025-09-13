@@ -40,6 +40,7 @@
           <p class="subtitle">Inteligencia Artificial aplicada a la Industria Audiovisual</p>
           <div class="spacer-lg"></div>
           <div class="scroll-cta-hero">
+            <button id="viewCourses" class="view-courses" aria-label="Ver cursos">Ver cursos</button>
             <div class="scroll-label">VER</div>
           </div>
         </div>
@@ -208,6 +209,10 @@
         <path class="line" d="M12 20 L24 32 L36 20"/>\
         <path class="line" d="M12 30 L24 42 L36 30"/>\
       </svg>'; }
+      // CTA Ver cursos: scroll al primer panel
+      document.getElementById('viewCourses')?.addEventListener('click', ()=>{
+        document.getElementById('p0')?.scrollIntoView({behavior:'smooth', block:'start'});
+      });
       // Mostrar logo de footer solo al entrar en viewport
       if ('IntersectionObserver' in window) {
         const fl = document.querySelector('.footer-logo');

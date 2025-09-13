@@ -149,6 +149,11 @@ img { display: block; max-width: 100%; height: auto; }
 .scroll-cta-hero { position:absolute; left:50%; top: 65vh; transform: translate(-50%, -50%); text-align:center; }
 .scroll-label { margin-top: 6px; color: var(--accent); font-weight:800; letter-spacing:.18em; text-transform:uppercase; }
 
+/* CTA grande "Ver cursos" en héroe */
+.view-courses { display:inline-block; background:none; border:0; padding:0; margin: 18px 0 6px; color: var(--accent); font-weight: 800; letter-spacing:.02em; cursor:pointer;
+  font-size: clamp(28px, 5vw, 56px); text-shadow: 0 2px 10px rgba(0,0,0,.35); }
+.view-courses:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
 /* Scroll section to permitir recorrer el video completo */
 .spacer-scroll { height: 120vh; }
 
