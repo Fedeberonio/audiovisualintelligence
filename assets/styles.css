@@ -114,7 +114,8 @@ img { display: block; max-width: 100%; height: auto; }
 
 /* Panel de curso (glass) */
 .course-panel { position:relative; z-index:1; margin: 0 auto; padding: 36px 24px; width:min(1100px, 94vw); min-height: 100vh; display:grid; align-content:center; gap: 20px; border:1px solid var(--border); border-radius: 16px;
-  background: linear-gradient(180deg, rgba(10,10,10,.78), rgba(8,8,8,.72)); backdrop-filter: blur(12px); box-shadow: 0 30px 60px rgba(0,0,0,.45); text-align: center; }
+  background: linear-gradient(180deg, rgba(10,10,10,.78), rgba(8,8,8,.72)); backdrop-filter: blur(12px); box-shadow: 0 30px 60px rgba(0,0,0,.45); text-align: center; transition: transform .3s ease, box-shadow .3s ease; transform-origin: center; will-change: transform; }
+.course-panel:hover { transform: scale(1.2); box-shadow: 0 40px 80px rgba(0,0,0,.55); z-index:2; }
 .course-panel .avatar { display:flex; align-items:center; justify-content:center; z-index:1; }
 .avatar-video { display:block; width:min(25vw, 360px); max-height:30vh; object-fit:cover; background:#000; border-radius: 14px; box-shadow: 0 20px 40px rgba(0,0,0,.5); transition: transform .25s ease, box-shadow .25s ease; }
 .avatar-video.is-zoomed { transform: scale(1.12); box-shadow: 0 30px 64px rgba(0,0,0,.6); }
@@ -211,6 +212,7 @@ img { display: block; max-width: 100%; height: auto; }
 /* Fade-in más marcado para paneles de cursos */
 .course-panel.reveal { opacity: 0; transform: translateY(26px) scale(.98); will-change: opacity, transform; }
 .course-panel.reveal.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+.course-panel.reveal.is-visible:hover { transform: translateY(0) scale(1.2); box-shadow: 0 40px 80px rgba(0,0,0,.55); }
 
 /* Modal (Nexus-like, minimal) */
 .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.55); backdrop-filter: blur(6px); opacity: 0; pointer-events: none; transition: opacity .25s ease; }
