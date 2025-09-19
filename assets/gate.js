@@ -14,6 +14,12 @@
     if (token !== 'ok') {
       location.replace('/');
     }
+    // Enforce modo seleccionado salvo en la landing de modos
+    var path = (location.pathname||'').split('/').pop();
+    if (path && path !== 'modos.html') {
+      var modo = null; try { modo = sessionStorage.getItem('avi_modo'); } catch(e) {}
+      if (!modo) { try { location.replace('modos.html'); } catch(_) {} }
+    }
   } catch (_) {
     try { location.replace('/'); } catch (__) {}
   }

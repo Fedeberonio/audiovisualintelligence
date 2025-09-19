@@ -9,6 +9,7 @@
     {
       "slug": "vision-ia",
       "titulo": "Visión IA",
+      "segmento": "av",
       "nivel": "Intro",
       "duracion_total": "6 h (3×2 h)",
       "horas_totales": 6,
@@ -44,6 +45,7 @@
     {
       "slug": "taller-intensivo-ia",
       "titulo": "Taller Intensivo IA",
+      "segmento": "av",
       "nivel": "Hands-on",
       "duracion_total": "12 h (6×2 h) o 2 sábados",
       "horas_totales": 12,
@@ -78,6 +80,7 @@
     {
       "slug": "laboratorio-ia-personalizado",
       "titulo": "Laboratorio IA Personalizado",
+      "segmento": "av",
       "nivel": "Implementación",
       "duracion_total": "Fase 1 (3×2 h) + Fase 2 (4×3 h)",
       "horas_totales": 18,
@@ -109,6 +112,85 @@
       "requisitos": "Herramientas específicas según el proyecto (definidas en el análisis previo)",
       "tags": ["Implementación", "Eficiencia", "Automatización", "Pilotaje"],
       "cta_label": "Agendar diagnóstico"
+    }
+    {
+      "slug": "eduia-basico",
+      "titulo": "EduIA (Educación)",
+      "segmento": "edu",
+      "nivel": "Básico",
+      "duracion_total": "6 h (3×2 h)",
+      "formato": "En vivo por Google Meet + grabaciones",
+      "grupo": "Aulas 15–30 estudiantes",
+      "resumen_corto": "Introducción práctica a IA para docentes y estudiantes.",
+      "objetivos": [
+        "Comprender fundamentos y usos en el aula",
+        "Usar asistentes para investigación y proyectos",
+        "Ética y citación responsable"
+      ],
+      "temario_resumido": [
+        "Fundamentos y políticas de uso",
+        "Asistentes para lectura/escritura",
+        "Imagen/audio para proyectos",
+        "Evaluación y rúbricas con IA"
+      ],
+      "modalidad_horarios": [
+        "A convenir con la institución"
+      ],
+      "incluye": [
+        "Presentación y lista de herramientas",
+        "Templates para el aula",
+        "Soporte post-curso (1 semana)"
+      ],
+      "requisitos": "Navegador y cuentas institucionales según herramientas",
+      "tags": ["Educación", "Proyectos", "Ética"],
+      "cta_label": "+ Info"
+    },
+    {
+      "slug": "taller-intensivo-ia-edu",
+      "titulo": "Taller Intensivo IA (Educación)",
+      "segmento": "edu",
+      "nivel": "Hands-on",
+      "duracion_total": "12 h (6×2 h)",
+      "formato": "En vivo por Google Meet + grabaciones",
+      "grupo": "Docentes y estudiantes avanzados",
+      "resumen_corto": "Del básico a proyectos guiados en el contexto educativo.",
+      "objetivos": [
+        "Diseñar flujos para tareas y proyectos",
+        "Aplicar IA en contenidos y evaluación",
+        "Proyecto final institucional"
+      ],
+      "temario_resumido": [
+        "Ecosistema y herramientas",
+        "Asistentes personalizados",
+        "Imagen/video en clase",
+        "Proyecto final"
+      ],
+      "modalidad_horarios": ["A convenir"],
+      "incluye": ["Templates, certificado, grupo privado"],
+      "requisitos": "Accesos a herramientas (free/paid)",
+      "tags": ["Educación", "Hands-on"],
+      "cta_label": "+ Info"
+    },
+    {
+      "slug": "laboratorio-ia-edu",
+      "titulo": "Laboratorio IA (Educación)",
+      "segmento": "edu",
+      "nivel": "Implementación",
+      "duracion_total": "Fases según institución",
+      "formato": "Diagnóstico + despliegue",
+      "grupo": "Equipos docentes / cátedras",
+      "resumen_corto": "Workflows IA a medida para el entorno educativo.",
+      "objetivos": [
+        "Diagnóstico y diseño",
+        "Implementación piloto",
+        "Manual y handover"
+      ],
+      "temario_resumido": ["Bases compartidas", "Workflows por área", "Asistentes y automatizaciones"],
+      "modalidad_horarios": ["A convenir"],
+      "incluye": ["Manual IA personalizado", "Soporte 30 días"],
+      "requisitos": "Definidos en el análisis previo",
+      "tags": ["Implementación", "Educación"],
+      "cta_label": "+ Info"
     }
   ]
 }

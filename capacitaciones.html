@@ -42,6 +42,7 @@
           <div class="scroll-cta-hero">
             <button id="viewCourses" class="view-courses" aria-label="Ver cursos">Ver cursos</button>
             <div class="scroll-label">VER</div>
+            <button class="scroll-arrow" aria-label="Bajar"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="line" d="M8 16 L24 32 L40 16"/></svg></button>
           </div>
         </div>
       </section>
@@ -143,7 +144,9 @@
       fetch('data/capacitaciones.json', {cache:'no-store'})
         .then(r=>r.json())
         .then(data=>{
-          const items = (data.capacitaciones||[]).slice(0,3);
+          let modo = null; try { modo = sessionStorage.getItem('avi_modo'); } catch(_) {}
+          if (!modo) modo = 'av';
+          const items = (data.capacitaciones||[]).filter(x=> (x.segmento===modo) ).slice(0,3);
           // Construir paneles tipo glass con contenido del JSON
           panels.innerHTML = items.map((it, i)=>{
             const objetivos = (it.objetivos||[]).map(x=>`<li>${x}</li>`).join('');
@@ -174,6 +177,10 @@
                     <div class="kicker">Incluye</div>
                     <ul class="list">${incluye}</ul>
                   </div>
+                </div>
+                <div class="spacer-md"></div>
+                <div>
+                  <button class="btn" disabled>+ Info</button>
                 </div>
               </section>
             `;
@@ -211,6 +218,10 @@
       </svg>'; }
       // CTA Ver cursos: scroll al primer panel
       document.getElementById('viewCourses')?.addEventListener('click', ()=>{
+        document.getElementById('p0')?.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+      // Flecha bajo el CTA: también hace scroll
+      document.querySelector('.scroll-cta-hero .scroll-arrow')?.addEventListener('click', ()=>{
         document.getElementById('p0')?.scrollIntoView({behavior:'smooth', block:'start'});
       });
       // Mostrar logo de footer solo al entrar en viewport
