@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function(){
   function setOpen(open){
     if (open){ menu.classList.add('is-open'); menu.hidden=false; btn.classList.add('is-open'); }
     else { menu.classList.remove('is-open'); menu.hidden=true; btn.classList.remove('is-open'); }
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
   }
   setOpen(false);
   btn.addEventListener('click', function(){
@@ -35,4 +37,10 @@ document.addEventListener('DOMContentLoaded', function(){
   });
   // Close when clicking a link
   menu.addEventListener('click', function(e){ if (e.target.tagName==='A') setOpen(false); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+      setOpen(false);
+      btn.focus();
+    }
+  });
 });

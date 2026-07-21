@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /aula.html
+Disallow: /auth-ok.html
+Disallow: /logout.html
 Sitemap: https://audiovisualintelligence.ai/sitemap.xml
-

@@ -1,0 +1,134 @@
+{
+  "schema_version": 2,
+  "program": {
+    "slug": "vision-ai",
+    "title": "Visión AI",
+    "eyebrow": "Programa fundacional de AVI",
+    "summary": "Una visión completa y aplicada de la inteligencia artificial para profesionales audiovisuales.",
+    "promise": "Entender el mapa, reconocer oportunidades reales y diseñar un próximo paso para tu flujo de trabajo.",
+    "duration": "6 horas",
+    "format": "3 encuentros en vivo de 2 horas",
+    "audience": "Profesionales audiovisuales",
+    "status": "en_inscripcion",
+    "contact_email": "avi.info.desk@gmail.com"
+  },
+  "outcomes": [
+    "Comprender el ecosistema actual sin depender de una herramienta específica.",
+    "Reconocer aplicaciones concretas en desarrollo, preproducción, producción y post.",
+    "Evaluar herramientas con criterio creativo, técnico y económico.",
+    "Definir un primer workflow aplicable a un proyecto real."
+  ],
+  "modules": [
+    {
+      "id": "m01",
+      "order": 1,
+      "title": "El nuevo mapa audiovisual",
+      "duration": "45 min",
+      "summary": "De la automatización a los sistemas generativos y su impacto en el oficio.",
+      "result": "Un mapa compartido de conceptos, posibilidades y límites.",
+      "status": "available",
+      "resources": ["r01", "r02"]
+    },
+    {
+      "id": "m02",
+      "order": 2,
+      "title": "Asistentes, lenguaje y criterio",
+      "duration": "60 min",
+      "summary": "LLMs, prompting, contexto y asistentes personalizados para trabajo audiovisual.",
+      "result": "Un marco para conversar con sistemas de IA sin delegar el criterio.",
+      "status": "available",
+      "resources": ["r03"]
+    },
+    {
+      "id": "m03",
+      "order": 3,
+      "title": "Desarrollo y preproducción",
+      "duration": "75 min",
+      "summary": "Ideación, research, guion, breakdown, presupuesto, scheduling y presentación.",
+      "result": "Una selección de oportunidades aplicables a un proyecto propio.",
+      "status": "available",
+      "resources": []
+    },
+    {
+      "id": "m04",
+      "order": 4,
+      "title": "Imagen, video y continuidad",
+      "duration": "75 min",
+      "summary": "Storyboards, frames, video generativo, coherencia visual y control de calidad.",
+      "result": "Criterios para decidir cuándo generar, cuándo producir y cómo combinar ambos mundos.",
+      "status": "available",
+      "resources": []
+    },
+    {
+      "id": "m05",
+      "order": 5,
+      "title": "Postproducción, audio y entrega",
+      "duration": "60 min",
+      "summary": "Edición asistida, upscaling, VFX, voz, música, sonido y revisión.",
+      "result": "Un panorama de aceleración responsable del pipeline de post.",
+      "status": "available",
+      "resources": []
+    },
+    {
+      "id": "m06",
+      "order": 6,
+      "title": "Tu próximo workflow",
+      "duration": "45 min",
+      "summary": "Priorización, riesgos, prueba piloto y plan de adopción.",
+      "result": "Un próximo paso concreto para aplicar después del programa.",
+      "status": "available",
+      "resources": ["r04"]
+    }
+  ],
+  "resources": [
+    {
+      "id": "r01",
+      "type": "pdf",
+      "title": "Presentación Visión A.I.",
+      "description": "Documento de referencia del programa.",
+      "url": "media/AVI-Presentacion_VISION_A.I._SPA_.pdf",
+      "access": "student"
+    },
+    {
+      "id": "r02",
+      "type": "guide",
+      "title": "Mapa de herramientas",
+      "description": "Taxonomía de herramientas por etapa del pipeline.",
+      "url": "#proximamente",
+      "access": "student",
+      "status": "coming_soon"
+    },
+    {
+      "id": "r03",
+      "type": "template",
+      "title": "Plantilla de contexto audiovisual",
+      "description": "Base para construir asistentes con contexto de proyecto.",
+      "url": "#proximamente",
+      "access": "student",
+      "status": "coming_soon"
+    },
+    {
+      "id": "r04",
+      "type": "worksheet",
+      "title": "Canvas de adopción IA",
+      "description": "Herramienta para priorizar un piloto de bajo riesgo.",
+      "url": "#proximamente",
+      "access": "student",
+      "status": "coming_soon"
+    }
+  ],
+  "services": [
+    {
+      "title": "Diagnóstico",
+      "description": "Lectura de procesos, necesidades y oportunidades de adopción."
+    },
+    {
+      "title": "Laboratorio aplicado",
+      "description": "Diseño y prueba de workflows con un proyecto real del equipo."
+    },
+    {
+      "title": "Acompañamiento",
+      "description": "Implementación, documentación interna y seguimiento."
+    }
+  ]
+}

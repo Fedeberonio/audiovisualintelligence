@@ -11,8 +11,18 @@
       // Marca la sesión como autenticada y envía al área interna
       try { sessionStorage.setItem('avi_auth', 'ok'); } catch (e) {}
       try { document.cookie = 'avi_auth=ok; Max-Age=3600; Path=/; SameSite=Lax'; } catch (e) {}
-      location.replace('capacitaciones.html');
+      const requested = new URLSearchParams(location.search).get('next');
+      const allowed = new Set([
+        'aula.html',
+        'capacitaciones.html',
+        'contenidos.html',
+        'clientes.html',
+        'id-lab.html',
+        'quienes-somos.html',
+        'contacto.html'
+      ]);
+      const normalized = (requested || '').replace(/^\/+/, '').replace(/\/$/, '.html');
+      location.replace(allowed.has(normalized) ? normalized : 'aula.html');
     </script>
   </body>
 </html>
-

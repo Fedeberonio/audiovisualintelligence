@@ -42,6 +42,7 @@
           <div class="scroll-cta-hero">
             <button id="viewCourses" class="view-courses" aria-label="Ver cursos">Ver cursos</button>
             <div class="scroll-label">VER</div>
+            <button class="scroll-arrow" aria-label="Bajar"><svg viewBox="0 0 48 48" aria-hidden="true"><path class="line" d="M8 16 L24 32 L40 16"/></svg></button>
           </div>
         </div>
       </section>
@@ -175,6 +176,10 @@
                     <ul class="list">${incluye}</ul>
                   </div>
                 </div>
+                <div class="spacer-md"></div>
+                <div>
+                  <button class="btn" disabled>+ Info</button>
+                </div>
               </section>
             `;
           }).join('') + `<section class="between-panels"><button class="scroll-arrow" aria-label="Bajar">${arrowSVG()}</button></section>`;
@@ -211,6 +216,10 @@
       </svg>'; }
       // CTA Ver cursos: scroll al primer panel
       document.getElementById('viewCourses')?.addEventListener('click', ()=>{
+        document.getElementById('p0')?.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+      // Flecha bajo el CTA: también hace scroll
+      document.querySelector('.scroll-cta-hero .scroll-arrow')?.addEventListener('click', ()=>{
         document.getElementById('p0')?.scrollIntoView({behavior:'smooth', block:'start'});
       });
       // Mostrar logo de footer solo al entrar en viewport

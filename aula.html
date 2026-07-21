@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aula Visión AI — AVI</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="stylesheet" href="assets/styles.css?v=4" />
+    <script src="assets/gate.js?v=2"></script>
+    <script src="assets/platform.js?v=5" defer></script>
+    <script src="assets/classroom.js?v=2" defer></script>
+  </head>
+  <body class="classroom-page">
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="classroom-header">
+      <div class="container classroom-header-inner">
+        <a class="brand" href="plataforma.html" aria-label="AVI, inicio">AVI</a>
+        <div class="classroom-context"><span>Aula</span><strong>Visión AI</strong></div>
+        <nav aria-label="Cuenta">
+          <a class="btn-secondary" href="logout.html">Cerrar sesión</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenido">
+      <section class="classroom-welcome container">
+        <div>
+          <span class="section-index">Tu programa</span>
+          <h1>Visión AI</h1>
+          <p>Este espacio reúne el recorrido, los materiales y los próximos pasos del programa.</p>
+        </div>
+        <div class="cohort-status progress-summary">
+          <div class="progress-heading"><span>Tu progreso</span><strong data-progress-value>0%</strong></div>
+          <div class="progress-track" role="progressbar" aria-label="Progreso de Visión AI" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-progress-bar></span></div>
+          <p data-progress-count>0 de 6 módulos</p>
+          <p class="device-note">Guardado únicamente en este dispositivo.</p>
+        </div>
+      </section>
+
+      <section class="cohort-section container" aria-labelledby="cohort-title">
+        <div class="cohort-intro">
+          <div><span class="section-index" data-cohort-label>Próxima cohorte</span><h2 id="cohort-title">Tres encuentros, un recorrido.</h2></div>
+          <p data-cohort-welcome>Las fechas y accesos aparecerán aquí cuando la cohorte quede confirmada.</p>
+        </div>
+        <div class="cohort-sessions" data-cohort-sessions data-loading></div>
+      </section>
+
+      <div class="classroom-layout container">
+        <section aria-labelledby="modules-title">
+          <div class="section-heading-row compact-heading">
+            <div><span class="section-index">Recorrido</span><h2 id="modules-title">Módulos</h2></div>
+          </div>
+          <div class="learning-path classroom-path" data-classroom-modules data-loading></div>
+        </section>
+
+        <aside class="classroom-sidebar" aria-labelledby="resources-title">
+          <span class="section-index">Biblioteca</span>
+          <h2 id="resources-title">Recursos</h2>
+          <div class="resource-list" data-classroom-resources data-loading></div>
+          <div class="next-module-block">
+            <span>Siguiente foco</span>
+            <strong data-next-module>El nuevo mapa audiovisual</strong>
+          </div>
+          <div class="support-block">
+            <span>Soporte</span>
+            <h3>¿Necesitas orientación?</h3>
+            <p>Escríbenos indicando el módulo y la pregunta.</p>
+            <a class="text-action" href="mailto:avi.info.desk@gmail.com?subject=Soporte%20Visi%C3%B3n%20AI">Contactar a AVI</a>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer platform-footer">
+      <div class="container footer-platform-grid">
+        <div><strong>AVI</strong><p>Visión AI · Aula</p></div>
+        <div><p>© <span id="y"></span> Audiovisual Intelligence</p></div>
+      </div>
+    </footer>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  </body>
+</html>
