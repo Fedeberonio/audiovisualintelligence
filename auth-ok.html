@@ -2,27 +2,9 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Autenticación correcta — AVI</title>
-    <meta name="robots" content="noindex, nofollow" />
+    <title>Acceso — AVI</title>
+    <meta name="robots" content="noindex" />
+    <script>location.replace('login.html');</script>
   </head>
-  <body>
-    <script>
-      // Marca la sesión como autenticada y envía al área interna
-      try { sessionStorage.setItem('avi_auth', 'ok'); } catch (e) {}
-      try { document.cookie = 'avi_auth=ok; Max-Age=3600; Path=/; SameSite=Lax'; } catch (e) {}
-      const requested = new URLSearchParams(location.search).get('next');
-      const allowed = new Set([
-        'aula.html',
-        'capacitaciones.html',
-        'contenidos.html',
-        'clientes.html',
-        'id-lab.html',
-        'quienes-somos.html',
-        'contacto.html'
-      ]);
-      const normalized = (requested || '').replace(/^\/+/, '').replace(/\/$/, '.html');
-      location.replace(allowed.has(normalized) ? normalized : 'aula.html');
-    </script>
-  </body>
+  <body></body>
 </html>

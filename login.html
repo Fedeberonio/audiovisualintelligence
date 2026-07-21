@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Acceso — Audiovisual Intelligence</title>
+    <meta name="robots" content="noindex" />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="assets/firebase-init.js"></script>
+  </head>
+  <body style="background:#000;">
+    <main style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;color:#fff;">
+      <div style="font-size:14px;letter-spacing:.35em;text-transform:uppercase;color:#ff6a00;margin-bottom:18px;">Audiovisual Intelligence</div>
+      <h1 style="font-size:clamp(26px,5vw,44px);margin:0 0 8px;font-weight:600;">Acceso socios</h1>
+      <p style="color:#999;margin:0 0 30px;font-size:15px;">Ingresá con tu cuenta habilitada.</p>
+      <form id="loginForm" style="width:100%;max-width:360px;display:grid;gap:14px;">
+        <input id="email" type="email" required autocomplete="username" placeholder="Email"
+          style="padding:14px 16px;border-radius:12px;border:1px solid #262626;background:#0d0d0d;color:#fff;font-size:15px;" />
+        <input id="password" type="password" required autocomplete="current-password" placeholder="Contraseña"
+          style="padding:14px 16px;border-radius:12px;border:1px solid #262626;background:#0d0d0d;color:#fff;font-size:15px;" />
+        <button id="submitBtn" type="submit"
+          style="padding:14px;border-radius:999px;border:0;background:#ff6a00;color:#000;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;">
+          Entrar
+        </button>
+        <div id="msg" role="alert" style="min-height:1.4em;color:#ff6a00;font-size:14px;text-align:center;"></div>
+      </form>
+      <a href="/" style="margin-top:26px;color:#666;font-size:13px;text-decoration:none;">← Volver al inicio</a>
+    </main>
+    <script>
+      if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG);
+      var auth = firebase.auth();
+      var params = new URLSearchParams(location.search);
+      var next = params.get('next') || 'aula.html';
+      // sanear: solo rutas internas
+      if (/^https?:|^\/\//.test(next)) next = 'aula.html';
+
+      function allowed(user){
+        return user && user.email && (window.AVI_ALLOWED_EMAILS||[]).indexOf(user.email.toLowerCase()) !== -1;
+      }
+      // Si ya hay sesión válida, pasar directo
+      auth.onAuthStateChanged(function(u){ if (allowed(u)) location.replace(next); });
+
+      document.getElementById('loginForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        var btn = document.getElementById('submitBtn'), msg = document.getElementById('msg');
+        btn.disabled = true; msg.textContent = '';
+        var email = document.getElementById('email').value.trim().toLowerCase();
+        var pass = document.getElementById('password').value;
+        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+          .then(function(){ return auth.signInWithEmailAndPassword(email, pass); })
+          .then(function(cred){
+            if (!allowed(cred.user)) { auth.signOut(); throw new Error('no-permitido'); }
+            location.replace(next);
+          })
+          .catch(function(err){
+            btn.disabled = false;
+            msg.textContent = (err && err.message === 'no-permitido')
+              ? 'Esta cuenta no tiene acceso habilitado.'
+              : 'Email o contraseña incorrectos.';
+          });
+      });
+    </script>
+  </body>
+</html>
