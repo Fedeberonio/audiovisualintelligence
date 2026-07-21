@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "section": {
+    "slug": "id-lab",
+    "eyebrow": "Investigación y desarrollo",
+    "title": "I+D Lab",
+    "intro": "El laboratorio donde AVI convierte experimentación en criterio aplicable. Cada línea nace de problemas reales de producción audiovisual y cierra en método, herramienta o conocimiento transferible."
+  },
+  "lines": [
+    {
+      "slug": "workflows",
+      "title": "Workflows dedicados",
+      "summary": "Pipelines a medida para problemas concretos de producción: consistencia de personajes, generación de escenas, automatización de etapas repetitivas.",
+      "status": "activo",
+      "service": "Laboratorio aplicado",
+      "cases": [
+        {
+          "title": "Pipeline de escenas históricas con personajes consistentes",
+          "status": "en_produccion",
+          "problem": "Generar escenas de época con personajes reconocibles y coherentes a lo largo de una producción cinematográfica, integrando imagen, video y voz.",
+          "method": "Combinación curada de plataformas de imagen y video AI, con reglas de prompting por plataforma, referencias de personaje y control de lip-sync con audio externo.",
+          "result": "Pipeline operativo en una producción profesional en curso.",
+          "learning": "La consistencia no la da una herramienta: la da el sistema de reglas que las conecta."
+        }
+      ]
+    },
+    {
+      "slug": "investigacion",
+      "title": "Investigación aplicada",
+      "summary": "Evaluación sistemática de plataformas y modelos: qué puede cada una, dónde falla y cuándo conviene usarla en un flujo real.",
+      "status": "activo",
+      "service": "Diagnóstico",
+      "cases": [
+        {
+          "title": "Comparativa operativa de plataformas de video AI",
+          "status": "en_curso",
+          "problem": "Las plataformas de video AI difieren en control de cámara, fidelidad de lip-sync, permisividad de contenido y física del movimiento — y cambian cada mes.",
+          "method": "Protocolos de prueba por capacidad (actuación, cámara, audio, restricciones) documentados como guías de uso por plataforma.",
+          "result": "Criterios de selección por tipo de escena, mantenidos al día con cada versión.",
+          "learning": "Elegir plataforma es una decisión de dirección, no de moda."
+        }
+      ]
+    },
+    {
+      "slug": "desarrollo",
+      "title": "Desarrollo",
+      "summary": "Herramientas y aplicaciones propias construidas con IA: de la automatización interna al producto.",
+      "status": "activo",
+      "service": "Acompañamiento",
+      "cases": [
+        {
+          "title": "Plataforma docente AVI",
+          "status": "en_desarrollo",
+          "problem": "Convertir años de docencia audiovisual en una experiencia digital: programas, aula, progreso y recursos estructurados como datos reutilizables.",
+          "method": "Desarrollo asistido por IA sobre arquitectura propia: contenido como datos, diseño cinematográfico, acceso por niveles.",
+          "result": "Primera aula operativa con el programa Visión AI.",
+          "learning": "La IA no reemplaza el criterio pedagógico: lo escala."
+        }
+      ]
+    },
+    {
+      "slug": "observatorio",
+      "title": "Observatorio",
+      "summary": "Novedades del campo filtradas con criterio de producción: qué importa, qué es ruido y qué cambia la forma de trabajar.",
+      "status": "proximamente",
+      "service": null,
+      "cases": []
+    }
+  ]
+}

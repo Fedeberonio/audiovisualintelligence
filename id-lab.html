@@ -32,11 +32,14 @@
 
     <main>
       <section class="hero container">
-        <div class="eyebrow">Próximamente</div>
-        <h1 class="title-xxl">I+D Lab</h1>
-        <p class="subtitle">Exploraciones, prototipos y pipelines experimentales. Sección en construcción.</p>
+        <div class="eyebrow" id="labEyebrow">Investigación y desarrollo</div>
+        <h1 class="title-xxl" id="labTitle">I+D Lab</h1>
+        <p class="subtitle" id="labIntro"></p>
         <div class="spacer-xl"></div>
       </section>
+
+      <section class="container" id="labLines" aria-label="Líneas de trabajo del laboratorio"></section>
+
       <div class="spacer-scroll"></div>
     </main>
 
@@ -51,6 +54,44 @@
       </div>
     </footer>
     <script>
+      // Render del laboratorio desde data/lab.json
+      fetch('data/lab.json')
+        .then(function(r){ return r.json(); })
+        .then(function(lab){
+          document.getElementById('labEyebrow').textContent = lab.section.eyebrow;
+          document.getElementById('labTitle').textContent = lab.section.title;
+          document.getElementById('labIntro').textContent = lab.section.intro;
+          var host = document.getElementById('labLines');
+          var STATUS = { activo: 'Línea activa', proximamente: 'Próximamente', en_produccion: 'En producción', en_curso: 'En curso', en_desarrollo: 'En desarrollo' };
+          lab.lines.forEach(function(line){
+            var sec = document.createElement('section');
+            sec.style.cssText = 'margin:0 0 56px;padding-top:28px;border-top:1px solid #1c1c1c;';
+            var head = '<div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:10px;">' +
+              '<h2 style="margin:0;font-size:clamp(22px,3.2vw,32px);">' + line.title + '</h2>' +
+              '<span class="chip">' + (STATUS[line.status] || line.status) + '</span></div>' +
+              '<p style="max-width:46em;color:#bbb;line-height:1.6;margin:0 0 22px;">' + line.summary + '</p>';
+            var cards = '';
+            line.cases.forEach(function(c){
+              cards += '<article class="card" style="padding:20px;margin-bottom:16px;">' +
+                '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">' +
+                  '<h3 class="card-title" style="margin:0;font-size:18px;">' + c.title + '</h3>' +
+                  '<span class="chip">' + (STATUS[c.status] || c.status) + '</span></div>' +
+                '<dl style="margin:0;display:grid;gap:10px;">' +
+                  '<div><dt style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#ff6a00;">Problema</dt><dd style="margin:4px 0 0;color:#ccc;line-height:1.55;">' + c.problem + '</dd></div>' +
+                  '<div><dt style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#ff6a00;">Método</dt><dd style="margin:4px 0 0;color:#ccc;line-height:1.55;">' + c.method + '</dd></div>' +
+                  '<div><dt style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#ff6a00;">Resultado</dt><dd style="margin:4px 0 0;color:#ccc;line-height:1.55;">' + c.result + '</dd></div>' +
+                  '<div><dt style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#ff6a00;">Aprendizaje</dt><dd style="margin:4px 0 0;color:#eee;line-height:1.55;font-style:italic;">' + c.learning + '</dd></div>' +
+                '</dl></article>';
+            });
+            if (!cards && line.status === 'proximamente') {
+              cards = '<p style="color:#777;">Primeras publicaciones de esta línea, próximamente.</p>';
+            }
+            sec.innerHTML = head + cards;
+            host.appendChild(sec);
+          });
+        })
+        .catch(function(){ /* silencioso: la página queda con el hero */ });
+
       // Año en footer
       document.getElementById('y').textContent = new Date().getFullYear();
       // Paneo del video de fondo con el scroll
