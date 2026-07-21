@@ -3,7 +3,8 @@
     "id": "capacitaciones",
     "title": "Capacitaciones",
     "subtitle": "IA aplicada a desarrollo, pre, producción y post",
-    "auth_required": true
+    "auth_required": true,
+    "evidencia": "Programas dictados a productoras, estudios, universidades y equipos corporativos en República Dominicana, Argentina, Uruguay, México, Chile y Reino Unido."
   },
   "capacitaciones": [
     {
@@ -38,8 +39,19 @@
         "Soporte post-curso (1 semana)"
       ],
       "requisitos": "Conexión a internet (las demos las realiza el instructor)",
-      "tags": ["Desarrollo", "Pre-producción", "Producción", "Post"],
-      "cta_label": "Solicitar información"
+      "tags": [
+        "Desarrollo",
+        "Pre-producción",
+        "Producción",
+        "Post"
+      ],
+      "cta_label": "Solicitar información",
+      "trayectoria": [
+        "Programa fundacional de AVI, dictado en ediciones abiertas con participantes internacionales.",
+        "Base del aula Visión AI de la plataforma."
+      ],
+      "lab_line": "investigacion",
+      "lab_label": "Respaldado por la línea Investigación aplicada del I+D Lab"
     },
     {
       "slug": "taller-intensivo-ia",
@@ -72,8 +84,19 @@
         "Soporte post-curso (2 semanas)"
       ],
       "requisitos": "Accesos a herramientas IA para las prácticas (free/paid según caso)",
-      "tags": ["Desarrollo", "Pre-producción", "Producción", "Post"],
-      "cta_label": "Ver temario"
+      "tags": [
+        "Desarrollo",
+        "Pre-producción",
+        "Producción",
+        "Post"
+      ],
+      "cta_label": "Ver temario",
+      "trayectoria": [
+        "Impartido a productoras y estudios en República Dominicana, Argentina y Uruguay.",
+        "Versión corporativa dictada para equipos internos de la industria."
+      ],
+      "lab_line": "workflows",
+      "lab_label": "Respaldado por la línea Workflows dedicados del I+D Lab"
     },
     {
       "slug": "laboratorio-ia-personalizado",
@@ -107,9 +130,18 @@
         "Soporte extendido + seguimiento a 30 días"
       ],
       "requisitos": "Herramientas específicas según el proyecto (definidas en el análisis previo)",
-      "tags": ["Implementación", "Eficiencia", "Automatización", "Pilotaje"],
-      "cta_label": "Agendar diagnóstico"
+      "tags": [
+        "Implementación",
+        "Eficiencia",
+        "Automatización",
+        "Pilotaje"
+      ],
+      "cta_label": "Agendar diagnóstico",
+      "trayectoria": [
+        "Metodología derivada de pipelines aplicados en producción profesional real."
+      ],
+      "lab_line": "workflows",
+      "lab_label": "Respaldado por la línea Workflows dedicados del I+D Lab"
     }
   ]
 }
-

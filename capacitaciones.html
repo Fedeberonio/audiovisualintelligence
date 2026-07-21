@@ -38,6 +38,7 @@
           <div class="eyebrow">Formación avanzada</div>
           <h1 class="title-xxl"><span class="avi-mark">I</span>nteligencia <span class="avi-mark">A</span>udiovisual</h1>
           <p class="subtitle">Inteligencia Artificial aplicada a la Industria Audiovisual</p>
+          <p class="muted" id="evidencia" style="max-width:44em;font-size:14px;color:#999;"></p>
           <div class="spacer-lg"></div>
           <div class="scroll-cta-hero">
             <button id="viewCourses" class="view-courses" aria-label="Ver cursos">Ver cursos</button>
@@ -144,10 +145,12 @@
       fetch('data/capacitaciones.json', {cache:'no-store'})
         .then(r=>r.json())
         .then(data=>{
+          if (data.section && data.section.evidencia) document.getElementById('evidencia').textContent = data.section.evidencia;
           const items = (data.capacitaciones||[]).slice(0,3);
           // Construir paneles tipo glass con contenido del JSON
           panels.innerHTML = items.map((it, i)=>{
             const objetivos = (it.objetivos||[]).map(x=>`<li>${x}</li>`).join('');
+            const trayectoria = (it.trayectoria||[]).map(x=>`<li>${x}</li>`).join('');
             const temario = (it.temario_resumido||[]).map(x=>`<li>${x}</li>`).join('');
             const horarios = (it.modalidad_horarios||[]).map(x=>`<li>${x}</li>`).join('');
             const incluye = (it.incluye||[]).map(x=>`<li>${x}</li>`).join('');
@@ -166,6 +169,7 @@
                     <p class="muted">${it.resumen_corto||''}</p>
                     <div class="kicker">Objetivos</div>
                     <ul class="list">${objetivos}</ul>
+                    ${trayectoria?`<div class="kicker">Trayectoria</div><ul class="list">${trayectoria}</ul>`:''}
                   </div>
                   <div>
                     <div class="kicker">Temario</div>
@@ -178,7 +182,7 @@
                 </div>
                 <div class="spacer-md"></div>
                 <div>
-                  <button class="btn" disabled>+ Info</button>
+                  ${it.lab_line?`<a class="btn" href="id-lab.html" style="text-decoration:none;">${it.lab_label||'Ver en el I+D Lab'}</a>`:''}
                 </div>
               </section>
             `;
