@@ -41,28 +41,9 @@
     var reveal = function () {
       var g = document.getElementById('gate-hide'); if (g) g.textContent = '';
       document.body.style.visibility = 'visible';
-      initMenu();
     };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', reveal);
     else reveal();
-  }
-
-  function initMenu() {
-    var btn = document.getElementById('hamburger');
-    var menu = document.getElementById('mobileMenu');
-    if (!btn || !menu) return;
-    function setOpen(open){
-      if (open){ menu.classList.add('is-open'); menu.hidden=false; btn.classList.add('is-open'); }
-      else { menu.classList.remove('is-open'); menu.hidden=true; btn.classList.remove('is-open'); }
-      btn.setAttribute('aria-expanded', String(open));
-      btn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
-    }
-    setOpen(false);
-    btn.addEventListener('click', function(){ setOpen(!menu.classList.contains('is-open')); });
-    menu.addEventListener('click', function(e){ if (e.target.tagName==='A') setOpen(false); });
-    document.addEventListener('keydown', function(e){
-      if (e.key === 'Escape' && menu.classList.contains('is-open')) { setOpen(false); btn.focus(); }
-    });
   }
 
   Promise.all([
