@@ -66,9 +66,11 @@
     var user = firebase.auth().currentUser;
     if (!user) { location.href = 'login.html?next=aula.html'; return; }
 
-    if (window.AVI_ACCESO && window.AVI_ACCESO.admin) {
+    if (window.AVI_ACCESO && (window.AVI_ACCESO.admin || window.AVI_ACCESO.teacher)) {
       contenedor.removeAttribute('data-loading');
-      contenedor.innerHTML = '<p class="platform-error">Vista administrativa: los materiales nominales se gestionan desde el Shared Drive de AVI.</p>';
+      contenedor.innerHTML = window.AVI_ACCESO.admin
+        ? '<p class="platform-error">Vista administrativa: los materiales nominales se gestionan desde el Shared Drive de AVI.</p>'
+        : '<p class="platform-error">Vista docente: el acceso a materiales nominales de alumnos está restringido.</p>';
       return;
     }
 

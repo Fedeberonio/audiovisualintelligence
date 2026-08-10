@@ -12,7 +12,7 @@
   function ensureFirebase() {
     if (window.firebase && firebase.auth) return Promise.resolve();
     return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js')
-      .then(function(){ return loadScript('assets/firebase-init.js?v=3'); })
+      .then(function(){ return loadScript('assets/firebase-init.js?v=4'); })
       .then(function(){ return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js'); })
       .then(function(){ if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG); });
   }
@@ -31,8 +31,9 @@
     return (location.pathname.split('/').pop() || 'index.html');
   }
 
-  // conSesion: el usuario ya pasó el chequeo de acceso (claim student o admin)
-  function buildMenu(conSesion) {
+  // acceso: el usuario ya pasó el chequeo de claims.
+  function buildMenu(acceso) {
+    var conSesion = !!(acceso && acceso.ok);
     var menu = document.getElementById('mobileMenu');
     var list = menu ? menu.querySelector('.menu-list') : null;
     if (list) {
@@ -52,12 +53,16 @@
     // Brand siempre al inicio
     document.querySelectorAll('a.brand').forEach(function (a) { a.href = 'index.html'; });
     // Indicador de sesión
+    var existingBadge = document.getElementById('sessionBadge');
+    if (!conSesion && existingBadge) existingBadge.remove();
     if (conSesion) {
       var header = document.querySelector('.site-header .inner, .classroom-header-inner');
-      if (header && !document.getElementById('sessionBadge')) {
+      var label = acceso.admin ? 'Sesión: Admin' : (acceso.teacher ? 'Sesión: Docente' : 'Sesión: Alumno');
+      if (existingBadge) existingBadge.textContent = label;
+      else if (header) {
         var b = document.createElement('span');
         b.id = 'sessionBadge';
-        b.textContent = 'Sesión: AVI';
+        b.textContent = label;
         b.style.cssText = 'font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#ff6a00;border:1px solid #2a1705;background:#140a03;padding:5px 10px;border-radius:999px;margin-left:auto;margin-right:12px;';
         var burger = header.querySelector('.hamburger');
         if (burger) header.insertBefore(b, burger); else header.appendChild(b);
@@ -87,11 +92,11 @@
 
   function start() {
     initToggle();
-    buildMenu(false); // estado deslogueado por defecto, sin esperar red
+    buildMenu(null); // estado deslogueado por defecto, sin esperar red
     ensureFirebase().then(function () {
       firebase.auth().onAuthStateChanged(function (user) {
-        if (!user) { buildMenu(false); return; }
-        window.AVI_access(user).then(function (acceso) { buildMenu(acceso.ok); });
+        if (!user) { buildMenu(null); return; }
+        window.AVI_access(user).then(function (acceso) { buildMenu(acceso); });
       });
     }).catch(function(){ /* sin red: queda el menú público */ });
   }

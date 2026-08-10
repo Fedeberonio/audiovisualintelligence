@@ -13,6 +13,7 @@ control de permisos de Drive.
 | Pieza | Dónde | Función |
 |---|---|---|
 | Claim `student: true` | Firebase Auth | Habilita el acceso al aula. Sólo lo asigna el Admin SDK. |
+| Claims `teacher: true` / `admin: true` | Firebase Auth | Habilitan el acceso interno sin exponer materiales nominales de alumnos. |
 | `students/{uid}` | Firestore | Perfil mínimo y enlaces Drive del alumno. Sólo el propio uid puede leerlo. |
 | PDFs nominales | Google Shared Drive | Una carpeta privada por alumno con sus dos materiales. |
 | Permiso `reader` | Google Drive | Comparte la carpeta únicamente con el email del alumno. |
@@ -42,6 +43,17 @@ requiere la opción explícita `--reset-existing`.
 
 Las cuentas `.test` se excluyen del lote normal y se crean aparte con
 `node create-students.js students-test.csv --include-test`.
+
+El acceso docente se asigna por claim, nunca por una lista de emails en el
+navegador:
+
+```bash
+node grant-role.js \
+  --email academy@audiovisualintelligence.ai \
+  --name "Docencia AVI" \
+  --role teacher \
+  --create
+```
 
 ## Preparación de Google Drive
 

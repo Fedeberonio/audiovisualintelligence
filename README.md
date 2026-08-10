@@ -36,7 +36,7 @@ El servidor local es necesario porque los navegadores no permiten cargar el JSON
 
 ## Acceso y seguridad
 
-- Firebase Authentication habilita alumnos mediante el claim `student:true`.
+- Firebase Authentication habilita alumnos y equipo mediante claims `student:true`, `teacher:true` y `admin:true`.
 - Firestore entrega a cada uid únicamente sus propios enlaces de materiales.
 - Los PDF nominales viven en un Google Shared Drive y se comparten por email con rol de lectura.
 - Google Drive valida la cuenta autorizada o el PIN de visitante; el enlace por sí solo no concede acceso.

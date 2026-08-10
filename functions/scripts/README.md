@@ -12,7 +12,7 @@ export GOOGLE_APPLICATION_CREDENTIALS="$PWD/serviceAccount.json"
 ```
 
 Archivos ignorados: `serviceAccount.json`, `students.csv`, `activaciones-*.csv`,
-`credenciales-*.csv` y `materiales/`.
+`activacion-*.txt`, `credenciales-*.csv` y `materiales/`.
 
 ## Crear alumnos
 
@@ -31,6 +31,24 @@ aparte con:
 ```bash
 node create-students.js students-test.csv --include-test
 ```
+
+## Acceso docente y administrativo
+
+Los roles internos también se asignan con claims; no hay listas de emails con
+permisos en el JavaScript público. Ejemplo para la cuenta institucional AVI:
+
+```bash
+node grant-role.js \
+  --email academy@audiovisualintelligence.ai \
+  --name "Docencia AVI" \
+  --role teacher \
+  --create
+```
+
+Si la cuenta ya existe en Firebase, conserva su contraseña. Si no existe,
+`--create` genera un enlace de activación temporal en un archivo local 0600.
+Docentes y administradores ingresan al aula, pero no reciben acceso automático
+a las carpetas nominales de los alumnos.
 
 ## Subir materiales a Drive
 

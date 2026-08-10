@@ -8,9 +8,8 @@ window.AVI_FIREBASE_CONFIG = {
   measurementId: "G-4RJXTVW9QK"
 };
 
-// Acceso real = custom claim student:true (lo pone functions/scripts/create-students.js).
-// Estas cuentas admin entran igual sin claim.
-window.AVI_ADMIN_EMAILS = ["avi.info.desk@gmail.com"];
+// Acceso real = custom claims administrados fuera del navegador:
+// student:true, teacher:true o admin:true.
 
 // Materiales protegidos: cada alumno recibe enlaces de Google Drive guardados
 // en su documento privado students/{uid}. Drive vuelve a validar el email
@@ -62,26 +61,26 @@ window.AVI_ensureFirestore = function () {
   return window.AVI_loadScript(AVI_CDN + 'firebase-firestore-compat.js');
 };
 
-function aviEsAdmin(user) {
-  return !!(user && user.email &&
-    (window.AVI_ADMIN_EMAILS || []).indexOf(user.email.toLowerCase()) !== -1);
-}
-
 // Resuelve el acceso del usuario leyendo los custom claims del ID token.
-// Si el token cacheado todavia no trae student:true (el claim se puso despues
+// Si el token cacheado todavia no trae el rol (el claim se puso despues
 // del ultimo login), reintenta una vez forzando refresh.
 window.AVI_access = function (user) {
-  var admin = aviEsAdmin(user);
-  if (!user) return Promise.resolve({ ok: false, admin: false, student: false });
+  if (!user) return Promise.resolve({ ok: false, admin: false, teacher: false, student: false });
 
   function leer(force) {
     return user.getIdTokenResult(force).then(function (t) {
       var claims = (t && t.claims) || {};
-      return { ok: admin || claims.student === true, admin: admin, student: claims.student === true };
+      var acceso = {
+        admin: claims.admin === true,
+        teacher: claims.teacher === true,
+        student: claims.student === true
+      };
+      acceso.ok = acceso.admin || acceso.teacher || acceso.student;
+      return acceso;
     });
   }
 
   return leer(false)
     .then(function (r) { return r.ok ? r : leer(true); })
-    .catch(function () { return { ok: admin, admin: admin, student: false }; });
+    .catch(function () { return { ok: false, admin: false, teacher: false, student: false }; });
 };
