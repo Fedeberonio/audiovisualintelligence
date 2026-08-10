@@ -1,0 +1,26 @@
+rules_version = '2';
+
+// Unica coleccion en uso: students/{uid}
+// Guarda el flag mustChangePassword del alumno. Se crea con el Admin SDK
+// (functions/scripts/create-students.js). El alumno solo puede leer su propio
+// documento y bajar el flag a false despues de cambiar la contrasena.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /students/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+
+      allow update: if request.auth != null
+        && request.auth.uid == uid
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['mustChangePassword', 'passwordChangedAt'])
+        && request.resource.data.mustChangePassword == false;
+
+      allow create, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

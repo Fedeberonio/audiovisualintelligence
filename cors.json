@@ -1,0 +1,14 @@
+[
+  {
+    "origin": [
+      "https://audiovisualintelligence.ai",
+      "https://www.audiovisualintelligence.ai",
+      "https://fedeberonio.github.io",
+      "http://localhost:8080",
+      "http://127.0.0.1:8080"
+    ],
+    "method": ["GET", "HEAD"],
+    "responseHeader": ["Content-Type", "Content-Disposition", "Content-Length", "Authorization"],
+    "maxAgeSeconds": 3600
+  }
+]
