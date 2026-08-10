@@ -402,3 +402,55 @@ img { display: block; max-width: 100%; height: auto; }
   .platform-page .bg-video { display:none; }
   .platform-page { background:#050505; }
 }
+
+/* ---------------------------------------------------------------------------
+   Tarjeta de activación. Es la puerta real de quien todavía no tiene
+   contraseña, así que aparece igual en login.html y en la pantalla de socios
+   que levanta gate.js. Un haz naranja recorre el marco como una luz sobre un
+   fotograma: señala la acción sin caer en el neón de startup de IA.
+   --------------------------------------------------------------------------- */
+@property --beam { syntax: '<angle>'; initial-value: 300deg; inherits: false; }
+
+.acceso-sep { width:100%; max-width:360px; height:1px; margin:22px 0 0;
+  background:linear-gradient(90deg, transparent, #242424 22%, #242424 78%, transparent); }
+
+.activar-wrap { position:relative; width:100%; max-width:360px; margin-top:22px; }
+.activar-wrap::before { content:""; position:absolute; left:14%; right:14%; bottom:-12px; height:30px;
+  background:radial-gradient(58% 100% at 50% 50%, rgba(255,138,0,.5), transparent 72%);
+  filter:blur(14px); opacity:.55; pointer-events:none;
+  animation:avi-ember 5.5s ease-in-out infinite; }
+
+.activar { --beam:300deg; position:relative; display:flex; align-items:center; gap:14px;
+  padding:18px 20px; border-radius:16px; background:#0d0d0d; border:1px solid #242424;
+  color:#f5f5f3; text-decoration:none; text-align:left;
+  transition:transform .22s cubic-bezier(.16,1,.3,1), background .22s ease, border-color .22s ease; }
+.activar::before { content:""; position:absolute; inset:-1px; border-radius:inherit; padding:1px;
+  background:conic-gradient(from var(--beam), transparent 0deg, transparent 205deg,
+    rgba(255,106,0,.9) 268deg, #ffb25f 300deg, rgba(255,106,0,.9) 330deg, transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor; mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite:exclude; pointer-events:none;
+  animation:avi-beam 7s linear infinite; }
+
+.activar-copy { display:grid; gap:4px; }
+.activar-copy strong { font-size:16px; font-weight:700; letter-spacing:.01em; }
+.activar-copy span { font-size:13px; line-height:1.45; color:#9aa0a6; }
+.activar-arrow { margin-left:auto; color:#ff8a00; font-size:19px; line-height:1;
+  transition:transform .22s cubic-bezier(.16,1,.3,1); }
+
+.activar:hover, .activar:focus-visible { background:#111; border-color:#3a2410; transform:translateY(-2px); }
+.activar:hover .activar-arrow, .activar:focus-visible .activar-arrow { transform:translateX(4px); }
+.activar:hover::before { animation-duration:2.6s; }
+.activar:focus-visible { outline:3px solid #f5f5f3; outline-offset:3px; }
+.activar:active { transform:translateY(0); }
+
+@keyframes avi-beam { from { --beam:0deg; } to { --beam:360deg; } }
+@keyframes avi-ember { 0%,100% { opacity:.4; } 50% { opacity:.85; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .activar::before, .activar-wrap::before { animation:none; }
+  .activar-wrap::before { opacity:.7; }
+  .activar, .activar-arrow { transition:none; }
+  .activar:hover, .activar:focus-visible { transform:none; }
+  .activar:hover .activar-arrow, .activar:focus-visible .activar-arrow { transform:none; }
+}

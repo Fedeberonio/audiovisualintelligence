@@ -18,18 +18,38 @@
     });
   }
 
+  function paginaActual() {
+    return (location.pathname.split('/').pop() || 'index.html');
+  }
+
+  // Casi todos los que caen acá son alumnos que todavía no tienen contraseña:
+  // para ellos "iniciar sesión" no sirve. La activación va primero, con la misma
+  // tarjeta de login.html (los estilos viven en styles.css).
   function showMembersScreen() {
     var render = function () {
       var pageTitle = (document.title || 'AVI').split('—')[0].split('|')[0].trim();
+      var destino = encodeURIComponent(paginaActual());
       document.body.innerHTML =
         '<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000;color:#fff;text-align:center;padding:24px;">' +
           '<div style="font-size:14px;letter-spacing:.35em;text-transform:uppercase;color:#ff6a00;margin-bottom:18px;">Audiovisual Intelligence</div>' +
           '<h1 style="font-size:clamp(28px,6vw,56px);margin:0 0 14px;font-weight:600;">' + pageTitle + '</h1>' +
-          '<p style="max-width:34em;color:#bbb;font-size:16px;line-height:1.6;margin:0 0 30px;">Acceso exclusivo para docentes, socios y alumnos.</p>' +
-          '<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">' +
-            '<a href="login.html?next=' + encodeURIComponent(location.pathname.replace(/^\//,'')) + '" style="padding:12px 26px;background:#ff6a00;color:#000;text-decoration:none;border-radius:999px;font-size:14px;letter-spacing:.08em;text-transform:uppercase;">Iniciar sesión</a>' +
-            '<a href="/" style="padding:12px 26px;border:1px solid #ff6a00;color:#ff6a00;text-decoration:none;border-radius:999px;font-size:14px;letter-spacing:.08em;text-transform:uppercase;">Volver al inicio</a>' +
-            '<a href="mailto:avi.info.desk@gmail.com?subject=Solicitud%20de%20acceso%20AVI" style="padding:12px 26px;border:1px solid #333;color:#bbb;text-decoration:none;border-radius:999px;font-size:14px;letter-spacing:.08em;text-transform:uppercase;">Solicitar acceso</a>' +
+          '<p style="max-width:34em;color:#bbb;font-size:16px;line-height:1.6;margin:0 0 6px;">Acceso exclusivo para docentes, socios y alumnos.</p>' +
+
+          '<div class="activar-wrap">' +
+            '<a class="activar" href="cambiar-clave.html">' +
+              '<span class="activar-copy">' +
+                '<strong>Activá tu cuenta</strong>' +
+                '<span>Primera vez, o contraseña olvidada. Te llega un enlace por email.</span>' +
+              '</span>' +
+              '<span class="activar-arrow" aria-hidden="true">→</span>' +
+            '</a>' +
+          '</div>' +
+
+          '<a href="login.html?next=' + destino + '" style="margin-top:34px;color:#f5f5f3;font-size:14px;text-decoration:underline;text-underline-offset:5px;">Ya tengo contraseña, quiero entrar</a>' +
+
+          '<div style="margin-top:30px;display:flex;gap:22px;flex-wrap:wrap;justify-content:center;">' +
+            '<a href="/" style="color:#666;font-size:13px;text-decoration:none;">← Volver al inicio</a>' +
+            '<a href="mailto:avi.info.desk@gmail.com?subject=Solicitud%20de%20acceso%20AVI" style="color:#666;font-size:13px;text-decoration:none;">Solicitar acceso</a>' +
           '</div>' +
         '</div>';
       document.body.style.visibility = 'visible';
