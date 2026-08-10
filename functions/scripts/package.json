@@ -1,0 +1,14 @@
+{
+  "name": "avi-admin-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Scripts de administracion AVI (Admin SDK). No se despliegan: se corren a mano.",
+  "type": "commonjs",
+  "scripts": {
+    "create-students": "node create-students.js",
+    "upload-materials": "node upload-materials.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.2"
+  }
+}

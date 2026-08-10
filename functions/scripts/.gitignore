@@ -1,0 +1,10 @@
+node_modules/
+package-lock.json
+
+# NUNCA commitear credenciales, datos personales ni contrasenas.
+# El repo del sitio es publico.
+serviceAccount.json
+*.serviceAccount.json
+credenciales-*.csv
+students.csv
+materiales/
