@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "cohort": {
+    "id": "vision-ai-agosto-2026",
+    "program_id": "vision-ai",
+    "label": "Cohorte agosto 2026",
+    "status": "in_progress",
+    "timezone": "America/Santo_Domingo",
+    "completed_sessions": 2,
+    "total_sessions": 3,
+    "welcome": "Dos clases ya fueron dictadas. Los materiales disponibles aparecen en la sección siguiente."
+  },
+  "sessions": [
+    {
+      "id": "clase-01",
+      "order": 1,
+      "title": "Panorama visual y fundamentos",
+      "subtitle": "De la evolución reciente a los sistemas generativos.",
+      "date": "2026-08-01",
+      "duration_minutes": 120,
+      "status": "completed"
+    },
+    {
+      "id": "clase-02",
+      "order": 2,
+      "title": "Ecosistema, equipo IA y preproducción",
+      "subtitle": "Contexto, modelos, Projects, desarrollo y primeros pases de producción.",
+      "date": "2026-08-08",
+      "duration_minutes": 120,
+      "status": "completed"
+    },
+    {
+      "id": "clase-03",
+      "order": 3,
+      "title": "Producción, postproducción y cierre",
+      "subtitle": "La información y los materiales se habilitarán después del encuentro.",
+      "date": null,
+      "duration_minutes": 120,
+      "status": "upcoming"
+    }
+  ]
+}
