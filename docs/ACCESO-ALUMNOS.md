@@ -14,14 +14,18 @@ control de permisos de Drive.
 |---|---|---|
 | Claim `student: true` | Firebase Auth | Habilita el acceso al aula. Sólo lo asigna el Admin SDK. |
 | Claims `teacher: true` / `admin: true` | Firebase Auth | Habilitan el acceso interno sin exponer materiales nominales de alumnos. |
-| `students/{uid}` | Firestore | Perfil mínimo y enlaces Drive del alumno. Sólo el propio uid puede leerlo. |
-| PDFs nominales | Google Shared Drive | Una carpeta privada por alumno con sus dos materiales. |
+| `class_materials/{clase}` | Firestore | Enlace común de lectura para cualquier sesión con rol autorizado. |
+| `students/{uid}` | Firestore | Perfil mínimo y descarga nominal. Sólo el propio uid puede leerlo. |
+| Copia maestra | Google Shared Drive | Guía común para ver online, con descarga restringida para lectores. |
+| PDFs nominales | Google Shared Drive | Una carpeta privada por alumno con sus materiales descargables. |
 | Permiso `reader` | Google Drive | Comparte la carpeta únicamente con el email del alumno. |
 | `assets/gate.js` | Web | Controla la experiencia de acceso del aula. |
 | `assets/materials.js` | Web | Lee los enlaces privados del uid y los muestra en el aula. |
 
 El enlace de Drive no es una autorización. Aunque alguien lo copie, Drive exige
 la cuenta Google autorizada o el PIN de visitante enviado al email compartido.
+El aula ofrece `Ver online` sobre la copia maestra y `Descargar mi copia` sobre
+el PDF nominal con marca de agua.
 
 ## Alta segura
 
@@ -40,6 +44,11 @@ node create-students.js
 
 Las cuentas existentes no se modifican por defecto. Para regenerar su acceso se
 requiere la opción explícita `--reset-existing`.
+
+Si Firebase no entrega el email de recuperación, un administrador puede crear
+un enlace temporal con `node generate-reset-link.js usuario@dominio.com`. El
+usuario define la nueva contraseña directamente en Firebase; el administrador
+no la conoce.
 
 Las cuentas `.test` se excluyen del lote normal y se crean aparte con
 `node create-students.js students-test.csv --include-test`.
@@ -77,11 +86,13 @@ export AVI_DRIVE_ROOT_FOLDER_ID="ID_DE_LA_CARPETA_RAIZ"
 node upload-materials.js \
   --clase-01 "$VAULT/material_apoyo_D1/final/personalizados/pdf" \
   --clase-02 "$VAULT/material_apoyo_D2_3/final/personalizados/pdf" \
+  --online-clase-02 "$VAULT/material_apoyo_D2_3/final/Vision_IA_Clase_2_Guia_teorica_recorrido_de_clase.pdf" \
   --dry-run
 
 node upload-materials.js \
   --clase-01 "$VAULT/material_apoyo_D1/final/personalizados/pdf" \
-  --clase-02 "$VAULT/material_apoyo_D2_3/final/personalizados/pdf"
+  --clase-02 "$VAULT/material_apoyo_D2_3/final/personalizados/pdf" \
+  --online-clase-02 "$VAULT/material_apoyo_D2_3/final/Vision_IA_Clase_2_Guia_teorica_recorrido_de_clase.pdf"
 ```
 
 El dry-run exige un emparejamiento exacto. Cualquier alumno sin PDF, archivo
@@ -100,13 +111,16 @@ firebase projects:list
 firebase deploy --only firestore:rules
 ```
 
+Como alternativa acotada, `node deploy-firestore-rules.js` publica únicamente
+`firestore.rules` mediante Firebase Rules API y reporta el ruleset anterior.
+
 El sitio continúa publicándose con GitHub Pages. No se usa Firebase Storage, no
 se despliegan Cloud Functions y no se necesita plan Blaze.
 
 ## Verificación obligatoria
 
 1. Cuenta de prueba: activación, login y acceso al aula.
-2. Alumno A abre sus dos PDFs.
+2. Alumno A ve la guía común online y descarga únicamente su copia nominal.
 3. Alumno A no puede abrir el enlace nominal del alumno B.
 4. Ventana privada sin sesión de Google/visitor: el enlace no entrega el PDF.
 5. Email no Google: recepción y renovación del PIN de visitante.
@@ -119,5 +133,7 @@ se despliegan Cloud Functions y no se necesita plan Blaze.
   allí reuniones, listas de alumnos ni materiales sensibles.
 - El gate de JavaScript controla la interfaz; la protección fuerte de los PDFs
   la aplica Google Drive.
+- La restricción del visor bloquea la descarga directa para lectores, pero no
+  puede impedir capturas de pantalla o fotografías del contenido visible.
 - Visitor sharing debe estar permitido por el administrador de Workspace. El PIN
   de visitante se revalida periódicamente.

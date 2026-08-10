@@ -13,8 +13,9 @@ Primera base de producto para convertir Audiovisual Intelligence en una platafor
 ## Arquitectura de contenido
 
 - `data/vision-ai.json`: fuente versionada del programa, resultados, modulos, recursos y servicios.
-- `assets/platform.js`: render publico y del aula a partir de los datos.
-- `assets/classroom.js`: cohorte demostrativa y progreso local por dispositivo.
+- `data/vision-ai-cohort-2026-08.json`: estado factual de la cohorte en curso, sus clases dictadas y la próxima clase.
+- `assets/platform.js`: render de la página pública a partir de los datos del programa.
+- `assets/classroom.js`: render del estado de la cohorte que corresponde al aula.
 - `assets/navigation.js`: navegacion movil publica y accesible.
 - `assets/gate.js`: guard de interfaz para paginas internas.
 - `assets/styles.css`: sistema visual compartido.
@@ -36,7 +37,7 @@ El servidor local es necesario porque los navegadores no permiten cargar el JSON
 
 ## Acceso y seguridad
 
-- Firebase Authentication habilita alumnos y equipo mediante claims `student:true`, `teacher:true` y `admin:true`.
+- Firebase Authentication habilita alumnos mediante el claim `student:true`.
 - Firestore entrega a cada uid únicamente sus propios enlaces de materiales.
 - Los PDF nominales viven en un Google Shared Drive y se comparten por email con rol de lectura.
 - Google Drive valida la cuenta autorizada o el PIN de visitante; el enlace por sí solo no concede acceso.
@@ -47,9 +48,9 @@ Ver `docs/ACCESO-ALUMNOS.md` para el runbook completo.
 ## Camino de escalabilidad
 
 1. Validar Vision AI con la pagina publica y el aula base.
-2. Reemplazar la cohorte demostrativa por fechas y accesos reales.
-3. Definir alumnos, inscripciones y progreso sincronizado.
-4. Persistir cohortes y progreso sólo cuando la operación docente lo requiera.
+2. Mantener cada cohorte factual en un archivo de datos separado del programa comercial.
+3. Definir alumnos, inscripciones y progreso sincronizado sólo cuando haga falta.
+4. Persistir cohortes y progreso cuando la operación docente lo requiera.
 5. Incorporar formularios, CRM y pagos.
 6. Agregar nuevos programas reutilizando el esquema de datos.
 7. Evaluar migracion a Next.js o una plataforma equivalente cuando el modelo operativo lo justifique.

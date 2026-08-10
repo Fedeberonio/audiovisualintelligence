@@ -17,8 +17,10 @@ const path = require('path');
 const crypto = require('crypto');
 const { applicationDefault, initializeApp } = require('firebase-admin/app');
 const { getAuth } = require('firebase-admin/auth');
+const { FieldValue, getFirestore } = require('firebase-admin/firestore');
 
 const PROJECT_ID = 'audiovisual-intelligence';
+const COHORT = 'vision-ai-2026-08';
 const ROLES = new Set(['student', 'teacher', 'admin']);
 const args = process.argv.slice(2);
 
@@ -64,6 +66,7 @@ async function main() {
 
   initializeApp({ credential: applicationDefault(), projectId: PROJECT_ID });
   const auth = getAuth();
+  const db = getFirestore();
   let user;
   let created = false;
 
@@ -83,6 +86,16 @@ async function main() {
   }
 
   const claims = Object.assign({}, user.customClaims || {}, { [role]: true });
+  if (role === 'student') {
+    claims.cohorts = Object.assign({}, claims.cohorts || {}, { [COHORT]: true });
+    await db.collection('students').doc(user.uid).set({
+      email,
+      nombre: displayName || user.displayName || '',
+      cohorte: COHORT,
+      active: true,
+      updatedAt: FieldValue.serverTimestamp()
+    }, { merge: true });
+  }
   await auth.setCustomUserClaims(user.uid, claims);
   await auth.revokeRefreshTokens(user.uid);
 

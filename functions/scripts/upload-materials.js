@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Sube los PDF personalizados a un Shared Drive y registra en Firestore el
- * enlace que corresponde a cada uid.
+ * Sube a un Shared Drive la guia comun de lectura y los PDF personalizados.
+ * Firestore recibe un enlace comun para ver online y un enlace privado de
+ * descarga por uid.
  *
  * Requisitos:
  *   GOOGLE_APPLICATION_CREDENTIALS=./serviceAccount.json
@@ -200,6 +201,47 @@ async function subirPdf(drive, driveId, folderId, user, clase, archivo) {
   return response.data;
 }
 
+async function subirPdfComun(drive, driveId, rootFolderId, clase, archivo) {
+  const query = "trashed=false and '" + q(rootFolderId) + "' in parents" +
+    " and appProperties has { key='aviAudience' and value='cohort' }" +
+    " and appProperties has { key='aviCohort' and value='" + q(COHORT) + "' }" +
+    " and appProperties has { key='aviClass' and value='" + q(clase) + "' }";
+  const fields = 'id,name,webViewLink,downloadRestrictions,copyRequiresWriterPermission';
+  const existente = await encontrarUnico(drive, driveId, query, fields);
+  const requestBody = {
+    name: 'AVI-Vision-AI-' + clase + '-lectura-online.pdf',
+    appProperties: { aviAudience: 'cohort', aviCohort: COHORT, aviClass: clase },
+    // La copia maestra se consulta en el visor. Para descargar, cada alumno
+    // recibe abajo su PDF nominal con marca de agua.
+    downloadRestrictions: {
+      itemDownloadRestriction: { restrictedForReaders: true }
+    }
+  };
+  const media = { mimeType: 'application/pdf', body: fs.createReadStream(archivo) };
+
+  const response = existente
+    ? await drive.files.update({
+      fileId: existente.id,
+      supportsAllDrives: true,
+      requestBody,
+      media,
+      fields
+    })
+    : await drive.files.create({
+      supportsAllDrives: true,
+      requestBody: Object.assign({}, requestBody, { parents: [rootFolderId] }),
+      media,
+      fields
+    });
+
+  const restriction = response.data.downloadRestrictions &&
+    response.data.downloadRestrictions.itemDownloadRestriction;
+  if (!restriction || restriction.restrictedForReaders !== true) {
+    throw new Error('Drive no confirmo la restriccion de descarga para ' + clase);
+  }
+  return response.data;
+}
+
 async function compartirCarpeta(drive, folderId, alumno) {
   const response = await drive.permissions.list({
     fileId: folderId,
@@ -222,15 +264,47 @@ async function compartirCarpeta(drive, folderId, alumno) {
   });
 }
 
+async function compartirLectura(drive, fileId, alumno) {
+  const response = await drive.permissions.list({
+    fileId,
+    supportsAllDrives: true,
+    fields: 'permissions(id,type,role,emailAddress,deleted)'
+  });
+  const existe = (response.data.permissions || []).some((permission) =>
+    !permission.deleted && permission.type === 'user' &&
+    String(permission.emailAddress || '').toLowerCase() === alumno.email
+  );
+  if (existe) return;
+
+  await drive.permissions.create({
+    fileId,
+    supportsAllDrives: true,
+    sendNotificationEmail: false,
+    requestBody: { type: 'user', role: 'reader', emailAddress: alumno.email },
+    fields: 'id'
+  });
+}
+
 async function main() {
   const csvPath = path.resolve(__dirname, argValue('--csv') || 'students.csv');
   const alumnos = leerAlumnos(csvPath);
   const carpetas = {};
+  const online = {};
   for (const clase of CLASES) {
     const dir = argValue('--' + clase);
     if (dir) carpetas[clase] = path.resolve(process.cwd(), dir);
+    const onlineFile = argValue('--online-' + clase);
+    if (onlineFile) {
+      const resolved = path.resolve(process.cwd(), onlineFile);
+      if (!fs.existsSync(resolved) || path.extname(resolved).toLowerCase() !== '.pdf') {
+        fail('--online-' + clase + ' debe apuntar a un PDF existente');
+      }
+      online[clase] = resolved;
+    }
   }
-  if (!Object.keys(carpetas).length) fail('indica --clase-01 <carpeta> y/o --clase-02 <carpeta>');
+  if (!Object.keys(carpetas).length && !Object.keys(online).length) {
+    fail('indica --clase-01/02 <carpeta> y/o --online-clase-01/02 <pdf>');
+  }
 
   const porAlumno = new Map(alumnos.map((alumno) => [alumno.email, { alumno, clases: {} }]));
   let invalido = false;
@@ -245,11 +319,15 @@ async function main() {
   }
   if (invalido) fail('el emparejamiento no es exacto; no se toca Drive');
 
-  const plan = [...porAlumno.values()].filter((item) => Object.keys(item.clases).length);
+  const plan = [...porAlumno.values()].filter((item) =>
+    Object.keys(item.clases).length || Object.keys(online).length
+  );
   console.log('\n  Alumnos: ' + plan.length + '   Archivos: ' +
     plan.reduce((total, item) => total + Object.keys(item.clases).length, 0) +
     (dryRun ? '   [DRY RUN]' : '') + '\n');
   if (dryRun) {
+    Object.entries(online).forEach(([clase, archivo]) =>
+      console.log('  ' + clase + '  lectura comun <- ' + path.basename(archivo)));
     plan.forEach((item) => Object.entries(item.clases).forEach(([clase, archivo]) =>
       console.log('  ' + clase + '  ' + item.alumno.email + ' <- ' + path.basename(archivo))));
     console.log('\n  Dry run: no se subio ni compartio nada.\n');
@@ -267,6 +345,19 @@ async function main() {
   const googleAuth = new google.auth.GoogleAuth({ scopes: ['https://www.googleapis.com/auth/drive'] });
   const drive = google.drive({ version: 'v3', auth: googleAuth });
 
+  const onlineDrive = {};
+  for (const [clase, archivo] of Object.entries(online)) {
+    const driveFile = await subirPdfComun(drive, driveId, rootFolderId, clase, archivo);
+    if (!driveFile.webViewLink) throw new Error('Drive no devolvio webViewLink para ' + clase);
+    onlineDrive[clase] = driveFile;
+    await db.collection('class_materials').doc(clase).set({
+      viewUrl: driveFile.webViewLink,
+      driveFileId: driveFile.id,
+      title: clase === 'clase-01' ? 'El nuevo mapa audiovisual' : 'Herramientas y flujo de trabajo',
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+  }
+
   let ok = 0;
   let errores = 0;
   for (const item of plan) {
@@ -275,20 +366,35 @@ async function main() {
       if (!user.customClaims || user.customClaims.student !== true) {
         throw new Error('la cuenta no tiene el claim student:true');
       }
-      const folder = await asegurarCarpeta(drive, driveId, rootFolderId, user, item.alumno);
-      const materials = {};
+      const profile = await db.collection('students').doc(user.uid).get();
+      const materials = Object.assign({}, profile.exists && profile.data().materials || {});
+      let folder = null;
+      if (Object.keys(item.clases).length) {
+        folder = await asegurarCarpeta(drive, driveId, rootFolderId, user, item.alumno);
+      }
       for (const [clase, archivo] of Object.entries(item.clases)) {
         const driveFile = await subirPdf(drive, driveId, folder.id, user, clase, archivo);
         if (!driveFile.webViewLink) throw new Error('Drive no devolvio webViewLink para ' + clase);
-        materials[clase] = {
+        materials[clase] = Object.assign({}, materials[clase] || {}, {
           url: driveFile.webViewLink,
           driveFileId: driveFile.id,
+          downloadUrl: 'https://drive.google.com/uc?export=download&id=' + encodeURIComponent(driveFile.id),
+          downloadDriveFileId: driveFile.id,
           title: clase === 'clase-01' ? 'El nuevo mapa audiovisual' : 'Herramientas y flujo de trabajo',
           updatedAt: new Date().toISOString()
-        };
+        });
+      }
+      for (const [clase, driveFile] of Object.entries(onlineDrive)) {
+        await compartirLectura(drive, driveFile.id, item.alumno);
+        materials[clase] = Object.assign({}, materials[clase] || {}, {
+          viewUrl: driveFile.webViewLink,
+          viewDriveFileId: driveFile.id,
+          title: clase === 'clase-01' ? 'El nuevo mapa audiovisual' : 'Herramientas y flujo de trabajo',
+          updatedAt: new Date().toISOString()
+        });
       }
       // El permiso se crea al final: nunca se notifica una carpeta incompleta.
-      await compartirCarpeta(drive, folder.id, item.alumno);
+      if (folder) await compartirCarpeta(drive, folder.id, item.alumno);
       await db.collection('students').doc(user.uid).set({ materials }, { merge: true });
       ok += 1;
       console.log('  + listo: ' + item.alumno.email);
