@@ -1,10 +1,15 @@
-// Materiales por clase — lectura comun y descarga nominal en Google Drive.
+// Material de cada clase, dentro de la fila de esa clase.
 //
-// class_materials contiene la copia maestra de lectura para las cuentas con rol.
-// students/{uid}.materials contiene la descarga personalizada del alumno.
-// Conocer las URL no alcanza: Drive vuelve a comprobar la cuenta autorizada.
+// No hay lista aparte: classroom.js dibuja las clases y deja un hueco por cada
+// una, y acá se completa con el acceso al PDF. Antes eran dos bloques que
+// repetían los mismos títulos.
+//
+// Un solo enlace, al visor de Drive. La URL directa de descarga
+// (uc?export=download) resuelve contra la cuenta de Google activa del navegador
+// y devuelve 403 a quien tenga varias sesiones abiertas; el visor abre con la
+// cuenta correcta y trae su propio botón de descarga.
 (function () {
-  var contenedor = document.querySelector('[data-materiales]');
+  var contenedor = document.querySelector('[data-cohort-sessions]');
   if (!contenedor) return;
 
   function escapeHtml(value) {
@@ -24,67 +29,31 @@
     }
   }
 
-  function fila(mat) {
-    var viewUrl = driveUrl(mat.viewUrl);
-    var downloadUrl = driveUrl(mat.downloadUrl);
-    var acciones = [];
-    if (viewUrl) {
-      acciones.push('<a class="text-action" href="' + escapeHtml(viewUrl) + '" target="_blank" rel="noopener noreferrer">Ver PDF</a>');
-    }
-    if (downloadUrl) {
-      acciones.push('<a class="text-action" href="' + escapeHtml(downloadUrl) + '" target="_blank" rel="noopener noreferrer">Descargar</a>');
-    }
-    var acceso = acciones.length
-      ? acciones.join('<span aria-hidden="true"> · </span>')
-      : '<span class="session-pending">Pendiente</span>';
-    var descripcion = mat.personal
-      ? 'Tu copia personal, con marca de agua. Se abre en el visor y podés descargarla.'
-      : (viewUrl
-        ? 'Guía de lectura online.'
-        : 'El material todavía no está publicado.');
+  function pintar(materialesPrivados, materialesComunes) {
+    (window.AVI_MATERIALES || []).forEach(function (mat) {
+      var hueco = contenedor.querySelector('[data-material-slot="' + mat.id + '"]');
+      if (!hueco) return;
 
-    return '' +
-      '<article class="cohort-session">' +
-        '<div class="session-number">' + escapeHtml(mat.etiqueta) + '</div>' +
-        '<div class="session-copy">' +
-          '<span>PDF · Material de clase</span>' +
-          '<h3>' + escapeHtml(mat.titulo) + '</h3>' +
-          '<p>' + escapeHtml(descripcion) + '</p>' +
-        '</div>' +
-        '<div class="session-access">' + acceso + '</div>' +
-      '</article>';
-  }
-
-  function render(materialesPrivados, materialesComunes) {
-    var base = window.AVI_MATERIALES || [];
-    var materiales = base.map(function (mat) {
       var privado = materialesPrivados && materialesPrivados[mat.id];
       var comun = materialesComunes && materialesComunes[mat.id];
-      // El alumno siempre ve y descarga SU copia: es la que lleva su marca de
-      // agua y la única sin restricción de descarga. La maestra común queda
-      // para docentes y admin, que no tienen ejemplar nominal.
-      if (privado && (privado.url || privado.downloadUrl)) {
-        return Object.assign({}, mat, {
-          personal: true,
-          viewUrl: privado.url || privado.viewUrl,
-          downloadUrl: privado.downloadUrl
-        });
-      }
-      return Object.assign({}, mat, {
-        personal: false,
-        viewUrl: comun && comun.viewUrl,
-        downloadUrl: null
-      });
+      // El alumno abre SU copia: la que lleva su marca de agua. La maestra
+      // queda para docentes y admin, que no tienen ejemplar nominal.
+      var url = driveUrl(privado && (privado.url || privado.viewUrl)) ||
+        driveUrl(comun && comun.viewUrl);
+      if (!url) return;
+
+      var propia = !!(privado && (privado.url || privado.viewUrl));
+      hueco.innerHTML = '<a class="text-action" href="' + escapeHtml(url) +
+        '" target="_blank" rel="noopener noreferrer">' +
+        (propia ? 'Ver mi copia' : 'Ver la guía') + '</a>';
     });
-    contenedor.removeAttribute('data-loading');
-    contenedor.innerHTML = materiales.length
-      ? materiales.map(fila).join('')
-      : '<p class="platform-error">No hay materiales publicados todavía.</p>';
   }
 
-  function mostrarError() {
-    contenedor.removeAttribute('data-loading');
-    contenedor.innerHTML = '<p class="platform-error">No pudimos verificar tus materiales. Reintentá en unos minutos.</p>';
+  function error() {
+    contenedor.querySelectorAll('[data-material-slot]').forEach(function (hueco) {
+      if (!hueco.querySelector('a')) return;
+      hueco.innerHTML = '<span class="session-pending">Material no disponible</span>';
+    });
   }
 
   function cargar() {
@@ -103,14 +72,21 @@
         var comunes = {};
         resultados[0].forEach(function (doc) { comunes[doc.id] = doc.data(); });
         var perfil = resultados[1];
-        if (window.AVI_ACCESO && window.AVI_ACCESO.student && (!perfil || !perfil.exists)) {
-          throw new Error('perfil-no-encontrado');
-        }
-        render(perfil && perfil.exists ? perfil.data().materials || {} : {}, comunes);
+        pintar(perfil && perfil.exists ? (perfil.data().materials || {}) : {}, comunes);
       })
-      .catch(mostrarError);
+      .catch(error);
   }
 
-  if (window.AVI_ACCESO) cargar();
-  else document.addEventListener('avi:access-ready', cargar, { once: true });
+  // Hacen falta las dos cosas: el acceso resuelto y las filas ya dibujadas.
+  function cuando(condicion, evento) {
+    return condicion() ? Promise.resolve()
+      : new Promise(function (res) {
+        document.addEventListener(evento, function () { res(); }, { once: true });
+      });
+  }
+
+  Promise.all([
+    cuando(function () { return !!window.AVI_ACCESO; }, 'avi:access-ready'),
+    cuando(function () { return !!contenedor.querySelector('[data-material-slot]'); }, 'avi:cohort-ready')
+  ]).then(cargar);
 })();

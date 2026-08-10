@@ -8,7 +8,7 @@
     "timezone": "America/Argentina/Buenos_Aires",
     "completed_sessions": 2,
     "total_sessions": 3,
-    "welcome": "Dos clases ya fueron dictadas. Los materiales disponibles aparecen en la sección siguiente."
+    "welcome": "Dos clases ya fueron dictadas. La guía de cada una está en su fila, más abajo."
   },
   "participant_timezones": [
     { "label": "Argentina", "tz": "America/Argentina/Buenos_Aires" },

@@ -77,7 +77,7 @@
           <p>${escapeHtml(session.subtitle)} · ${Math.round(session.duration_minutes / 60)} horas</p>
           ${completed ? '' : husos(session, zonas)}
         </div>
-        <div class="session-access">${acceso(session)}</div>
+        <div class="session-access" data-material-slot="${escapeHtml(session.id)}">${acceso(session)}</div>
       </article>`;
   };
 
@@ -96,6 +96,8 @@
       sessions.innerHTML = data.sessions
         .map((session) => sessionMarkup(session, cohort.timezone, zonas))
         .join('');
+      // materials.js completa el acceso de cada clase en su propia fila.
+      document.dispatchEvent(new CustomEvent('avi:cohort-ready'));
     }
   };
 
