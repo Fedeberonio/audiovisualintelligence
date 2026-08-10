@@ -1,58 +1,40 @@
 #!/usr/bin/env node
 /**
- * Sube los PDF de clase (con marca de agua por alumno) a Cloud Storage.
+ * Sube los PDF personalizados a un Shared Drive y registra en Firestore el
+ * enlace que corresponde a cada uid.
  *
- * Destino, un archivo por alumno y por clase:
- *   materiales/vision-ai/clase-01/{uid}.pdf
- *   materiales/vision-ai/clase-02/{uid}.pdf
+ * Requisitos:
+ *   GOOGLE_APPLICATION_CREDENTIALS=./serviceAccount.json
+ *   AVI_SHARED_DRIVE_ID=<id del Shared Drive>
+ *   AVI_DRIVE_ROOT_FOLDER_ID=<carpeta raiz administrada por el script>
  *
- * storage.rules deja que cada alumno lea SOLO el archivo con su uid.
- *
- * Uso:
- *   cd functions/scripts
- *   npm install
- *   export GOOGLE_APPLICATION_CREDENTIALS=./serviceAccount.json
- *
- *   # 1) mientras no esten los PDF definitivos: el mismo placeholder para todos
- *   node upload-materials.js --placeholder
- *
- *   # 2) con los PDF reales, una carpeta por clase, un PDF por alumno
- *   node upload-materials.js --clase-01 ./materiales/clase-01 --clase-02 ./materiales/clase-02
- *
- *   node upload-materials.js --clase-01 ./materiales/clase-01 --dry-run
- *
- * Los PDF de cada carpeta se emparejan con el alumno por nombre de archivo:
- * vale el email ("puenteale@hotmail.com.pdf"), el usuario del email
- * ("puenteale.pdf") o el nombre ("Alejandro Puente.pdf", "alejandro-puente.pdf").
- * Ignora acentos, mayusculas, guiones y espacios.
- *
- * No se genera downloadToken: los objetos NO son accesibles por URL publica.
+ * La cuenta de servicio debe ser Content manager de ese Shared Drive. Cada
+ * alumno recibe permiso reader solamente sobre su propia carpeta. El script no
+ * envia notificaciones salvo que se use --notify.
  */
 
 'use strict';
 
 const fs = require('fs');
 const path = require('path');
-const admin = require('firebase-admin');
+const { applicationDefault, initializeApp } = require('firebase-admin/app');
+const { getAuth } = require('firebase-admin/auth');
+const { getFirestore } = require('firebase-admin/firestore');
+const { google } = require('googleapis');
 
 const PROJECT_ID = 'audiovisual-intelligence';
-const BUCKET = 'audiovisual-intelligence.firebasestorage.app';
-const BASE = 'materiales/vision-ai';
+const COHORT = 'vision-ai-2026-08';
 const CLASES = ['clase-01', 'clase-02'];
 
-const REPO = path.resolve(__dirname, '..', '..');
-const PLACEHOLDERS = {
-  'clase-01': path.join(REPO, 'media', 'AVI-Presentacion_VISION_A.I._SPA_.pdf'),
-  'clase-02': path.join(__dirname, 'placeholders', 'clase-02-placeholder.pdf')
-};
-
-const dryRun = process.argv.includes('--dry-run');
-const usarPlaceholder = process.argv.includes('--placeholder');
+const args = process.argv.slice(2);
+const dryRun = args.includes('--dry-run');
+const notify = args.includes('--notify');
+const includeTest = args.includes('--include-test');
 
 function argValue(flag) {
-  const i = process.argv.indexOf(flag);
-  return i !== -1 && process.argv[i + 1] && !process.argv[i + 1].startsWith('--')
-    ? process.argv[i + 1]
+  const index = args.indexOf(flag);
+  return index !== -1 && args[index + 1] && !args[index + 1].startsWith('--')
+    ? args[index + 1]
     : null;
 }
 
@@ -61,7 +43,6 @@ function fail(message) {
   process.exit(1);
 }
 
-/** minusculas, sin acentos, sin nada que no sea a-z0-9 */
 function normalizar(texto) {
   return String(texto || '')
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -88,154 +69,236 @@ function parseCsvLine(line) {
 
 function leerAlumnos(file) {
   if (!fs.existsSync(file)) fail('no encuentro ' + file);
-  const lineas = fs.readFileSync(file, 'utf8').split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
-  const encabezado = parseCsvLine(lineas[0]).map((h) => h.toLowerCase());
+  const lineas = fs.readFileSync(file, 'utf8').split(/\r?\n/).map((linea) => linea.trim()).filter(Boolean);
+  if (!lineas.length) fail(file + ' esta vacio');
+  const encabezado = parseCsvLine(lineas[0]).map((campo) => campo.toLowerCase());
   const iEmail = encabezado.indexOf('email');
   const iNombre = encabezado.indexOf('nombre');
-  if (iEmail === -1) fail('el CSV necesita una columna "email"');
+  if (iEmail === -1 || iNombre === -1) fail('el CSV necesita columnas email,nombre');
 
-  return lineas.slice(1).map((l) => {
-    const cols = parseCsvLine(l);
-    const email = (cols[iEmail] || '').toLowerCase();
-    return email ? { email, nombre: iNombre === -1 ? '' : (cols[iNombre] || '') } : null;
-  }).filter(Boolean);
+  const vistos = new Set();
+  return lineas.slice(1).map((linea, index) => {
+    const cols = parseCsvLine(linea);
+    const email = (cols[iEmail] || '').trim().toLowerCase();
+    const nombre = (cols[iNombre] || '').trim();
+    if (!email) return null;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) fail('email invalido en fila ' + (index + 2));
+    if (vistos.has(email)) fail('email repetido: ' + email);
+    vistos.add(email);
+    return { email, nombre };
+  }).filter(Boolean).filter((alumno) => includeTest || !alumno.email.endsWith('.test'));
 }
 
-/** claves con las que un archivo puede referirse a este alumno */
 function clavesDe(alumno) {
-  const claves = new Set();
-  claves.add(normalizar(alumno.email));
-  claves.add(normalizar(alumno.email.split('@')[0]));
-  if (alumno.nombre) claves.add(normalizar(alumno.nombre));
-  return claves;
+  return [
+    normalizar(alumno.email),
+    normalizar(alumno.email.split('@')[0]),
+    normalizar(alumno.nombre)
+  ].filter(Boolean);
 }
 
+function coincide(archivo, alumno) {
+  const base = normalizar(path.basename(archivo, path.extname(archivo)));
+  return clavesDe(alumno).some((clave) => base === clave || base.endsWith(clave));
+}
+
+// Un match ambiguo es un error: nunca arriesgar que el PDF nominal de una
+// persona termine compartido con otra.
 function emparejar(alumnos, carpeta) {
   if (!fs.existsSync(carpeta)) fail('no encuentro la carpeta ' + carpeta);
-  const archivos = fs.readdirSync(carpeta).filter((f) => f.toLowerCase().endsWith('.pdf'));
+  const archivos = fs.readdirSync(carpeta).filter((file) => file.toLowerCase().endsWith('.pdf')).sort();
+  const candidatos = new Map(alumnos.map((alumno) => [alumno.email, []]));
+  const huerfanos = [];
+  const ambiguos = [];
 
-  const pares = [];
-  const sinArchivo = [];
-  const usados = new Set();
-
-  for (const alumno of alumnos) {
-    const claves = clavesDe(alumno);
-    const match = archivos.find((f) => {
-      if (usados.has(f)) return false;
-      const base = normalizar(path.basename(f, path.extname(f)));
-      for (const clave of claves) {
-        if (clave && (base === clave || base.includes(clave) || clave.includes(base))) return true;
-      }
-      return false;
-    });
-    if (match) { usados.add(match); pares.push({ alumno, archivo: path.join(carpeta, match) }); }
-    else sinArchivo.push(alumno);
+  for (const archivo of archivos) {
+    const matches = alumnos.filter((alumno) => coincide(archivo, alumno));
+    if (matches.length === 0) huerfanos.push(archivo);
+    else if (matches.length > 1) ambiguos.push({ archivo, emails: matches.map((alumno) => alumno.email) });
+    else candidatos.get(matches[0].email).push(archivo);
   }
 
-  const huerfanos = archivos.filter((f) => !usados.has(f));
-  return { pares, sinArchivo, huerfanos };
+  const pares = [];
+  const faltantes = [];
+  for (const alumno of alumnos) {
+    const files = candidatos.get(alumno.email);
+    if (files.length === 0) faltantes.push(alumno);
+    else if (files.length > 1) ambiguos.push({ alumno: alumno.email, archivos: files });
+    else pares.push({ alumno, archivo: path.join(carpeta, files[0]) });
+  }
+  return { pares, faltantes, huerfanos, ambiguos };
+}
+
+function q(value) {
+  return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+
+async function encontrarUnico(drive, driveId, query, fields) {
+  const response = await drive.files.list({
+    corpora: 'drive',
+    driveId,
+    includeItemsFromAllDrives: true,
+    supportsAllDrives: true,
+    q: query,
+    fields: 'files(' + fields + ')',
+    pageSize: 10
+  });
+  const files = response.data.files || [];
+  if (files.length > 1) throw new Error('Drive devolvio mas de un objeto para: ' + query);
+  return files[0] || null;
+}
+
+async function asegurarCarpeta(drive, driveId, rootFolderId, user, alumno) {
+  const query = "trashed=false and mimeType='application/vnd.google-apps.folder'" +
+    " and '" + q(rootFolderId) + "' in parents" +
+    " and appProperties has { key='aviUid' and value='" + q(user.uid) + "' }" +
+    " and appProperties has { key='aviCohort' and value='" + q(COHORT) + "' }";
+  let folder = await encontrarUnico(drive, driveId, query, 'id,name,webViewLink');
+  if (folder) return folder;
+
+  const response = await drive.files.create({
+    supportsAllDrives: true,
+    requestBody: {
+      name: (alumno.nombre || alumno.email) + ' — ' + user.uid.slice(0, 8),
+      mimeType: 'application/vnd.google-apps.folder',
+      parents: [rootFolderId],
+      appProperties: { aviUid: user.uid, aviCohort: COHORT }
+    },
+    fields: 'id,name,webViewLink'
+  });
+  return response.data;
+}
+
+async function subirPdf(drive, driveId, folderId, user, clase, archivo) {
+  const query = "trashed=false and '" + q(folderId) + "' in parents" +
+    " and appProperties has { key='aviUid' and value='" + q(user.uid) + "' }" +
+    " and appProperties has { key='aviClass' and value='" + q(clase) + "' }";
+  const existente = await encontrarUnico(drive, driveId, query, 'id,name,webViewLink');
+  const requestBody = {
+    name: 'AVI-Vision-AI-' + clase + '.pdf',
+    appProperties: { aviUid: user.uid, aviCohort: COHORT, aviClass: clase }
+  };
+  const media = { mimeType: 'application/pdf', body: fs.createReadStream(archivo) };
+
+  if (existente) {
+    const response = await drive.files.update({
+      fileId: existente.id,
+      supportsAllDrives: true,
+      requestBody,
+      media,
+      fields: 'id,name,webViewLink'
+    });
+    return response.data;
+  }
+
+  const response = await drive.files.create({
+    supportsAllDrives: true,
+    requestBody: Object.assign({}, requestBody, { parents: [folderId] }),
+    media,
+    fields: 'id,name,webViewLink'
+  });
+  return response.data;
+}
+
+async function compartirCarpeta(drive, folderId, alumno) {
+  const response = await drive.permissions.list({
+    fileId: folderId,
+    supportsAllDrives: true,
+    fields: 'permissions(id,type,role,emailAddress,deleted)'
+  });
+  const existe = (response.data.permissions || []).some((permission) =>
+    !permission.deleted && permission.type === 'user' &&
+    String(permission.emailAddress || '').toLowerCase() === alumno.email
+  );
+  if (existe) return;
+
+  await drive.permissions.create({
+    fileId: folderId,
+    supportsAllDrives: true,
+    sendNotificationEmail: notify,
+    emailMessage: notify ? 'Tus materiales personales de Vision AI ya estan disponibles.' : undefined,
+    requestBody: { type: 'user', role: 'reader', emailAddress: alumno.email },
+    fields: 'id'
+  });
 }
 
 async function main() {
   const csvPath = path.resolve(__dirname, argValue('--csv') || 'students.csv');
   const alumnos = leerAlumnos(csvPath);
-
   const carpetas = {};
   for (const clase of CLASES) {
     const dir = argValue('--' + clase);
     if (dir) carpetas[clase] = path.resolve(process.cwd(), dir);
   }
+  if (!Object.keys(carpetas).length) fail('indica --clase-01 <carpeta> y/o --clase-02 <carpeta>');
 
-  if (!usarPlaceholder && !Object.keys(carpetas).length) {
-    fail('deci que subir: --placeholder  o  --clase-01 <carpeta> [--clase-02 <carpeta>]');
+  const porAlumno = new Map(alumnos.map((alumno) => [alumno.email, { alumno, clases: {} }]));
+  let invalido = false;
+  for (const clase of Object.keys(carpetas)) {
+    const resultado = emparejar(alumnos, carpetas[clase]);
+    console.log('  ' + clase + ': ' + resultado.pares.length + '/' + alumnos.length + ' emparejados');
+    resultado.faltantes.forEach((alumno) => console.error('    x sin PDF: ' + alumno.email));
+    resultado.huerfanos.forEach((archivo) => console.error('    x PDF sin alumno: ' + archivo));
+    resultado.ambiguos.forEach((item) => console.error('    x match ambiguo: ' + JSON.stringify(item)));
+    if (resultado.faltantes.length || resultado.huerfanos.length || resultado.ambiguos.length) invalido = true;
+    resultado.pares.forEach((par) => { porAlumno.get(par.alumno.email).clases[clase] = par.archivo; });
   }
+  if (invalido) fail('el emparejamiento no es exacto; no se toca Drive');
 
-  console.log('\n  Bucket  : ' + BUCKET);
-  console.log('  Alumnos : ' + alumnos.length + ' (' + csvPath + ')');
-  console.log('  Modo    : ' + (usarPlaceholder ? 'PLACEHOLDER para todos' : 'PDF por alumno') +
+  const plan = [...porAlumno.values()].filter((item) => Object.keys(item.clases).length);
+  console.log('\n  Alumnos: ' + plan.length + '   Archivos: ' +
+    plan.reduce((total, item) => total + Object.keys(item.clases).length, 0) +
     (dryRun ? '   [DRY RUN]' : '') + '\n');
-
-  // Planificar antes de tocar la nube: asi el dry run muestra todo.
-  const plan = [];
-  for (const clase of CLASES) {
-    if (usarPlaceholder && !carpetas[clase]) {
-      const origen = PLACEHOLDERS[clase];
-      if (!fs.existsSync(origen)) fail('falta el placeholder ' + origen);
-      alumnos.forEach((alumno) => plan.push({ clase, alumno, archivo: origen, placeholder: true }));
-      console.log('  ' + clase + ': placeholder para los ' + alumnos.length + ' alumnos');
-      continue;
-    }
-    if (!carpetas[clase]) { console.log('  ' + clase + ': sin carpeta, la salteo'); continue; }
-
-    const { pares, sinArchivo, huerfanos } = emparejar(alumnos, carpetas[clase]);
-    console.log('  ' + clase + ': ' + pares.length + '/' + alumnos.length + ' emparejados');
-    sinArchivo.forEach((a) => console.warn('    ! sin PDF: ' + a.email + ' (' + a.nombre + ')'));
-    huerfanos.forEach((f) => console.warn('    ! PDF sin alumno: ' + f));
-    pares.forEach((p) => plan.push({ clase, alumno: p.alumno, archivo: p.archivo, placeholder: false }));
-  }
-
-  if (!plan.length) fail('no hay nada para subir');
-  console.log('\n  Total a subir: ' + plan.length + ' archivos\n');
-
   if (dryRun) {
-    plan.forEach((p) => console.log('  ' + p.clase + '  ' + p.alumno.email + '  <- ' + path.basename(p.archivo)));
-    console.log('\n  Dry run: no se subio nada.\n');
+    plan.forEach((item) => Object.entries(item.clases).forEach(([clase, archivo]) =>
+      console.log('  ' + clase + '  ' + item.alumno.email + ' <- ' + path.basename(archivo))));
+    console.log('\n  Dry run: no se subio ni compartio nada.\n');
     return;
   }
 
-  if (!process.env.GOOGLE_APPLICATION_CREDENTIALS && !process.env.FIREBASE_CONFIG) {
-    fail('falta GOOGLE_APPLICATION_CREDENTIALS apuntando al serviceAccount.json.');
-  }
+  const driveId = process.env.AVI_SHARED_DRIVE_ID;
+  const rootFolderId = process.env.AVI_DRIVE_ROOT_FOLDER_ID;
+  if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) fail('falta GOOGLE_APPLICATION_CREDENTIALS');
+  if (!driveId || !rootFolderId) fail('faltan AVI_SHARED_DRIVE_ID y AVI_DRIVE_ROOT_FOLDER_ID');
 
-  admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
-    projectId: PROJECT_ID,
-    storageBucket: BUCKET
-  });
-  const auth = admin.auth();
-  const bucket = admin.storage().bucket();
+  initializeApp({ credential: applicationDefault(), projectId: PROJECT_ID });
+  const auth = getAuth();
+  const db = getFirestore();
+  const googleAuth = new google.auth.GoogleAuth({ scopes: ['https://www.googleapis.com/auth/drive'] });
+  const drive = google.drive({ version: 'v3', auth: googleAuth });
 
-  const uids = new Map();
   let ok = 0;
   let errores = 0;
-
   for (const item of plan) {
     try {
-      if (!uids.has(item.alumno.email)) {
-        const user = await auth.getUserByEmail(item.alumno.email);
-        uids.set(item.alumno.email, user.uid);
+      const user = await auth.getUserByEmail(item.alumno.email);
+      if (!user.customClaims || user.customClaims.student !== true) {
+        throw new Error('la cuenta no tiene el claim student:true');
       }
-      const uid = uids.get(item.alumno.email);
-      const destino = BASE + '/' + item.clase + '/' + uid + '.pdf';
-
-      await bucket.upload(item.archivo, {
-        destination: destino,
-        resumable: false,
-        metadata: {
-          contentType: 'application/pdf',
-          cacheControl: 'private, max-age=0, no-transform',
-          contentDisposition: 'attachment; filename="AVI-Vision-AI-' + item.clase + '.pdf"',
-          metadata: {
-            clase: item.clase,
-            programa: 'vision-ai',
-            alumno: item.alumno.email,
-            placeholder: String(item.placeholder)
-          }
-        }
-      });
+      const folder = await asegurarCarpeta(drive, driveId, rootFolderId, user, item.alumno);
+      const materials = {};
+      for (const [clase, archivo] of Object.entries(item.clases)) {
+        const driveFile = await subirPdf(drive, driveId, folder.id, user, clase, archivo);
+        if (!driveFile.webViewLink) throw new Error('Drive no devolvio webViewLink para ' + clase);
+        materials[clase] = {
+          url: driveFile.webViewLink,
+          driveFileId: driveFile.id,
+          title: clase === 'clase-01' ? 'El nuevo mapa audiovisual' : 'Herramientas y flujo de trabajo',
+          updatedAt: new Date().toISOString()
+        };
+      }
+      // El permiso se crea al final: nunca se notifica una carpeta incompleta.
+      await compartirCarpeta(drive, folder.id, item.alumno);
+      await db.collection('students').doc(user.uid).set({ materials }, { merge: true });
       ok += 1;
-      console.log('  + ' + item.clase + '  ' + item.alumno.email + '  -> ' + uid + '.pdf');
+      console.log('  + listo: ' + item.alumno.email);
     } catch (err) {
       errores += 1;
-      const msg = err && err.code === 'auth/user-not-found'
-        ? 'no existe la cuenta (corre create-students.js primero)'
-        : (err && err.message ? err.message : String(err));
-      console.error('  x ' + item.clase + '  ' + item.alumno.email + ' -> ' + msg);
+      console.error('  x ' + item.alumno.email + ' -> ' + (err && err.message ? err.message : String(err)));
     }
   }
 
-  console.log('\n  Subidos: ' + ok + '   Errores: ' + errores);
-  console.log('  Los objetos no tienen downloadToken: solo se leen con auth y solo el propio.\n');
+  console.log('\n  Alumnos listos: ' + ok + '   Errores: ' + errores + '\n');
   if (errores) process.exitCode = 1;
 }
 

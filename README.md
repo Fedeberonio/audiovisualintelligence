@@ -36,14 +36,20 @@ El servidor local es necesario porque los navegadores no permiten cargar el JSON
 
 ## Acceso y seguridad
 
-El guard actual usa `sessionStorage` y una cookie para conservar compatibilidad con el login existente. Esto controla la experiencia de interfaz, pero **no protege archivos en el servidor**. Antes de alojar grabaciones, datos personales, entregas o contenido pago, se debe migrar el aula a una capa con autorizacion real en servidor.
+- Firebase Authentication habilita alumnos mediante el claim `student:true`.
+- Firestore entrega a cada uid únicamente sus propios enlaces de materiales.
+- Los PDF nominales viven en un Google Shared Drive y se comparten por email con rol de lectura.
+- Google Drive valida la cuenta autorizada o el PIN de visitante; el enlace por sí solo no concede acceso.
+- GitHub Pages sigue siendo estático: el HTML y los JSON del repositorio deben considerarse públicos.
+
+Ver `docs/ACCESO-ALUMNOS.md` para el runbook completo.
 
 ## Camino de escalabilidad
 
 1. Validar Vision AI con la pagina publica y el aula base.
 2. Reemplazar la cohorte demostrativa por fechas y accesos reales.
 3. Definir alumnos, inscripciones y progreso sincronizado.
-4. Migrar autenticacion y contenido privado a un backend autorizado.
+4. Persistir cohortes y progreso sólo cuando la operación docente lo requiera.
 5. Incorporar formularios, CRM y pagos.
 6. Agregar nuevos programas reutilizando el esquema de datos.
 7. Evaluar migracion a Next.js o una plataforma equivalente cuando el modelo operativo lo justifique.

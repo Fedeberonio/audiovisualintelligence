@@ -1,113 +1,88 @@
-// Materiales por clase — descarga autenticada desde Cloud Storage.
+// Materiales por clase — enlaces privados de Google Drive.
 //
-// Cada alumno baja su propio PDF con marca de agua: <carpeta>/<uid>.pdf.
-// No usamos getDownloadURL(): esa URL lleva un token permanente y funcionaria
-// para cualquiera que la reciba. Pedimos el archivo con el ID token del alumno,
-// asi storage.rules se evalua en cada request y no queda ninguna URL compartible.
+// Firestore solo entrega al alumno su propio students/{uid}.materials.
+// Cada enlace abre un PDF compartido de forma nominal en Drive: conocer la URL
+// no alcanza, porque Drive vuelve a comprobar la cuenta o el PIN del visitante.
 (function () {
   var contenedor = document.querySelector('[data-materiales]');
   if (!contenedor) return;
 
-  var BOTON_RESET = 'background:none;border:0;padding:0;font:inherit;cursor:pointer;';
-
-  var escapeHtml = function (value) {
+  function escapeHtml(value) {
     return String(value == null ? '' : value)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-  };
+  }
+
+  function driveUrl(value) {
+    try {
+      var url = new URL(String(value || ''));
+      return url.protocol === 'https:' &&
+        (url.hostname === 'drive.google.com' || url.hostname === 'docs.google.com')
+        ? url.href : '';
+    } catch (_) {
+      return '';
+    }
+  }
 
   function fila(mat) {
+    var url = driveUrl(mat.url);
+    var acceso = url
+      ? '<a class="text-action" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Abrir PDF</a>'
+      : '<span class="session-pending">Pendiente</span>';
+    var descripcion = url
+      ? 'Tu copia personal, protegida por tu acceso de Google Drive.'
+      : 'Tu copia todavía no está publicada.';
+
     return '' +
       '<article class="cohort-session">' +
         '<div class="session-number">' + escapeHtml(mat.etiqueta) + '</div>' +
         '<div class="session-copy">' +
           '<span>PDF · Material de clase</span>' +
           '<h3>' + escapeHtml(mat.titulo) + '</h3>' +
-          '<p data-estado="' + escapeHtml(mat.id) + '">Tu copia personal, con marca de agua.</p>' +
+          '<p>' + escapeHtml(descripcion) + '</p>' +
         '</div>' +
-        '<div class="session-access">' +
-          '<button class="text-action" type="button" style="' + BOTON_RESET + '" ' +
-            'data-material="' + escapeHtml(mat.id) + '">Descargar PDF</button>' +
-        '</div>' +
+        '<div class="session-access">' + acceso + '</div>' +
       '</article>';
   }
 
-  function estado(id, texto) {
-    var p = contenedor.querySelector('[data-estado="' + id + '"]');
-    if (p) p.textContent = texto;
+  function render(materialesPrivados) {
+    var base = window.AVI_MATERIALES || [];
+    var materiales = base.map(function (mat) {
+      var privado = materialesPrivados && materialesPrivados[mat.id];
+      return Object.assign({}, mat, { url: privado && privado.url });
+    });
+    contenedor.removeAttribute('data-loading');
+    contenedor.innerHTML = materiales.length
+      ? materiales.map(fila).join('')
+      : '<p class="platform-error">No hay materiales publicados todavía.</p>';
   }
 
-  function guardarBlob(blob, nombre) {
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = nombre;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+  function mostrarError() {
+    contenedor.removeAttribute('data-loading');
+    contenedor.innerHTML = '<p class="platform-error">No pudimos verificar tus materiales. Reintentá en unos minutos.</p>';
   }
 
-  function descargar(mat, boton) {
+  function cargar() {
     var user = firebase.auth().currentUser;
     if (!user) { location.href = 'login.html?next=aula.html'; return; }
 
-    boton.disabled = true;
-    boton.classList.add('is-disabled');
-    var textoOriginal = boton.textContent;
-    boton.textContent = 'Preparando…';
-    estado(mat.id, 'Descargando…');
-
-    user.getIdToken()
-      .then(function (token) {
-        // El PDF del alumno lleva su uid: nadie puede pedir el de otro.
-        var objeto = mat.carpeta + '/' + user.uid + '.pdf';
-        var url = 'https://firebasestorage.googleapis.com/v0/b/' +
-          encodeURIComponent(window.AVI_FIREBASE_CONFIG.storageBucket) +
-          '/o/' + encodeURIComponent(objeto) + '?alt=media';
-        return fetch(url, { headers: { Authorization: 'Firebase ' + token } });
-      })
-      .then(function (res) {
-        if (res.status === 401 || res.status === 403) throw new Error('sin-permiso');
-        if (res.status === 404) throw new Error('no-disponible');
-        if (!res.ok) throw new Error('http-' + res.status);
-        return res.blob();
-      })
-      .then(function (blob) {
-        guardarBlob(blob, mat.archivo);
-        estado(mat.id, 'Descarga iniciada.');
-      })
-      .catch(function (err) {
-        var m = err && err.message;
-        estado(mat.id,
-          m === 'sin-permiso' ? 'Tu cuenta no tiene habilitada la descarga. Escribinos a AVI.' :
-          m === 'no-disponible' ? 'Tu copia todavía no está publicada. Escribinos a AVI.' :
-          'No pudimos descargar el archivo. Reintentá en unos minutos.');
-      })
-      .then(function () {
-        boton.disabled = false;
-        boton.classList.remove('is-disabled');
-        boton.textContent = textoOriginal;
-      });
-  }
-
-  function render() {
-    var materiales = window.AVI_MATERIALES || [];
-    contenedor.removeAttribute('data-loading');
-    if (!materiales.length) {
-      contenedor.innerHTML = '<p class="platform-error">No hay materiales publicados todavía.</p>';
+    if (window.AVI_ACCESO && window.AVI_ACCESO.admin) {
+      contenedor.removeAttribute('data-loading');
+      contenedor.innerHTML = '<p class="platform-error">Vista administrativa: los materiales nominales se gestionan desde el Shared Drive de AVI.</p>';
       return;
     }
-    contenedor.innerHTML = materiales.map(fila).join('');
-    contenedor.querySelectorAll('[data-material]').forEach(function (boton) {
-      boton.addEventListener('click', function () {
-        var mat = materiales.filter(function (m) { return m.id === boton.dataset.material; })[0];
-        if (mat) descargar(mat, boton);
-      });
-    });
+
+    window.AVI_ensureFirestore()
+      .then(function () {
+        return firebase.firestore().collection('students').doc(user.uid).get();
+      })
+      .then(function (doc) {
+        if (!doc.exists) throw new Error('perfil-no-encontrado');
+        render(doc.data().materials || {});
+      })
+      .catch(mostrarError);
   }
 
-  // gate.js ya resolvio el acceso antes de mostrar la pagina.
-  if (window.AVI_ACCESO) render();
-  else document.addEventListener('avi:access-ready', render, { once: true });
+  if (window.AVI_ACCESO) cargar();
+  else document.addEventListener('avi:access-ready', cargar, { once: true });
 })();

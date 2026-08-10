@@ -12,7 +12,7 @@
   function ensureFirebase() {
     if (window.firebase && firebase.auth) return Promise.resolve();
     return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js')
-      .then(function(){ return loadScript('assets/firebase-init.js?v=2'); })
+      .then(function(){ return loadScript('assets/firebase-init.js?v=3'); })
       .then(function(){ return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js'); })
       .then(function(){ if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG); });
   }

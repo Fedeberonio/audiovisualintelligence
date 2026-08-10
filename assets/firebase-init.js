@@ -3,37 +3,47 @@ window.AVI_FIREBASE_CONFIG = {
   apiKey: "AIzaSyCJgl5GvD6Qv-Lg-xwee46R6b8Bk-0eh24",
   authDomain: "audiovisual-intelligence.firebaseapp.com",
   projectId: "audiovisual-intelligence",
-  storageBucket: "audiovisual-intelligence.firebasestorage.app",
   messagingSenderId: "573503810928",
   appId: "1:573503810928:web:89db0d48075b4a3b48b3b5",
   measurementId: "G-4RJXTVW9QK"
 };
 
 // Acceso real = custom claim student:true (lo pone functions/scripts/create-students.js).
-// Estas cuentas admin entran igual sin claim. Espejo de storage.rules.
+// Estas cuentas admin entran igual sin claim.
 window.AVI_ADMIN_EMAILS = ["avi.info.desk@gmail.com"];
 
-// Materiales protegidos: viven solo en Storage, nunca en media/ publico.
-// Cada alumno tiene su propio PDF con marca de agua, en <carpeta>/<uid>.pdf,
-// y storage.rules solo lo deja leer el que lleva su uid.
+// Materiales protegidos: cada alumno recibe enlaces de Google Drive guardados
+// en su documento privado students/{uid}. Drive vuelve a validar el email
+// autorizado; el enlace por si solo no concede acceso.
 window.AVI_MATERIALES = [
   {
     id: "clase-01",
     etiqueta: "Clase 1",
     titulo: "El nuevo mapa audiovisual",
-    carpeta: "materiales/vision-ai/clase-01",
     archivo: "AVI-Vision-AI-Clase-1.pdf"
   },
   {
     id: "clase-02",
     etiqueta: "Clase 2",
     titulo: "Herramientas y flujo de trabajo",
-    carpeta: "materiales/vision-ai/clase-02",
     archivo: "AVI-Vision-AI-Clase-2.pdf"
   }
 ];
 
 var AVI_CDN = "https://www.gstatic.com/firebasejs/10.12.2/";
+
+// Redirecciones posteriores al login: lista cerrada para impedir URLs externas,
+// esquemas javascript: y rutas inesperadas.
+var AVI_NEXT_PAGES = [
+  'aula.html', 'capacitaciones.html', 'contenidos.html', 'clientes.html',
+  'contacto.html', 'id-lab.html', 'quienes-somos.html', 'plataforma.html'
+];
+
+window.AVI_safeNext = function (value) {
+  var candidate = String(value || '').trim().replace(/^\/+/, '');
+  if (!/^[a-z0-9-]+\.html$/i.test(candidate)) return 'aula.html';
+  return AVI_NEXT_PAGES.indexOf(candidate) !== -1 ? candidate : 'aula.html';
+};
 
 // Carga de scripts idempotente y compartida por gate/nav/materiales.
 window.AVI_loadScript = function (src) {
@@ -74,23 +84,4 @@ window.AVI_access = function (user) {
   return leer(false)
     .then(function (r) { return r.ok ? r : leer(true); })
     .catch(function () { return { ok: admin, admin: admin, student: false }; });
-};
-
-// Flag de contrasena provisoria: students/{uid}.mustChangePassword
-window.AVI_mustChangePassword = function (user) {
-  if (!user || aviEsAdmin(user)) return Promise.resolve(false);
-  return window.AVI_ensureFirestore()
-    .then(function () { return firebase.firestore().collection('students').doc(user.uid).get(); })
-    .then(function (doc) { return !!(doc.exists && doc.data().mustChangePassword === true); })
-    .catch(function () { return false; }); // sin Firestore no bloqueamos el acceso
-};
-
-window.AVI_clearMustChangePassword = function (user) {
-  if (!user) return Promise.resolve();
-  return window.AVI_ensureFirestore().then(function () {
-    return firebase.firestore().collection('students').doc(user.uid).update({
-      mustChangePassword: false,
-      passwordChangedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-  });
 };

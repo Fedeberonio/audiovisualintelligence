@@ -1,127 +1,111 @@
 # Acceso de alumnos — Visión AI, agosto 2026
 
-Cómo funciona el acceso al aula y la descarga de los PDF de clase, y qué hay que
-correr para ponerlo en producción.
+Arquitectura sin costo adicional: Firebase Authentication y Firestore en Spark,
+sitio en GitHub Pages y materiales nominales en el Google Workspace existente.
+
+`audiovisualintelligence.ai` se conserva. GoDaddy administra el dominio y su DNS;
+actualmente el dominio apunta al sitio estático publicado por GitHub Pages. El
+dominio identifica la plataforma, pero no reemplaza el almacenamiento ni el
+control de permisos de Drive.
 
 ## Cómo funciona
 
-| Pieza | Dónde | Qué hace |
+| Pieza | Dónde | Función |
 |---|---|---|
-| Custom claim `student: true` | Firebase Auth | Único permiso real. Lo pone `create-students.js`. |
-| `students/{uid}.mustChangePassword` | Firestore | Marca que la contraseña sigue siendo la provisoria. |
-| `materiales/vision-ai/clase-0X/{uid}.pdf` | Cloud Storage | Un PDF con marca de agua por alumno y por clase. |
-| `storage.rules` | Storage | Cada alumno lee **solo** el archivo con su uid. Nadie escribe desde el cliente. |
-| `firestore.rules` | Firestore | Cada alumno lee su doc y solo puede bajar `mustChangePassword` a `false`. |
-| `assets/gate.js` | Web | Bloquea las páginas internas si no hay claim `student` (o cuenta admin). |
-| `cambiar-clave.html` | Web | Pantalla de contraseña nueva, obligatoria antes de entrar. |
-| `assets/materials.js` | Web | Descarga el PDF con el ID token del alumno. |
+| Claim `student: true` | Firebase Auth | Habilita el acceso al aula. Sólo lo asigna el Admin SDK. |
+| `students/{uid}` | Firestore | Perfil mínimo y enlaces Drive del alumno. Sólo el propio uid puede leerlo. |
+| PDFs nominales | Google Shared Drive | Una carpeta privada por alumno con sus dos materiales. |
+| Permiso `reader` | Google Drive | Comparte la carpeta únicamente con el email del alumno. |
+| `assets/gate.js` | Web | Controla la experiencia de acceso del aula. |
+| `assets/materials.js` | Web | Lee los enlaces privados del uid y los muestra en el aula. |
 
-**No hay Cloud Functions**, así que el proyecto no necesita plan Blaze.
+El enlace de Drive no es una autorización. Aunque alguien lo copie, Drive exige
+la cuenta Google autorizada o el PIN de visitante enviado al email compartido.
 
-### Por qué no usamos `getDownloadURL()`
+## Alta segura
 
-Esa llamada devuelve una URL con un token permanente que funciona para cualquiera
-que la reciba, aunque no tenga sesión. Rompería la marca de agua como control.
-
-En su lugar pedimos el objeto directo con el ID token del alumno:
-
-```
-GET https://firebasestorage.googleapis.com/v0/b/<bucket>/o/<path>?alt=media
-Authorization: Firebase <idToken>
-```
-
-Así `storage.rules` se evalúa en **cada** request y no queda ninguna URL compartible.
-
-### Recorrido del alumno
-
-1. Recibe email + contraseña provisoria.
-2. `login.html` → valida el claim `student`.
-3. Como `mustChangePassword` está en `true`, va a `cambiar-clave.html`.
-4. Elige su contraseña (`updatePassword`) → el flag baja a `false`.
-5. Entra a `aula.html` → **Materiales por clase** → descarga su PDF de cada clase.
-
-El gate revisa el flag en **todas** las páginas internas, así que no se puede
-saltear yendo directo a `aula.html`.
-
-## Puesta en producción
-
-### 0. Requisito previo
-
-El CLI tiene que estar logueado con una cuenta con permisos sobre
-`audiovisual-intelligence`:
-
-```bash
-firebase login --reauth
-firebase projects:list
-```
-
-`audiovisual-intelligence` tiene que aparecer en la lista.
-
-Además, **Firestore tiene que estar habilitado** en el proyecto (modo producción,
-región `southamerica-east1` o la que uses). Es gratis en el plan Spark.
-
-### 1. Desplegar las reglas
-
-```bash
-firebase deploy --only storage,firestore:rules
-```
-
-### 2. Crear las cuentas y subir los PDF
-
-Ver [`functions/scripts/README.md`](../functions/scripts/README.md).
+No se distribuyen contraseñas provisorias. `create-students.js` crea la cuenta con
+una clave aleatoria que nunca sale del script y genera un enlace temporal de
+activación/restablecimiento. El CSV de enlaces queda ignorado por git y con modo
+0600.
 
 ```bash
 cd functions/scripts
 npm install
 export GOOGLE_APPLICATION_CREDENTIALS="$PWD/serviceAccount.json"
+node create-students.js --dry-run
 node create-students.js
+```
 
+Las cuentas existentes no se modifican por defecto. Para regenerar su acceso se
+requiere la opción explícita `--reset-existing`.
+
+Las cuentas `.test` se excluyen del lote normal y se crean aparte con
+`node create-students.js students-test.csv --include-test`.
+
+## Preparación de Google Drive
+
+1. Crear un Shared Drive de AVI.
+2. Crear una carpeta raíz para la cohorte Visión AI 2026-08.
+3. Habilitar la API de Google Drive en el proyecto `audiovisual-intelligence`.
+4. Agregar el email de la cuenta de servicio como **Content manager** del Shared Drive.
+5. Confirmar en Workspace que se permite compartir externamente y que **Visitor sharing** está habilitado para emails sin cuenta Google.
+6. Copiar los IDs del Shared Drive y de la carpeta raíz.
+
+La cuenta de servicio no es propietaria: los archivos quedan bajo propiedad del
+Shared Drive de la organización.
+
+## Subida de materiales
+
+```bash
 VAULT="/Users/aimac/Documents/Federico Knowledge Base/30_Proyectos/AVI_Vision"
+export AVI_SHARED_DRIVE_ID="ID_DEL_SHARED_DRIVE"
+export AVI_DRIVE_ROOT_FOLDER_ID="ID_DE_LA_CARPETA_RAIZ"
+
+node upload-materials.js \
+  --clase-01 "$VAULT/material_apoyo_D1/final/personalizados/pdf" \
+  --clase-02 "$VAULT/material_apoyo_D2_3/final/personalizados/pdf" \
+  --dry-run
+
 node upload-materials.js \
   --clase-01 "$VAULT/material_apoyo_D1/final/personalizados/pdf" \
   --clase-02 "$VAULT/material_apoyo_D2_3/final/personalizados/pdf"
-node upload-materials.js --placeholder --csv students-test.csv
 ```
 
-Estado del material a 2026-08-10: **las dos clases están completas**. 19 PDF
-nominales por clase, con marca de agua, aviso NDA y pie con el nombre del
-alumno. El matcher empareja 38/38 contra la lista de cuentas.
+El dry-run exige un emparejamiento exacto. Cualquier alumno sin PDF, archivo
+huérfano o coincidencia ambigua aborta el proceso antes de tocar Drive.
 
-### 3. Publicar el sitio
+Por defecto no se envían emails desde Drive. `--notify` envía una única invitación
+al compartir la carpeta individual, después de subir ambos PDFs.
 
-El sitio es GitHub Pages: se publica con `git push` a `main`.
+## Publicación técnica
 
-### 4. CORS del bucket (solo si la descarga falla)
-
-Si al hacer clic en *Descargar PDF* la consola muestra un error de CORS,
-aplicá `cors.json`:
+Sólo Firestore necesita reglas desplegadas:
 
 ```bash
-gcloud storage buckets update gs://audiovisual-intelligence.firebasestorage.app --cors-file=cors.json
+firebase login --reauth
+firebase projects:list
+firebase deploy --only firestore:rules
 ```
 
-## Verificación
+El sitio continúa publicándose con GitHub Pages. No se usa Firebase Storage, no
+se despliegan Cloud Functions y no se necesita plan Blaze.
 
-```bash
-# el PDF de un alumno NO se abre sin sesión -> 403
-curl -s -o /dev/null -w "%{http_code}\n" \
-  "https://firebasestorage.googleapis.com/v0/b/audiovisual-intelligence.firebasestorage.app/o/materiales%2Fvision-ai%2Fclase-01%2F<UID>.pdf?alt=media"
+## Verificación obligatoria
 
-# tampoco por GCS directo -> 403
-curl -s -o /dev/null -w "%{http_code}\n" \
-  "https://storage.googleapis.com/audiovisual-intelligence.firebasestorage.app/materiales/vision-ai/clase-01/<UID>.pdf"
-```
+1. Cuenta de prueba: activación, login y acceso al aula.
+2. Alumno A abre sus dos PDFs.
+3. Alumno A no puede abrir el enlace nominal del alumno B.
+4. Ventana privada sin sesión de Google/visitor: el enlace no entrega el PDF.
+5. Email no Google: recepción y renovación del PIN de visitante.
+6. Firestore: un uid no puede leer `students/{otroUid}`.
+7. Los 38 PDFs conservan marca de agua y pie nominal.
 
-En el navegador, con `test-alumno@avi.test`: login con la provisoria → cambio de
-clave → aula → descarga de las dos clases.
+## Límites conocidos
 
-## Mantenimiento
-
-- **Alumno nuevo**: agregalo a `students.csv` y corré `create-students.js`. Solo
-  toca a los que estén en el CSV.
-- **Resetear una contraseña**: dejá solo a ese alumno en un CSV y corré el script;
-  le genera una provisoria nueva y lo vuelve a marcar.
-- **Sacar el acceso a alguien**: quitá el claim desde la consola o deshabilitá la
-  cuenta en Firebase Auth.
-- **Reemplazar un PDF**: volvé a correr `upload-materials.js` con la carpeta
-  actualizada.
+- GitHub Pages siempre sirve el HTML y los JSON estáticos públicamente. No poner
+  allí reuniones, listas de alumnos ni materiales sensibles.
+- El gate de JavaScript controla la interfaz; la protección fuerte de los PDFs
+  la aplica Google Drive.
+- Visitor sharing debe estar permitido por el administrador de Workspace. El PIN
+  de visitante se revalida periódicamente.

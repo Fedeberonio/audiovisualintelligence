@@ -56,11 +56,11 @@ La interfaz ya trabaja con identificadores estables de programa, módulo, recurs
 - Progreso por dispositivo.
 - Recursos públicos o marcados como próximos.
 
-### Fase B — Identidad y cohortes reales
+### Fase B — Identidad y materiales reales
 
-- Firebase Authentication controlado por la misma aplicación.
-- Firestore para programas, cohortes, sesiones, inscripciones y progreso.
-- Storage protegido para grabaciones y entregables.
+- Firebase Authentication con claims administrados fuera del navegador.
+- Firestore para el perfil mínimo y los enlaces privados de cada uid.
+- Google Shared Drive para PDFs nominales, con permisos por email.
 - Reglas versionadas dentro del repositorio.
 
 ### Fase C — Operación docente

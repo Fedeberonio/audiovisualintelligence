@@ -1,6 +1,5 @@
 // Access gate con Firebase Auth (sesion real).
 // - Usuario con claim student:true (o cuenta admin) -> se muestra la pagina
-// - Con contrasena provisoria pendiente -> va a cambiar-clave.html
 // - Si no -> pantalla "solo socios" con boton de login
 (function () {
   // Ocultar contenido de inmediato (sin flash)
@@ -17,10 +16,6 @@
       s.src = src; s.onload = res; s.onerror = rej;
       document.head.appendChild(s);
     });
-  }
-
-  function paginaActual() {
-    return (location.pathname.split('/').pop() || 'index.html');
   }
 
   function showMembersScreen() {
@@ -57,7 +52,7 @@
 
   Promise.all([
     loadScript(CDN + 'firebase-app-compat.js'),
-    loadScript('assets/firebase-init.js?v=2')
+    loadScript('assets/firebase-init.js?v=3')
   ]).then(function(){
     return loadScript(CDN + 'firebase-auth-compat.js');
   }).then(function () {
@@ -66,14 +61,7 @@
       if (!user) { showMembersScreen(); return; }
       window.AVI_access(user).then(function (acceso) {
         if (!acceso.ok) { showMembersScreen(); return; }
-        // Contrasena provisoria pendiente: no dejamos pasar a ninguna pagina interna.
-        return window.AVI_mustChangePassword(user).then(function (debeCambiar) {
-          if (debeCambiar) {
-            location.replace('cambiar-clave.html?next=' + encodeURIComponent(paginaActual()));
-            return;
-          }
-          allowPage(acceso);
-        });
+        allowPage(acceso);
       }).catch(function () { showMembersScreen(); });
     });
   }).catch(function () {

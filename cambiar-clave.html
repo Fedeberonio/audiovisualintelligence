@@ -3,95 +3,48 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Nueva contraseña — Audiovisual Intelligence</title>
+    <title>Restablecer contraseña — Audiovisual Intelligence</title>
     <meta name="robots" content="noindex, nofollow" />
     <link rel="stylesheet" href="assets/styles.css" />
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <script src="assets/firebase-init.js?v=2"></script>
+    <script src="assets/firebase-init.js?v=3"></script>
   </head>
   <body style="background:#000;">
     <main style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;color:#fff;">
       <div style="font-size:14px;letter-spacing:.35em;text-transform:uppercase;color:#ff6a00;margin-bottom:18px;">Audiovisual Intelligence</div>
-      <h1 style="font-size:clamp(26px,5vw,44px);margin:0 0 8px;font-weight:600;">Elegí tu nueva contraseña</h1>
-      <p style="color:#999;margin:0 0 30px;font-size:15px;text-align:center;max-width:34em;">Tu contraseña actual es provisoria. Definí una propia para entrar al aula.</p>
+      <h1 style="font-size:clamp(26px,5vw,44px);margin:0 0 8px;font-weight:600;text-align:center;">Activar o recuperar acceso</h1>
+      <p style="color:#999;margin:0 0 30px;font-size:15px;text-align:center;max-width:34em;">Ingresá tu email. Si la cuenta está habilitada, recibirás un enlace seguro para definir una contraseña.</p>
 
-      <p id="loading" style="color:#666;font-size:14px;">Verificando tu sesión…</p>
-
-      <form id="changeForm" hidden style="width:100%;max-width:360px;display:grid;gap:14px;">
-        <input id="account" type="email" readonly tabindex="-1" aria-label="Cuenta"
-          style="padding:14px 16px;border-radius:12px;border:1px solid #1a1a1a;background:#080808;color:#777;font-size:15px;" />
-        <input id="pass1" type="password" required minlength="8" autocomplete="new-password" placeholder="Nueva contraseña (mínimo 8)"
-          style="padding:14px 16px;border-radius:12px;border:1px solid #262626;background:#0d0d0d;color:#fff;font-size:15px;" />
-        <input id="pass2" type="password" required minlength="8" autocomplete="new-password" placeholder="Repetir contraseña"
+      <form id="resetForm" style="width:100%;max-width:360px;display:grid;gap:14px;">
+        <input id="email" type="email" required autocomplete="email" placeholder="Email"
           style="padding:14px 16px;border-radius:12px;border:1px solid #262626;background:#0d0d0d;color:#fff;font-size:15px;" />
         <button id="submitBtn" type="submit"
           style="padding:14px;border-radius:999px;border:0;background:#ff6a00;color:#000;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;">
-          Guardar y entrar
+          Enviar enlace
         </button>
-        <div id="msg" role="alert" style="min-height:1.4em;color:#ff6a00;font-size:14px;text-align:center;"></div>
+        <div id="msg" role="status" aria-live="polite" style="min-height:2.8em;color:#ff6a00;font-size:14px;text-align:center;"></div>
       </form>
 
-      <a href="logout.html" style="margin-top:26px;color:#666;font-size:13px;text-decoration:none;">Cerrar sesión</a>
+      <a href="login.html" style="margin-top:26px;color:#777;font-size:13px;text-decoration:none;">← Volver al acceso</a>
     </main>
     <script>
       if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG);
       var auth = firebase.auth();
-      var params = new URLSearchParams(location.search);
-      var next = params.get('next') || 'aula.html';
-      if (/^https?:|^\/\//.test(next)) next = 'aula.html';
-      if (next === 'cambiar-clave.html') next = 'aula.html';
-
-      var form = document.getElementById('changeForm');
-      var loading = document.getElementById('loading');
+      var form = document.getElementById('resetForm');
       var msg = document.getElementById('msg');
       var btn = document.getElementById('submitBtn');
 
-      auth.onAuthStateChanged(function (user) {
-        if (!user) { location.replace('login.html?next=' + encodeURIComponent(next)); return; }
-        document.getElementById('account').value = user.email || '';
-        loading.hidden = true;
-        form.hidden = false;
-        document.getElementById('pass1').focus();
-      });
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var user = auth.currentUser;
-        if (!user) { location.replace('login.html'); return; }
-
-        var p1 = document.getElementById('pass1').value;
-        var p2 = document.getElementById('pass2').value;
-        msg.textContent = '';
-
-        if (p1.length < 8) { msg.textContent = 'La contraseña necesita al menos 8 caracteres.'; return; }
-        if (p1 !== p2) { msg.textContent = 'Las dos contraseñas no coinciden.'; return; }
-
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
         btn.disabled = true;
-        btn.textContent = 'Guardando…';
-
-        user.updatePassword(p1)
+        msg.textContent = '';
+        var email = document.getElementById('email').value.trim().toLowerCase();
+        auth.sendPasswordResetEmail(email)
+          .catch(function () { /* respuesta neutra: no revelar si la cuenta existe */ })
           .then(function () {
-            // Bajar el flag; si Firestore falla, igual dejamos pasar (la clave ya cambió).
-            return window.AVI_clearMustChangePassword(user).catch(function () {});
-          })
-          .then(function () { location.replace(next); })
-          .catch(function (err) {
+            msg.textContent = 'Si la cuenta está habilitada, el enlace llegará a ese email.';
             btn.disabled = false;
-            btn.textContent = 'Guardar y entrar';
-            var code = err && err.code;
-            if (code === 'auth/requires-recent-login') {
-              msg.textContent = 'Por seguridad, volvé a iniciar sesión con tu contraseña provisoria.';
-              setTimeout(function () {
-                auth.signOut().then(function () {
-                  location.replace('login.html?next=' + encodeURIComponent(next));
-                });
-              }, 2200);
-            } else if (code === 'auth/weak-password') {
-              msg.textContent = 'Esa contraseña es demasiado débil. Probá con una más larga.';
-            } else {
-              msg.textContent = 'No pudimos guardar la contraseña. Reintentá en unos minutos.';
-            }
           });
       });
     </script>

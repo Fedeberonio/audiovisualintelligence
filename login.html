@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="assets/styles.css" />
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <script src="assets/firebase-init.js?v=2"></script>
+    <script src="assets/firebase-init.js?v=3"></script>
   </head>
   <body style="background:#000;">
     <main style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;color:#fff;">
@@ -26,29 +26,21 @@
         </button>
         <div id="msg" role="alert" style="min-height:1.4em;color:#ff6a00;font-size:14px;text-align:center;"></div>
       </form>
+      <a href="cambiar-clave.html" style="margin-top:18px;color:#999;font-size:13px;text-decoration:none;">Activar cuenta o recuperar contraseña</a>
       <a href="/" style="margin-top:26px;color:#666;font-size:13px;text-decoration:none;">← Volver al inicio</a>
     </main>
     <script>
       if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG);
       var auth = firebase.auth();
       var params = new URLSearchParams(location.search);
-      var next = params.get('next') || 'aula.html';
-      // sanear: solo rutas internas
-      if (/^https?:|^\/\//.test(next)) next = 'aula.html';
+      var next = window.AVI_safeNext(params.get('next'));
 
-      // Ruta a seguir: si la contraseña es provisoria, primero cambiarla.
-      function continuar(user){
-        return window.AVI_mustChangePassword(user).then(function(debeCambiar){
-          location.replace(debeCambiar
-            ? 'cambiar-clave.html?next=' + encodeURIComponent(next)
-            : next);
-        });
-      }
+      function continuar(){ location.replace(next); }
 
       // Si ya hay sesión válida, pasar directo
       auth.onAuthStateChanged(function(u){
         if (!u) return;
-        window.AVI_access(u).then(function(acceso){ if (acceso.ok) continuar(u); });
+        window.AVI_access(u).then(function(acceso){ if (acceso.ok) continuar(); });
       });
 
       document.getElementById('loginForm').addEventListener('submit', function(e){
@@ -62,7 +54,7 @@
           .then(function(cred){
             return window.AVI_access(cred.user).then(function(acceso){
               if (!acceso.ok) { auth.signOut(); throw new Error('no-permitido'); }
-              return continuar(cred.user);
+              return continuar();
             });
           })
           .catch(function(err){
@@ -70,7 +62,7 @@
             msg.textContent = (err && err.message === 'no-permitido')
               ? 'Esta cuenta no tiene acceso habilitado.'
               : 'Email o contraseña incorrectos.';
-          });
+        });
       });
     </script>
   </body>
