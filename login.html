@@ -9,6 +9,59 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <script src="assets/firebase-init.js?v=5"></script>
+    <style>
+      /* Puerta de entrada de los alumnos que todavia no tienen contrasena.
+         El haz naranja recorre el marco como una luz sobre un fotograma:
+         senala la accion sin recurrir al neon de startup de IA. */
+      @property --beam { syntax: '<angle>'; initial-value: 300deg; inherits: false; }
+
+      .acceso-sep { width:100%; max-width:360px; height:1px; margin:22px 0 0;
+        background:linear-gradient(90deg, transparent, #242424 22%, #242424 78%, transparent); }
+
+      .activar-wrap { position:relative; width:100%; max-width:360px; margin-top:22px; }
+      /* Rescoldo que respira por debajo de la tarjeta */
+      .activar-wrap::before { content:""; position:absolute; left:14%; right:14%; bottom:-12px; height:30px;
+        background:radial-gradient(58% 100% at 50% 50%, rgba(255,138,0,.5), transparent 72%);
+        filter:blur(14px); opacity:.55; pointer-events:none;
+        animation:avi-ember 5.5s ease-in-out infinite; }
+
+      .activar { --beam:300deg; position:relative; display:flex; align-items:center; gap:14px;
+        padding:18px 20px; border-radius:16px; background:#0d0d0d; border:1px solid #242424;
+        color:#f5f5f3; text-decoration:none;
+        transition:transform .22s cubic-bezier(.16,1,.3,1), background .22s ease, border-color .22s ease; }
+      /* Anillo: conic recortado a 1px con mascara, no pinta el interior */
+      .activar::before { content:""; position:absolute; inset:-1px; border-radius:inherit; padding:1px;
+        background:conic-gradient(from var(--beam), transparent 0deg, transparent 205deg,
+          rgba(255,106,0,.9) 268deg, #ffb25f 300deg, rgba(255,106,0,.9) 330deg, transparent 360deg);
+        -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        -webkit-mask-composite:xor; mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        mask-composite:exclude; pointer-events:none;
+        animation:avi-beam 7s linear infinite; }
+
+      .activar-copy { display:grid; gap:4px; }
+      .activar-copy strong { font-size:16px; font-weight:700; letter-spacing:.01em; }
+      .activar-copy span { font-size:13px; line-height:1.45; color:#9aa0a6; }
+      .activar-arrow { margin-left:auto; color:#ff8a00; font-size:19px; line-height:1;
+        transition:transform .22s cubic-bezier(.16,1,.3,1); }
+
+      .activar:hover, .activar:focus-visible { background:#111; border-color:#3a2410; transform:translateY(-2px); }
+      .activar:hover .activar-arrow, .activar:focus-visible .activar-arrow { transform:translateX(4px); }
+      .activar:hover::before { animation-duration:2.6s; }
+      .activar:focus-visible { outline:3px solid #f5f5f3; outline-offset:3px; }
+      .activar:active { transform:translateY(0); }
+
+      @keyframes avi-beam { from { --beam:0deg; } to { --beam:360deg; } }
+      @keyframes avi-ember { 0%,100% { opacity:.4; } 50% { opacity:.85; } }
+
+      /* Sin movimiento: el haz queda fijo en una esquina, la tarjeta sigue destacada */
+      @media (prefers-reduced-motion: reduce) {
+        .activar::before, .activar-wrap::before { animation:none; }
+        .activar-wrap::before { opacity:.7; }
+        .activar, .activar-arrow { transition:none; }
+        .activar:hover, .activar:focus-visible { transform:none; }
+        .activar:hover .activar-arrow, .activar:focus-visible .activar-arrow { transform:none; }
+      }
+    </style>
   </head>
   <body style="background:#000;">
     <main style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;color:#fff;">
@@ -26,8 +79,19 @@
         </button>
         <div id="msg" role="alert" style="min-height:1.4em;color:#ff6a00;font-size:14px;text-align:center;"></div>
       </form>
-      <a href="cambiar-clave.html" style="margin-top:18px;color:#999;font-size:13px;text-decoration:none;">Activar cuenta o recuperar contraseña</a>
-      <a href="/" style="margin-top:26px;color:#666;font-size:13px;text-decoration:none;">← Volver al inicio</a>
+      <div class="acceso-sep" aria-hidden="true"></div>
+
+      <div class="activar-wrap">
+        <a class="activar" href="cambiar-clave.html">
+          <span class="activar-copy">
+            <strong>Activá tu cuenta</strong>
+            <span>Primera vez, o contraseña olvidada. Te llega un enlace por email.</span>
+          </span>
+          <span class="activar-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <a href="/" style="margin-top:44px;color:#666;font-size:13px;text-decoration:none;">← Volver al inicio</a>
     </main>
     <script>
       if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG);
