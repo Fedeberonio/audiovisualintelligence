@@ -6,11 +6,10 @@
     <title>Aula Visión AI — AVI</title>
     <meta name="robots" content="noindex, nofollow" />
     <link rel="stylesheet" href="assets/styles.css?v=4" />
-    <script src="assets/gate.js?v=4"></script>
-    <script src="assets/platform.js?v=5" defer></script>
-    <script src="assets/classroom.js?v=2" defer></script>
-    <script src="assets/materials.js?v=3" defer></script>
-      <script src="assets/navigation.js?v=3" defer></script>
+    <script src="assets/gate.js?v=5"></script>
+    <script src="assets/classroom.js?v=5" defer></script>
+    <script src="assets/materials.js?v=5" defer></script>
+    <script src="assets/navigation.js?v=5" defer></script>
   </head>
   <body class="classroom-page">
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -27,58 +26,43 @@
     <main id="contenido">
       <section class="classroom-welcome container">
         <div>
-          <span class="section-index">Tu programa</span>
+          <span class="section-index" data-cohort-label>Cohorte agosto 2026</span>
           <h1>Visión AI</h1>
-          <p>Este espacio reúne el recorrido, los materiales y los próximos pasos del programa.</p>
+          <p>Tu espacio de repaso para las clases dictadas, los materiales autorizados y la continuidad del taller.</p>
         </div>
-        <div class="cohort-status progress-summary">
-          <div class="progress-heading"><span>Tu progreso</span><strong data-progress-value>0%</strong></div>
-          <div class="progress-track" role="progressbar" aria-label="Progreso de Visión AI" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-progress-bar></span></div>
-          <p data-progress-count>0 de 6 módulos</p>
-          <p class="device-note">Guardado únicamente en este dispositivo.</p>
+        <div class="cohort-status course-status">
+          <span>Estado de la cursada</span>
+          <strong data-cohort-progress>2 de 3 clases dictadas</strong>
+          <p data-cohort-welcome>Dos clases ya fueron dictadas. Los materiales disponibles aparecen en la sección siguiente.</p>
         </div>
       </section>
 
       <section class="cohort-section container" aria-labelledby="cohort-title">
         <div class="cohort-intro">
-          <div><span class="section-index" data-cohort-label>Próxima cohorte</span><h2 id="cohort-title">Tres encuentros, un recorrido.</h2></div>
-          <p data-cohort-welcome>Las fechas y accesos aparecerán aquí cuando la cohorte quede confirmada.</p>
+          <div><span class="section-index">Tu cursada</span><h2 id="cohort-title">Clases y recorrido</h2></div>
+          <p>El orden conserva el hilo del taller. Cada guía organiza lo visto sin reemplazar la clase ni convertir el repaso en una práctica guiada.</p>
         </div>
         <div class="cohort-sessions" data-cohort-sessions data-loading></div>
       </section>
 
       <section class="cohort-section container" aria-labelledby="materiales-title">
         <div class="cohort-intro">
-          <div><span class="section-index">Descargas</span><h2 id="materiales-title">Materiales por clase</h2></div>
-          <p>Cada PDF es tu copia personal, con marca de agua. Google Drive vuelve a verificar el email autorizado al abrirlo.</p>
+          <div><span class="section-index">Materiales</span><h2 id="materiales-title">Materiales por clase</h2></div>
+          <p>Consultá la guía online o descargá tu copia personal con marca de agua. El acceso se verifica con tu cuenta autorizada.</p>
         </div>
         <div class="cohort-sessions" data-materiales data-loading></div>
       </section>
 
-      <div class="classroom-layout container">
-        <section aria-labelledby="modules-title">
-          <div class="section-heading-row compact-heading">
-            <div><span class="section-index">Recorrido</span><h2 id="modules-title">Módulos</h2></div>
-          </div>
-          <div class="learning-path classroom-path" data-classroom-modules data-loading></div>
-        </section>
-
-        <aside class="classroom-sidebar" aria-labelledby="resources-title">
-          <span class="section-index">Biblioteca</span>
-          <h2 id="resources-title">Recursos</h2>
-          <div class="resource-list" data-classroom-resources data-loading></div>
-          <div class="next-module-block">
-            <span>Siguiente foco</span>
-            <strong data-next-module>El nuevo mapa audiovisual</strong>
-          </div>
-          <div class="support-block">
-            <span>Soporte</span>
-            <h3>¿Necesitas orientación?</h3>
-            <p>Escríbenos indicando el módulo y la pregunta.</p>
-            <a class="text-action" href="mailto:avi.info.desk@gmail.com?subject=Soporte%20Visi%C3%B3n%20AI">Contactar a AVI</a>
-          </div>
-        </aside>
-      </div>
+      <section class="classroom-guidance container" aria-labelledby="uso-title">
+        <div>
+          <span class="section-index">Uso del aula</span>
+          <h2 id="uso-title">Un material para ordenar y volver a mirar.</h2>
+        </div>
+        <div>
+          <p>Las guías reúnen los conceptos, flujos y herramientas abordados en cada clase. Están diseñadas como apoyo conceptual, no como manuales exhaustivos de implementación.</p>
+          <a class="text-action" href="mailto:avi.info.desk@gmail.com?subject=Soporte%20Visi%C3%B3n%20AI">Consultar a AVI</a>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer platform-footer">

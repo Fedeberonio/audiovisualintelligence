@@ -12,7 +12,7 @@
   function ensureFirebase() {
     if (window.firebase && firebase.auth) return Promise.resolve();
     return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js')
-      .then(function(){ return loadScript('assets/firebase-init.js?v=4'); })
+      .then(function(){ return loadScript('assets/firebase-init.js?v=5'); })
       .then(function(){ return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js'); })
       .then(function(){ if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG); });
   }
@@ -53,16 +53,12 @@
     // Brand siempre al inicio
     document.querySelectorAll('a.brand').forEach(function (a) { a.href = 'index.html'; });
     // Indicador de sesión
-    var existingBadge = document.getElementById('sessionBadge');
-    if (!conSesion && existingBadge) existingBadge.remove();
     if (conSesion) {
       var header = document.querySelector('.site-header .inner, .classroom-header-inner');
-      var label = acceso.admin ? 'Sesión: Admin' : (acceso.teacher ? 'Sesión: Docente' : 'Sesión: Alumno');
-      if (existingBadge) existingBadge.textContent = label;
-      else if (header) {
+      if (header && !document.getElementById('sessionBadge')) {
         var b = document.createElement('span');
         b.id = 'sessionBadge';
-        b.textContent = label;
+        b.textContent = acceso.admin ? 'Sesión: Admin' : (acceso.teacher ? 'Sesión: Docente' : 'Sesión: Alumno');
         b.style.cssText = 'font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#ff6a00;border:1px solid #2a1705;background:#140a03;padding:5px 10px;border-radius:999px;margin-left:auto;margin-right:12px;';
         var burger = header.querySelector('.hamburger');
         if (burger) header.insertBefore(b, burger); else header.appendChild(b);

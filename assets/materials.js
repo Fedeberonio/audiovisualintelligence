@@ -1,8 +1,8 @@
-// Materiales por clase — enlaces privados de Google Drive.
+// Materiales por clase — lectura comun y descarga nominal en Google Drive.
 //
-// Firestore solo entrega al alumno su propio students/{uid}.materials.
-// Cada enlace abre un PDF compartido de forma nominal en Drive: conocer la URL
-// no alcanza, porque Drive vuelve a comprobar la cuenta o el PIN del visitante.
+// class_materials contiene la copia maestra de lectura para las cuentas con rol.
+// students/{uid}.materials contiene la descarga personalizada del alumno.
+// Conocer las URL no alcanza: Drive vuelve a comprobar la cuenta autorizada.
 (function () {
   var contenedor = document.querySelector('[data-materiales]');
   if (!contenedor) return;
@@ -25,13 +25,23 @@
   }
 
   function fila(mat) {
-    var url = driveUrl(mat.url);
-    var acceso = url
-      ? '<a class="text-action" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">Abrir PDF</a>'
+    var viewUrl = driveUrl(mat.viewUrl);
+    var downloadUrl = driveUrl(mat.downloadUrl || mat.url);
+    var acciones = [];
+    if (viewUrl) {
+      acciones.push('<a class="text-action" href="' + escapeHtml(viewUrl) + '" target="_blank" rel="noopener noreferrer">Ver online</a>');
+    }
+    if (downloadUrl) {
+      acciones.push('<a class="text-action" href="' + escapeHtml(downloadUrl) + '" target="_blank" rel="noopener noreferrer">Descargar mi copia</a>');
+    }
+    var acceso = acciones.length
+      ? acciones.join('<span aria-hidden="true"> · </span>')
       : '<span class="session-pending">Pendiente</span>';
-    var descripcion = url
-      ? 'Tu copia personal, protegida por tu acceso de Google Drive.'
-      : 'Tu copia todavía no está publicada.';
+    var descripcion = viewUrl && downloadUrl
+      ? 'Lectura online de la guía y descarga de tu copia personal con marca de agua.'
+      : (viewUrl
+        ? 'Guía disponible para lectura online.'
+        : (downloadUrl ? 'Tu copia personal con marca de agua.' : 'El material todavía no está publicado.'));
 
     return '' +
       '<article class="cohort-session">' +
@@ -45,11 +55,15 @@
       '</article>';
   }
 
-  function render(materialesPrivados) {
+  function render(materialesPrivados, materialesComunes) {
     var base = window.AVI_MATERIALES || [];
     var materiales = base.map(function (mat) {
       var privado = materialesPrivados && materialesPrivados[mat.id];
-      return Object.assign({}, mat, { url: privado && privado.url });
+      var comun = materialesComunes && materialesComunes[mat.id];
+      return Object.assign({}, mat, {
+        viewUrl: (comun && comun.viewUrl) || (privado && privado.viewUrl),
+        downloadUrl: privado && (privado.downloadUrl || privado.url)
+      });
     });
     contenedor.removeAttribute('data-loading');
     contenedor.innerHTML = materiales.length
@@ -66,21 +80,22 @@
     var user = firebase.auth().currentUser;
     if (!user) { location.href = 'login.html?next=aula.html'; return; }
 
-    if (window.AVI_ACCESO && (window.AVI_ACCESO.admin || window.AVI_ACCESO.teacher)) {
-      contenedor.removeAttribute('data-loading');
-      contenedor.innerHTML = window.AVI_ACCESO.admin
-        ? '<p class="platform-error">Vista administrativa: los materiales nominales se gestionan desde el Shared Drive de AVI.</p>'
-        : '<p class="platform-error">Vista docente: el acceso a materiales nominales de alumnos está restringido.</p>';
-      return;
-    }
-
     window.AVI_ensureFirestore()
       .then(function () {
-        return firebase.firestore().collection('students').doc(user.uid).get();
+        var comunes = firebase.firestore().collection('class_materials').get();
+        var privados = window.AVI_ACCESO && window.AVI_ACCESO.student
+          ? firebase.firestore().collection('students').doc(user.uid).get()
+          : Promise.resolve(null);
+        return Promise.all([comunes, privados]);
       })
-      .then(function (doc) {
-        if (!doc.exists) throw new Error('perfil-no-encontrado');
-        render(doc.data().materials || {});
+      .then(function (resultados) {
+        var comunes = {};
+        resultados[0].forEach(function (doc) { comunes[doc.id] = doc.data(); });
+        var perfil = resultados[1];
+        if (window.AVI_ACCESO && window.AVI_ACCESO.student && (!perfil || !perfil.exists)) {
+          throw new Error('perfil-no-encontrado');
+        }
+        render(perfil && perfil.exists ? perfil.data().materials || {} : {}, comunes);
       })
       .catch(mostrarError);
   }

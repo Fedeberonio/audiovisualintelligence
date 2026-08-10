@@ -89,7 +89,7 @@
     (function(){
       function load(src){return new Promise(function(res,rej){var t=document.createElement('script');t.src=src;t.onload=res;t.onerror=rej;document.head.appendChild(t);});}
       load('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js')
-        .then(function(){return load('assets/firebase-init.js?v=4');})
+        .then(function(){return load('assets/firebase-init.js?v=5');})
         .then(function(){return load('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js');})
         .then(function(){
           if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG);

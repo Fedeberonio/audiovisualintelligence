@@ -11,20 +11,20 @@ window.AVI_FIREBASE_CONFIG = {
 // Acceso real = custom claims administrados fuera del navegador:
 // student:true, teacher:true o admin:true.
 
-// Materiales protegidos: cada alumno recibe enlaces de Google Drive guardados
-// en su documento privado students/{uid}. Drive vuelve a validar el email
-// autorizado; el enlace por si solo no concede acceso.
+// Materiales protegidos: class_materials ofrece lectura comun a los roles
+// autorizados y students/{uid} ofrece la descarga nominal del alumno. Drive
+// vuelve a validar el email; el enlace por si solo no concede acceso.
 window.AVI_MATERIALES = [
   {
     id: "clase-01",
     etiqueta: "Clase 1",
-    titulo: "El nuevo mapa audiovisual",
+    titulo: "Panorama visual y fundamentos",
     archivo: "AVI-Vision-AI-Clase-1.pdf"
   },
   {
     id: "clase-02",
     etiqueta: "Clase 2",
-    titulo: "Herramientas y flujo de trabajo",
+    titulo: "Ecosistema, equipo IA y preproducción",
     archivo: "AVI-Vision-AI-Clase-2.pdf"
   }
 ];

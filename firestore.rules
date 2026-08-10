@@ -13,6 +13,16 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // Copias maestras para lectura online. El enlace solo se entrega a una
+    // sesion Firebase con un rol autorizado; Drive vuelve a validar el email.
+    match /class_materials/{classId} {
+      allow read: if request.auth != null
+        && (request.auth.token.student == true
+          || request.auth.token.teacher == true
+          || request.auth.token.admin == true);
+      allow write: if false;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

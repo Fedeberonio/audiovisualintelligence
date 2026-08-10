@@ -320,6 +320,8 @@ img { display: block; max-width: 100%; height: auto; }
 .cohort-status { padding:24px; border:1px solid var(--platform-border); border-radius:16px; background:var(--platform-surface); }
 .cohort-status strong { display:block; margin-top:8px; font-size:26px; }
 .cohort-status p { margin:8px 0 0; color:var(--platform-muted); font-size:14px; }
+.course-status { border-color:#4b321d; }
+.course-status > span { color:var(--accent); font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
 .progress-heading { display:flex; align-items:baseline; justify-content:space-between; gap:20px; }
 .progress-heading > span { color:var(--accent); font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
 .progress-heading strong { margin:0; font-size:30px; }
@@ -333,11 +335,15 @@ img { display: block; max-width: 100%; height: auto; }
 .cohort-sessions { border-top:1px solid var(--platform-border); }
 .cohort-session { display:grid; grid-template-columns:74px minmax(0,1fr) 150px; gap:24px; align-items:center; padding:24px 0; border-bottom:1px solid var(--platform-border); }
 .session-number { color:var(--accent); font-size:12px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
-.session-copy > span,.session-pending { color:var(--platform-muted); font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
+.session-copy > span,.session-pending,.session-complete { color:var(--platform-muted); font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
+.session-complete { color:#f2bd83; }
 .session-copy h3 { margin:6px 0 3px; font-size:clamp(19px,2vw,25px); line-height:1.15; }
 .session-copy p { margin:0; color:var(--platform-muted); }
 .session-access { justify-self:end; text-align:right; }
 .classroom-layout { display:grid; grid-template-columns:minmax(0,1fr) 380px; gap:clamp(48px,7vw,92px); padding-bottom:120px; }
+.classroom-guidance { display:grid; grid-template-columns:minmax(0,1fr) minmax(280px,.7fr); gap:clamp(36px,8vw,100px); align-items:start; padding-top:12px; padding-bottom:120px; border-top:1px solid var(--platform-border); }
+.classroom-guidance h2 { margin:10px 0 0; max-width:13ch; font-size:clamp(32px,4vw,50px); line-height:1.05; letter-spacing:-.025em; }
+.classroom-guidance p { margin:0 0 18px; color:var(--platform-muted); font-size:17px; max-width:58ch; }
 .compact-heading { align-items:start; }
 .compact-heading h2,.classroom-sidebar > h2 { margin:8px 0 0; font-size:34px; }
 .classroom-path { margin-top:30px; }
@@ -366,7 +372,7 @@ img { display: block; max-width: 100%; height: auto; }
   .platform-header .hamburger { display:inline-flex; }
   .platform-header .hamburger { width:44px; height:44px; }
   .platform-hero h1 { font-size:clamp(45px,13vw,72px); }
-  .program-facts,.split-intro,.consulting-lead,.classroom-welcome,.classroom-layout,.cohort-intro { grid-template-columns:1fr; }
+  .program-facts,.split-intro,.consulting-lead,.classroom-welcome,.classroom-layout,.cohort-intro,.classroom-guidance { grid-template-columns:1fr; }
   .program-facts > div { padding:14px 0; border-bottom:1px solid rgba(255,255,255,.14); }
   .service-sequence { grid-template-columns:1fr; }
   .service-step,.service-step + .service-step { min-height:0; padding:26px 0; border-right:0; border-bottom:1px solid var(--platform-border); }
