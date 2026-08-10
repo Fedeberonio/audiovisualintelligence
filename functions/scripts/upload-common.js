@@ -12,6 +12,10 @@
  *   export AVI_SHARED_DRIVE_ID=<id>
  *   export AVI_DRIVE_ROOT_FOLDER_ID=<id>
  *   node upload-common.js --id presentacion-general --titulo "Guía Visión A.I." --pdf ../../media/archivo.pdf
+ *
+ * Subir no alcanza: en un Shared Drive el archivo solo lo ven sus miembros, y
+ * los alumnos no lo son. Por eso se comparte como lector con cada cuenta de
+ * students.csv. Sin este paso el aula muestra el material como no disponible.
  */
 
 'use strict';
@@ -90,6 +94,41 @@ async function main() {
 
   console.log('  + Drive : ' + archivo.id);
   console.log('  + class_materials/' + id);
+
+  // Compartir como lector con cada alumno del CSV.
+  const csvPath = path.resolve(__dirname, argValue('--csv') || 'students.csv');
+  if (!fs.existsSync(csvPath)) {
+    console.warn('\n  ! no encuentro ' + csvPath + ': nadie va a poder abrirlo\n');
+    return;
+  }
+  const emails = fs.readFileSync(csvPath, 'utf8').split(/\r?\n/).slice(1)
+    .map((l) => (l.split(',')[0] || '').trim().toLowerCase())
+    .filter((e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e) && !e.endsWith('.test'));
+
+  const previos = await drive.permissions.list({
+    fileId: archivo.id, supportsAllDrives: true,
+    fields: 'permissions(type,emailAddress,deleted)'
+  }).then((r) => r.data.permissions || []);
+  const yaTienen = new Set(previos.filter((p) => !p.deleted && p.type === 'user')
+    .map((p) => String(p.emailAddress || '').toLowerCase()));
+
+  let ok = 0;
+  const fallaron = [];
+  for (const email of emails) {
+    if (yaTienen.has(email)) { ok += 1; continue; }
+    try {
+      await drive.permissions.create({
+        fileId: archivo.id, supportsAllDrives: true, sendNotificationEmail: false,
+        requestBody: { type: 'user', role: 'reader', emailAddress: email }, fields: 'id'
+      });
+      ok += 1;
+    } catch (err) {
+      fallaron.push(email + ' -> ' + (err.message || err));
+    }
+  }
+  console.log('  + compartido con ' + ok + ' de ' + emails.length + ' alumnos');
+  fallaron.forEach((f) => console.error('    x ' + f));
+
   console.log('\n  Solo lo abre una sesion con rol. Ya podes borrar el archivo del repo.\n');
 }
 
