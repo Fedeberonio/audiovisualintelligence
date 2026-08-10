@@ -1,6 +1,7 @@
-// Access gate con Firebase Auth (sesión real).
-// - Usuario logueado y permitido -> se muestra la página
-// - Si no -> pantalla "solo socios" con botón de login
+// Access gate con Firebase Auth (sesion real).
+// - Usuario con claim student:true (o cuenta admin) -> se muestra la pagina
+// - Con contrasena provisoria pendiente -> va a cambiar-clave.html
+// - Si no -> pantalla "solo socios" con boton de login
 (function () {
   // Ocultar contenido de inmediato (sin flash)
   var st = document.createElement('style');
@@ -8,12 +9,18 @@
   st.textContent = 'body{visibility:hidden}';
   document.head.appendChild(st);
 
+  var CDN = 'https://www.gstatic.com/firebasejs/10.12.2/';
+
   function loadScript(src) {
     return new Promise(function (res, rej) {
       var s = document.createElement('script');
       s.src = src; s.onload = res; s.onerror = rej;
       document.head.appendChild(s);
     });
+  }
+
+  function paginaActual() {
+    return (location.pathname.split('/').pop() || 'index.html');
   }
 
   function showMembersScreen() {
@@ -37,7 +44,9 @@
     else render();
   }
 
-  function allowPage() {
+  function allowPage(acceso) {
+    window.AVI_ACCESO = acceso;
+    document.dispatchEvent(new CustomEvent('avi:access-ready', { detail: acceso }));
     var reveal = function () {
       var g = document.getElementById('gate-hide'); if (g) g.textContent = '';
       document.body.style.visibility = 'visible';
@@ -47,16 +56,25 @@
   }
 
   Promise.all([
-    loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js'),
-    loadScript('assets/firebase-init.js')
+    loadScript(CDN + 'firebase-app-compat.js'),
+    loadScript('assets/firebase-init.js?v=2')
   ]).then(function(){
-    return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js');
+    return loadScript(CDN + 'firebase-auth-compat.js');
   }).then(function () {
     if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG);
     firebase.auth().onAuthStateChanged(function (user) {
-      var ok = user && user.email &&
-        (window.AVI_ALLOWED_EMAILS || []).indexOf(user.email.toLowerCase()) !== -1;
-      if (ok) allowPage(); else showMembersScreen();
+      if (!user) { showMembersScreen(); return; }
+      window.AVI_access(user).then(function (acceso) {
+        if (!acceso.ok) { showMembersScreen(); return; }
+        // Contrasena provisoria pendiente: no dejamos pasar a ninguna pagina interna.
+        return window.AVI_mustChangePassword(user).then(function (debeCambiar) {
+          if (debeCambiar) {
+            location.replace('cambiar-clave.html?next=' + encodeURIComponent(paginaActual()));
+            return;
+          }
+          allowPage(acceso);
+        });
+      }).catch(function () { showMembersScreen(); });
     });
   }).catch(function () {
     // Si Firebase no carga (sin red, bloqueado), no exponer contenido

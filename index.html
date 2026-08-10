@@ -89,18 +89,21 @@
     (function(){
       function load(src){return new Promise(function(res,rej){var t=document.createElement('script');t.src=src;t.onload=res;t.onerror=rej;document.head.appendChild(t);});}
       load('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js')
-        .then(function(){return load('assets/firebase-init.js');})
+        .then(function(){return load('assets/firebase-init.js?v=2');})
         .then(function(){return load('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js');})
         .then(function(){
           if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG);
           firebase.auth().onAuthStateChanged(function(u){
-            var ok = u && u.email && (window.AVI_ALLOWED_EMAILS||[]).indexOf(u.email.toLowerCase()) !== -1;
-            if (!ok || document.getElementById('resumeAula')) return;
+            if (!u) return;
+            window.AVI_access(u).then(function(acceso){ if (acceso.ok) mostrarAtajo(); });
+          });
+          function mostrarAtajo(){
+            if (document.getElementById('resumeAula')) return;
             var a=document.createElement('a');
             a.id='resumeAula'; a.href='aula.html'; a.textContent='Continuar en mi aula →';
             a.style.cssText='position:fixed;top:20px;right:20px;z-index:10;padding:11px 20px;background:#ff6a00;color:#000;text-decoration:none;border-radius:999px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;box-shadow:0 4px 18px rgba(255,106,0,.35);';
             document.body.appendChild(a);
-          });
+          }
         }).catch(function(){});
     })();
   </script>

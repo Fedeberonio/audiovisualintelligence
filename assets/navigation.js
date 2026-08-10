@@ -12,12 +12,9 @@
   function ensureFirebase() {
     if (window.firebase && firebase.auth) return Promise.resolve();
     return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js')
-      .then(function(){ return loadScript('assets/firebase-init.js'); })
+      .then(function(){ return loadScript('assets/firebase-init.js?v=2'); })
       .then(function(){ return loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js'); })
       .then(function(){ if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG); });
-  }
-  function allowed(user){
-    return user && user.email && (window.AVI_ALLOWED_EMAILS||[]).indexOf(user.email.toLowerCase()) !== -1;
   }
 
   var PUBLIC_ITEMS = [
@@ -34,12 +31,13 @@
     return (location.pathname.split('/').pop() || 'index.html');
   }
 
-  function buildMenu(user) {
+  // conSesion: el usuario ya pasó el chequeo de acceso (claim student o admin)
+  function buildMenu(conSesion) {
     var menu = document.getElementById('mobileMenu');
     var list = menu ? menu.querySelector('.menu-list') : null;
     if (list) {
       var items = PUBLIC_ITEMS.slice();
-      if (allowed(user)) {
+      if (conSesion) {
         items.unshift(['aula.html', 'Mi aula']);
         items.push(['logout.html', 'Salir']);
       } else {
@@ -54,7 +52,7 @@
     // Brand siempre al inicio
     document.querySelectorAll('a.brand').forEach(function (a) { a.href = 'index.html'; });
     // Indicador de sesión
-    if (allowed(user)) {
+    if (conSesion) {
       var header = document.querySelector('.site-header .inner, .classroom-header-inner');
       if (header && !document.getElementById('sessionBadge')) {
         var b = document.createElement('span');
@@ -89,9 +87,12 @@
 
   function start() {
     initToggle();
-    buildMenu(null); // estado deslogueado por defecto, sin esperar red
+    buildMenu(false); // estado deslogueado por defecto, sin esperar red
     ensureFirebase().then(function () {
-      firebase.auth().onAuthStateChanged(function (user) { buildMenu(user); });
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (!user) { buildMenu(false); return; }
+        window.AVI_access(user).then(function (acceso) { buildMenu(acceso.ok); });
+      });
     }).catch(function(){ /* sin red: queda el menú público */ });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
