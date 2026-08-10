@@ -47,17 +47,35 @@ Cada alumno tiene su propio PDF con marca de agua en
 `materiales/vision-ai/clase-01/{uid}.pdf` y `clase-02/{uid}.pdf`.
 `storage.rules` deja que cada uno lea **solo** el archivo con su uid.
 
-Mientras no estén los definitivos, el mismo placeholder para todos:
+### Estado del material (verificado 2026-08-10)
+
+| Clase | Estado | Origen |
+|---|---|---|
+| Clase 2 | **Completa**: 19 PDF nominales, 29 páginas, marca de agua + pie con el nombre del alumno | vault → `AVI_Vision/material_apoyo_D2_3/final/personalizados/pdf/` |
+| Clase 1 | **Solo el ejemplar de revisión** (Alejandro Puente). Faltan 18. El README del material dice que no se genera el resto del roster hasta aprobar ese ejemplar. | vault → `AVI_Vision/material_apoyo_D1/final/personalizados/pdf/` |
+
+### Comandos
+
+Clase 2 real + Clase 1 con placeholder para todos (una sola pasada). Ajustá la
+ruta del vault si cambió:
 
 ```bash
-node upload-materials.js --placeholder
+VAULT="/Users/aimac/Documents/Federico Knowledge Base/30_Proyectos/AVI_Vision"
+node upload-materials.js --placeholder --clase-02 "$VAULT/material_apoyo_D2_3/final/personalizados/pdf" --dry-run
+node upload-materials.js --placeholder --clase-02 "$VAULT/material_apoyo_D2_3/final/personalizados/pdf"
 ```
 
-Con los PDF reales, una carpeta por clase y un PDF por alumno:
+La cuenta de prueba no tiene PDF nominal, así que se le sube placeholder aparte:
 
 ```bash
-node upload-materials.js --clase-01 ./materiales/clase-01 --clase-02 ./materiales/clase-02 --dry-run
-node upload-materials.js --clase-01 ./materiales/clase-01 --clase-02 ./materiales/clase-02
+node upload-materials.js --placeholder --csv students-test.csv
+```
+
+Cuando estén los 18 PDF que faltan de la Clase 1:
+
+```bash
+node upload-materials.js --clase-01 "$VAULT/material_apoyo_D1/final/personalizados/pdf" --dry-run
+node upload-materials.js --clase-01 "$VAULT/material_apoyo_D1/final/personalizados/pdf"
 ```
 
 Los archivos se emparejan con el alumno por nombre: vale el email

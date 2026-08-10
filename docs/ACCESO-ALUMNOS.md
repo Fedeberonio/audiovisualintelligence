@@ -75,8 +75,17 @@ cd functions/scripts
 npm install
 export GOOGLE_APPLICATION_CREDENTIALS="$PWD/serviceAccount.json"
 node create-students.js
-node upload-materials.js --placeholder
+
+VAULT="/Users/aimac/Documents/Federico Knowledge Base/30_Proyectos/AVI_Vision"
+node upload-materials.js --placeholder --clase-02 "$VAULT/material_apoyo_D2_3/final/personalizados/pdf"
+node upload-materials.js --placeholder --csv students-test.csv
 ```
+
+Estado del material a 2026-08-10: la **Clase 2 está completa** (19 PDF nominales
+con marca de agua por alumno, emparejados 19/19 contra la lista de cuentas). La
+**Clase 1 tiene solo el ejemplar de revisión** de Alejandro Puente; su README
+indica que no se genera el resto del roster hasta aprobar ese ejemplar, así que
+va con placeholder hasta entonces.
 
 ### 3. Publicar el sitio
 
