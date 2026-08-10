@@ -147,7 +147,11 @@
         .then(r=>r.json())
         .then(data=>{
           if (data.section && data.section.evidencia) document.getElementById('evidencia').textContent = data.section.evidencia;
-          const items = (data.capacitaciones||[]).slice(0,3);
+          // Filtra por segmento; sin modo elegido cae en audiovisual, así la
+          // página funciona sola aunque no se pase por modos.html.
+          let modo = null; try { modo = sessionStorage.getItem('avi_modo'); } catch(_) {}
+          if (!modo) modo = 'av';
+          const items = (data.capacitaciones||[]).filter(x=> (x.segmento===modo) ).slice(0,3);
           // Construir paneles tipo glass con contenido del JSON
           panels.innerHTML = items.map((it, i)=>{
             const objetivos = (it.objetivos||[]).map(x=>`<li>${x}</li>`).join('');
