@@ -49,33 +49,34 @@ Cada alumno tiene su propio PDF con marca de agua en
 
 ### Estado del material (verificado 2026-08-10)
 
-| Clase | Estado | Origen |
-|---|---|---|
-| Clase 2 | **Completa**: 19 PDF nominales, 29 páginas, marca de agua + pie con el nombre del alumno | vault → `AVI_Vision/material_apoyo_D2_3/final/personalizados/pdf/` |
-| Clase 1 | **Solo el ejemplar de revisión** (Alejandro Puente). Faltan 18. El README del material dice que no se genera el resto del roster hasta aprobar ese ejemplar. | vault → `AVI_Vision/material_apoyo_D1/final/personalizados/pdf/` |
+Las dos clases están cerradas: 19 PDF nominales cada una, con marca de agua,
+aviso NDA y pie con el nombre del alumno. Emparejan 38/38 contra las cuentas.
+
+| Clase | Archivos | Páginas | Origen en el vault |
+|---|---|---|---|
+| Clase 1 | 19 PDF | 8 | `AVI_Vision/material_apoyo_D1/final/personalizados/pdf/` |
+| Clase 2 | 19 PDF | 29 | `AVI_Vision/material_apoyo_D2_3/final/personalizados/pdf/` |
 
 ### Comandos
 
-Clase 2 real + Clase 1 con placeholder para todos (una sola pasada). Ajustá la
-ruta del vault si cambió:
+Ajustá la ruta del vault si cambió. Corré siempre el dry-run primero:
 
 ```bash
 VAULT="/Users/aimac/Documents/Federico Knowledge Base/30_Proyectos/AVI_Vision"
-node upload-materials.js --placeholder --clase-02 "$VAULT/material_apoyo_D2_3/final/personalizados/pdf" --dry-run
-node upload-materials.js --placeholder --clase-02 "$VAULT/material_apoyo_D2_3/final/personalizados/pdf"
+node upload-materials.js \
+  --clase-01 "$VAULT/material_apoyo_D1/final/personalizados/pdf" \
+  --clase-02 "$VAULT/material_apoyo_D2_3/final/personalizados/pdf" --dry-run
+
+node upload-materials.js \
+  --clase-01 "$VAULT/material_apoyo_D1/final/personalizados/pdf" \
+  --clase-02 "$VAULT/material_apoyo_D2_3/final/personalizados/pdf"
 ```
 
-La cuenta de prueba no tiene PDF nominal, así que se le sube placeholder aparte:
+La cuenta de prueba no tiene PDF nominal (ni debe tenerlo), así que se le sube
+placeholder aparte para poder probar el flujo completo:
 
 ```bash
 node upload-materials.js --placeholder --csv students-test.csv
-```
-
-Cuando estén los 18 PDF que faltan de la Clase 1:
-
-```bash
-node upload-materials.js --clase-01 "$VAULT/material_apoyo_D1/final/personalizados/pdf" --dry-run
-node upload-materials.js --clase-01 "$VAULT/material_apoyo_D1/final/personalizados/pdf"
 ```
 
 Los archivos se emparejan con el alumno por nombre: vale el email
