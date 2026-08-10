@@ -8,37 +8,82 @@
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#039;');
 
-  const formatDate = (value) => {
-    if (!value) return 'Fecha por confirmar';
-    const [year, month, day] = value.split('-').map(Number);
-    return new Intl.DateTimeFormat('es-DO', {
-      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-    }).format(new Date(year, month - 1, day));
+  // La cohorte tiene gente en cinco husos. Todo se calcula desde el instante UTC
+  // con Intl, así el horario de verano nunca queda desfasado a mano.
+  const zonaPropia = () => {
+    try { return Intl.DateTimeFormat().resolvedOptions().timeZone || null; } catch (_) { return null; }
   };
 
-  const sessionMarkup = (session) => {
-    const completed = session.status === 'completed';
-    const timing = completed
-      ? `Clase dictada · ${escapeHtml(formatDate(session.date))}`
-      : 'Próxima clase · Fecha por confirmar';
-    const access = completed
-      ? '<span class="session-complete">Clase finalizada</span>'
-      : '<span class="session-pending">Aún no dictada</span>';
+  const enZona = (iso, tz, opciones) => {
+    try {
+      return new Intl.DateTimeFormat('es-AR', Object.assign({ timeZone: tz }, opciones)).format(new Date(iso));
+    } catch (_) {
+      return null;
+    }
+  };
 
+  const fechaLarga = (iso, tz) => enZona(iso, tz, { weekday: 'long', day: 'numeric', month: 'long' });
+  const hora = (iso, tz) => enZona(iso, tz, { hour: '2-digit', minute: '2-digit', hour12: false });
+
+  const fechaSuelta = (value) => {
+    if (!value) return null;
+    const [year, month, day] = value.split('-').map(Number);
+    return new Intl.DateTimeFormat('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })
+      .format(new Date(year, month - 1, day));
+  };
+
+  const cuando = (session, tzCohorte) => {
+    const tz = zonaPropia() || tzCohorte;
+    if (session.start_utc) {
+      const f = fechaLarga(session.start_utc, tz);
+      const h = hora(session.start_utc, tz);
+      if (f && h) return `${f} · ${h} h en tu horario`;
+    }
+    return fechaSuelta(session.date) || 'Fecha por confirmar';
+  };
+
+  // Lista de husos: solo en las clases que todavía no se dictaron, donde sirve
+  // para llegar a horario. En las dictadas sería ruido.
+  const husos = (session, zonas) => {
+    if (!session.start_utc || !zonas.length) return '';
+    const partes = zonas
+      .map((z) => {
+        const h = hora(session.start_utc, z.tz);
+        return h ? `${escapeHtml(z.label)} ${h}` : null;
+      })
+      .filter(Boolean);
+    return partes.length
+      ? `<p class="session-zones">${partes.join(' · ')}</p>`
+      : '';
+  };
+
+  const acceso = (session) => {
+    if (session.status === 'completed') return '<span class="session-complete">Clase finalizada</span>';
+    if (session.meeting_url) {
+      return `<a class="text-action" href="${escapeHtml(session.meeting_url)}" target="_blank" rel="noopener noreferrer">Entrar al encuentro</a>`;
+    }
+    return '<span class="session-pending">Aún no dictada</span>';
+  };
+
+  const sessionMarkup = (session, tzCohorte, zonas) => {
+    const completed = session.status === 'completed';
+    const etiqueta = completed ? 'Clase dictada' : 'Próxima clase';
     return `
       <article class="cohort-session">
         <div class="session-number">Clase ${session.order}</div>
         <div class="session-copy">
-          <span>${timing}</span>
+          <span>${etiqueta} · ${escapeHtml(cuando(session, tzCohorte))}</span>
           <h3>${escapeHtml(session.title)}</h3>
           <p>${escapeHtml(session.subtitle)} · ${Math.round(session.duration_minutes / 60)} horas</p>
+          ${completed ? '' : husos(session, zonas)}
         </div>
-        <div class="session-access">${access}</div>
+        <div class="session-access">${acceso(session)}</div>
       </article>`;
   };
 
   const renderCohort = (data) => {
     const cohort = data.cohort;
+    const zonas = data.participant_timezones || [];
     document.querySelector('[data-cohort-label]')?.replaceChildren(document.createTextNode(cohort.label));
     document.querySelector('[data-cohort-welcome]')?.replaceChildren(document.createTextNode(cohort.welcome));
     document.querySelector('[data-cohort-progress]')?.replaceChildren(
@@ -48,7 +93,9 @@
     const sessions = document.querySelector('[data-cohort-sessions]');
     if (sessions) {
       sessions.removeAttribute('data-loading');
-      sessions.innerHTML = data.sessions.map(sessionMarkup).join('');
+      sessions.innerHTML = data.sessions
+        .map((session) => sessionMarkup(session, cohort.timezone, zonas))
+        .join('');
     }
   };
 

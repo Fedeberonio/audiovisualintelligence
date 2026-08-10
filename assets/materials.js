@@ -26,22 +26,22 @@
 
   function fila(mat) {
     var viewUrl = driveUrl(mat.viewUrl);
-    var downloadUrl = driveUrl(mat.downloadUrl || mat.url);
+    var downloadUrl = driveUrl(mat.downloadUrl);
     var acciones = [];
     if (viewUrl) {
-      acciones.push('<a class="text-action" href="' + escapeHtml(viewUrl) + '" target="_blank" rel="noopener noreferrer">Ver online</a>');
+      acciones.push('<a class="text-action" href="' + escapeHtml(viewUrl) + '" target="_blank" rel="noopener noreferrer">Ver PDF</a>');
     }
     if (downloadUrl) {
-      acciones.push('<a class="text-action" href="' + escapeHtml(downloadUrl) + '" target="_blank" rel="noopener noreferrer">Descargar mi copia</a>');
+      acciones.push('<a class="text-action" href="' + escapeHtml(downloadUrl) + '" target="_blank" rel="noopener noreferrer">Descargar</a>');
     }
     var acceso = acciones.length
       ? acciones.join('<span aria-hidden="true"> · </span>')
       : '<span class="session-pending">Pendiente</span>';
-    var descripcion = viewUrl && downloadUrl
-      ? 'Lectura online de la guía y descarga de tu copia personal con marca de agua.'
+    var descripcion = mat.personal
+      ? 'Tu copia personal, con marca de agua. Se abre en el visor y podés descargarla.'
       : (viewUrl
-        ? 'Guía disponible para lectura online.'
-        : (downloadUrl ? 'Tu copia personal con marca de agua.' : 'El material todavía no está publicado.'));
+        ? 'Guía de lectura online.'
+        : 'El material todavía no está publicado.');
 
     return '' +
       '<article class="cohort-session">' +
@@ -60,9 +60,20 @@
     var materiales = base.map(function (mat) {
       var privado = materialesPrivados && materialesPrivados[mat.id];
       var comun = materialesComunes && materialesComunes[mat.id];
+      // El alumno siempre ve y descarga SU copia: es la que lleva su marca de
+      // agua y la única sin restricción de descarga. La maestra común queda
+      // para docentes y admin, que no tienen ejemplar nominal.
+      if (privado && (privado.url || privado.downloadUrl)) {
+        return Object.assign({}, mat, {
+          personal: true,
+          viewUrl: privado.url || privado.viewUrl,
+          downloadUrl: privado.downloadUrl
+        });
+      }
       return Object.assign({}, mat, {
-        viewUrl: (comun && comun.viewUrl) || (privado && privado.viewUrl),
-        downloadUrl: privado && (privado.downloadUrl || privado.url)
+        personal: false,
+        viewUrl: comun && comun.viewUrl,
+        downloadUrl: null
       });
     });
     contenedor.removeAttribute('data-loading');

@@ -51,7 +51,7 @@
             <div class="resource-meta">Presentación — Español</div>
             <div class="resource-actions">
               <button id="openPdfModal" class="btn" style="padding:8px 12px">Ver</button>
-              <a class="link" href="media/AVI-Presentacion_VISION_A.I._SPA_.pdf" target="_blank" rel="noopener">Abrir en pestaña</a>
+              <a class="link" id="pdfTab" href="#" target="_blank" rel="noopener noreferrer" hidden>Abrir en pestaña</a>
             </div>
           </article>
         </div>
@@ -86,51 +86,69 @@
       };
       softenOnScroll();
       window.addEventListener('scroll', softenOnScroll, { passive: true });
-      // Modal simple para ver el PDF
-      const ensurePdfModal = () => {
-        let m = document.getElementById('pdfModal');
-        if (m) return m;
-        m = document.createElement('dialog');
-        m.id = 'pdfModal';
-        m.className = 'modal';
-        m.innerHTML = `
-          <div class="modal-backdrop" onclick="this.closest('dialog').close()"></div>
-          <div class="modal-dialog">
-            <div class="modal-hd">
-              <div class="kicker">Presentación</div>
-              <button class="btn" id="pdfClose">Cerrar</button>
-            </div>
-            <div class="modal-bd" style="display:block; padding:0;">
-              <iframe title="Guía Visión A.I." src="media/AVI-Presentacion_VISION_A.I._SPA_.pdf#view=FitH&toolbar=0" style="width:min(96vw, 1040px); height:min(80vh, 860px); border:0; background:#0f0f0f"></iframe>
-            </div>
-            <div class="modal-ft">
-              <a class="btn" href="media/AVI-Presentacion_VISION_A.I._SPA_.pdf" target="_blank" rel="noopener">Abrir en pestaña</a>
-            </div>
-          </div>`;
-        document.body.appendChild(m);
-        m.querySelector('#pdfClose')?.addEventListener('click', ()=>m.close());
-        return m;
-      };
-      const openPdf = () => { const md = ensurePdfModal(); md.showModal(); };
-      document.getElementById('openPdfModal')?.addEventListener('click', openPdf);
-      document.getElementById('pdfPreview')?.addEventListener('click', openPdf);
-      // Render miniatura del PDF (primera página) con pdf.js
-      (async ()=>{
-        try {
-          if (!window['pdfjsLib']) return;
-          const url = 'media/AVI-Presentacion_VISION_A.I._SPA_.pdf';
-          const pdf = await pdfjsLib.getDocument(url).promise;
-          const page = await pdf.getPage(1);
-          const ratio = 1.2; // escala moderada para thumbs
-          const viewport = page.getViewport({ scale: ratio });
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
-          await page.render({ canvasContext: ctx, viewport }).promise;
-          const thumb = document.querySelector('.resource-thumb');
-          if (thumb) thumb.prepend(canvas);
-        } catch (_) { /* silent */ }
+      // El PDF ya no vive en el sitio: se sirve desde Drive y solo lo abre una
+      // sesion con rol. Los enlaces se resuelven al vuelo desde Firestore.
+      (function () {
+        var enlaces = null;
+        var boton = document.getElementById('openPdfModal');
+        var preview = document.getElementById('pdfPreview');
+        var pestania = document.getElementById('pdfTab');
+
+        // gate.js carga firebase y firebase-init de forma asincrona: no podemos
+        // tocar Firestore hasta que confirme el acceso.
+        function listo() {
+          if (window.AVI_ACCESO) return Promise.resolve();
+          return new Promise(function (res) {
+            document.addEventListener('avi:access-ready', function () { res(); }, { once: true });
+          });
+        }
+
+        function resolver() {
+          if (enlaces) return Promise.resolve(enlaces);
+          return listo()
+            .then(function () { return window.AVI_ensureFirestore(); })
+            .then(function () { return firebase.firestore().collection('class_materials').doc('presentacion-general').get(); })
+            .then(function (doc) {
+              if (!doc.exists) throw new Error('sin-material');
+              enlaces = doc.data();
+              if (pestania && enlaces.viewUrl) { pestania.href = enlaces.viewUrl; pestania.hidden = false; }
+              return enlaces;
+            });
+        }
+
+        function modal(src) {
+          var m = document.getElementById('pdfModal');
+          if (m) return m;
+          m = document.createElement('dialog');
+          m.id = 'pdfModal';
+          m.className = 'modal';
+          m.innerHTML =
+            '<div class="modal-backdrop" onclick="this.closest(\'dialog\').close()"></div>' +
+            '<div class="modal-dialog">' +
+              '<div class="modal-hd"><div class="kicker">Presentación</div>' +
+              '<button class="btn" id="pdfClose">Cerrar</button></div>' +
+              '<div class="modal-bd" style="display:block; padding:0;">' +
+                '<iframe title="Guía Visión A.I." src="' + src + '" allow="autoplay" ' +
+                'style="width:min(96vw, 1040px); height:min(80vh, 860px); border:0; background:#0f0f0f"></iframe>' +
+              '</div>' +
+            '</div>';
+          document.body.appendChild(m);
+          m.querySelector('#pdfClose').addEventListener('click', function () { m.close(); });
+          return m;
+        }
+
+        function abrir() {
+          resolver()
+            .then(function (d) { modal(d.previewUrl || d.viewUrl).showModal(); })
+            .catch(function () {
+              if (boton) { boton.disabled = true; boton.textContent = 'No disponible'; }
+            });
+        }
+
+        if (boton) boton.addEventListener('click', abrir);
+        if (preview) preview.addEventListener('click', abrir);
+        // Prepara el enlace de pestaña sin esperar al clic
+        resolver().catch(function () {});
       })();
       // Mostrar logo de footer solo al entrar en viewport
       if ('IntersectionObserver' in window) {

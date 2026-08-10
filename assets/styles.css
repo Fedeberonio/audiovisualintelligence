@@ -339,6 +339,7 @@ img { display: block; max-width: 100%; height: auto; }
 .session-complete { color:#f2bd83; }
 .session-copy h3 { margin:6px 0 3px; font-size:clamp(19px,2vw,25px); line-height:1.15; }
 .session-copy p { margin:0; color:var(--platform-muted); }
+.session-copy .session-zones { margin-top:8px; font-size:13px; color:#8b9299; }
 .session-access { justify-self:end; text-align:right; }
 .classroom-layout { display:grid; grid-template-columns:minmax(0,1fr) 380px; gap:clamp(48px,7vw,92px); padding-bottom:120px; }
 .classroom-guidance { display:grid; grid-template-columns:minmax(0,1fr) minmax(280px,.7fr); gap:clamp(36px,8vw,100px); align-items:start; padding-top:12px; padding-bottom:120px; border-top:1px solid var(--platform-border); }

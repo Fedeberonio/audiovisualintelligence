@@ -1,15 +1,22 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "cohort": {
     "id": "vision-ai-agosto-2026",
     "program_id": "vision-ai",
     "label": "Cohorte agosto 2026",
     "status": "in_progress",
-    "timezone": "America/Santo_Domingo",
+    "timezone": "America/Argentina/Buenos_Aires",
     "completed_sessions": 2,
     "total_sessions": 3,
     "welcome": "Dos clases ya fueron dictadas. Los materiales disponibles aparecen en la sección siguiente."
   },
+  "participant_timezones": [
+    { "label": "Argentina", "tz": "America/Argentina/Buenos_Aires" },
+    { "label": "Uruguay", "tz": "America/Montevideo" },
+    { "label": "México", "tz": "America/Mexico_City" },
+    { "label": "Costa Rica", "tz": "America/Costa_Rica" },
+    { "label": "EE. UU. (Montana)", "tz": "America/Denver" }
+  ],
   "sessions": [
     {
       "id": "clase-01",
@@ -17,8 +24,10 @@
       "title": "Panorama visual y fundamentos",
       "subtitle": "De la evolución reciente a los sistemas generativos.",
       "date": "2026-08-01",
+      "start_utc": "2026-08-01T17:00:00Z",
       "duration_minutes": 120,
-      "status": "completed"
+      "status": "completed",
+      "meeting_url": null
     },
     {
       "id": "clase-02",
@@ -26,17 +35,21 @@
       "title": "Ecosistema, equipo IA y preproducción",
       "subtitle": "Contexto, modelos, Projects, desarrollo y primeros pases de producción.",
       "date": "2026-08-08",
+      "start_utc": "2026-08-08T17:00:00Z",
       "duration_minutes": 120,
-      "status": "completed"
+      "status": "completed",
+      "meeting_url": null
     },
     {
       "id": "clase-03",
       "order": 3,
       "title": "Producción, postproducción y cierre",
       "subtitle": "La información y los materiales se habilitarán después del encuentro.",
-      "date": null,
+      "date": "2026-08-15",
+      "start_utc": "2026-08-15T17:00:00Z",
       "duration_minutes": 120,
-      "status": "upcoming"
+      "status": "upcoming",
+      "meeting_url": null
     }
   ]
 }
