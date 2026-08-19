@@ -33,7 +33,7 @@
       }
       return auth.signOut().then(function () {
         if (submitting) {
-          message.textContent = "Esta cuenta no está habilitada para el preview privado.";
+          message.textContent = "Esta cuenta no está habilitada para acceder.";
           setLoading(false);
           submitting = false;
         }
