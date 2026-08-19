@@ -36,15 +36,21 @@
       if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG);
       var auth = firebase.auth();
       var params = new URLSearchParams(location.search);
-      var next = window.AVI_safeNext(params.get('next'));
+      var pedido = params.get('next');
+      var next = window.AVI_safeNext(pedido);
 
-      function continuar(){ location.replace(next); }
+      // Un socio sin destino pedido vuelve a la portada, que se abre con su
+      // sesión. El aula queda como destino de alumnos o de un next explícito.
+      function continuar(acceso){
+        if (acceso && acceso.private && !pedido) { location.replace('/'); return; }
+        location.replace(next);
+      }
 
       // Si ya hay sesión válida, pasar directo
       auth.onAuthStateChanged(function(u){
         if (!u) return;
         Promise.all([window.AVI_privateAccess(u), window.AVI_access(u)]).then(function(resultados){
-          if (resultados[0].ok || (next === 'aula.html' && resultados[1].ok)) continuar();
+          if (resultados[0].ok || (next === 'aula.html' && resultados[1].ok)) continuar(resultados[0]);
         });
       });
 
@@ -59,7 +65,7 @@
           .then(function(cred){
             return Promise.all([window.AVI_privateAccess(cred.user), window.AVI_access(cred.user)]).then(function(resultados){
               if (!resultados[0].ok && !(next === 'aula.html' && resultados[1].ok)) { auth.signOut(); throw new Error('no-permitido'); }
-              return continuar();
+              return continuar(resultados[0]);
             });
           })
           .catch(function(err){
