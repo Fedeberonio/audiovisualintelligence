@@ -13,7 +13,8 @@ window.AVI_FIREBASE_CONFIG = {
 window.AVI_PRIVATE_EMAILS = [
   'fede@audiovisualintelligence.ai',
   'academy@audiovisualintelligence.ai',
-  'cindytoribiocruz@gmail.com'
+  'cindytoribiocruz@gmail.com',
+  'avi.info.desk@gmail.com'
 ];
 
 // La administración funcional de AVI queda separada del acceso interno.

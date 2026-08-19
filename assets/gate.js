@@ -68,7 +68,7 @@
 
   Promise.all([
     loadScript(CDN + 'firebase-app-compat.js'),
-    loadScript('assets/firebase-init.js?v=10')
+    loadScript('assets/firebase-init.js?v=11')
   ]).then(function(){
     return loadScript(CDN + 'firebase-auth-compat.js');
   }).then(function () {
