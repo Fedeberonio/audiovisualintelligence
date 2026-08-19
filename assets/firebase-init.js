@@ -52,7 +52,7 @@ var AVI_CDN = "https://www.gstatic.com/firebasejs/10.12.2/";
 var AVI_NEXT_PAGES = [
   'aula.html', 'capacitaciones.html', 'contenidos.html', 'clientes.html',
   'contacto.html', 'id-lab.html', 'quienes-somos.html', 'plataforma.html',
-  'talleres.html', 'taller.html', 'avi-vision.html', 'clase-abierta.html', 'modos.html'
+  'talleres.html', 'taller.html', 'avi-vision.html', 'portada-completa.html', 'clase-abierta.html', 'modos.html'
 ];
 
 window.AVI_safeNext = function (value) {

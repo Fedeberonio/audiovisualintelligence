@@ -47,7 +47,7 @@
     form.hidden = true;
     session.hidden = false;
     var continueLink = document.getElementById("landingContinue");
-    if (continueLink) continueLink.href = access && access.private ? "talleres.html" : "aula.html";
+    if (continueLink) continueLink.href = access && access.private ? "portada-completa.html" : "aula.html";
   }
 
   function resolveAccess(user) {
@@ -60,7 +60,7 @@
     if (!user) return;
     resolveAccess(user).then(function (access) {
       if (access.ok) {
-        if (submitting) location.replace(access.private ? "talleres.html" : "aula.html");
+        if (submitting) location.replace(access.private ? "portada-completa.html" : "aula.html");
         else showSession(access);
         return;
       }
