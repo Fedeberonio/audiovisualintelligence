@@ -1,9 +1,23 @@
+# Sistema
 .DS_Store
 Thumbs.db
-audiovisualintelligence/
-audiovisualintelligence/
-.DS_Store
+
+# Firebase
+.firebase/
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
-.firebase/
+
+# Copias y carpetas de trabajo que no forman parte del sitio
+audiovisualintelligence/
+_to_delete/
+private-platform-preview/
+
+# Material audiovisual en revisión: masters y candidatos que todavía no son
+# derivados web optimizados. Ver AGENTS.md, sección "Privacidad y assets".
+media/vision/
+assets/vision/
+
+# Prototipos de exploración visual, no publicables
+preview-visual-upgrade.html
+assets/preview-visual-upgrade.css

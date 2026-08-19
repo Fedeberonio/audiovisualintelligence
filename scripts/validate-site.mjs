@@ -1,0 +1,83 @@
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { dirname, extname, resolve } from 'node:path';
+import { spawnSync } from 'node:child_process';
+
+const root = process.cwd();
+const failures = [];
+const ignored = new Set(
+  spawnSync('git', ['ls-files', '--others', '--ignored', '--exclude-standard'], { encoding: 'utf8' })
+    .stdout.split('\n').filter(Boolean)
+);
+const htmlFiles = readdirSync(root).filter((name) => extname(name) === '.html' && !ignored.has(name));
+const jsFiles = readdirSync(resolve(root, 'assets')).filter((name) => extname(name) === '.js');
+const dataFiles = readdirSync(resolve(root, 'data'));
+const jsonFiles = dataFiles.filter((name) => extname(name) === '.json');
+
+// data/ es público: sólo puede contener contenido versionado en JSON.
+for (const name of dataFiles) {
+  if (extname(name) !== '.json') failures.push(`Archivo no permitido en data/: ${name}`);
+}
+
+for (const name of jsonFiles) {
+  try { JSON.parse(readFileSync(resolve(root, 'data', name), 'utf8')); }
+  catch (error) { failures.push(`JSON inválido: data/${name} (${error.message})`); }
+}
+
+for (const name of jsFiles) {
+  const result = spawnSync(process.execPath, ['--check', resolve(root, 'assets', name)], { encoding: 'utf8' });
+  if (result.status !== 0) failures.push(`JavaScript inválido: assets/${name}\n${result.stderr.trim()}`);
+}
+
+for (const name of htmlFiles) {
+  const source = readFileSync(resolve(root, name), 'utf8');
+  const references = source.matchAll(/(?:href|src)=["']([^"'#?]+)(?:[?#][^"']*)?["']/g);
+  for (const match of references) {
+    const target = match[1];
+    if (/^(?:https?:|mailto:|data:|javascript:|\/)/.test(target)) continue;
+    if (!existsSync(resolve(root, dirname(name), target))) failures.push(`Referencia inexistente: ${name} -> ${target}`);
+  }
+}
+
+// El aula y la plataforma interna nunca deben quedar sin guard de interfaz.
+for (const name of ['aula.html', 'plataforma.html']) {
+  const source = readFileSync(resolve(root, name), 'utf8');
+  if (!source.includes('assets/gate.js')) failures.push(`Falta gate de interfaz: ${name}`);
+}
+
+// Las superficies públicas nunca deben quedar protegidas por error.
+for (const name of ['index.html', 'talleres.html', 'taller.html', 'avi-vision.html']) {
+  const source = readFileSync(resolve(root, name), 'utf8');
+  if (source.includes('assets/gate.js')) failures.push(`Página pública protegida por error: ${name}`);
+}
+
+// Ningún JSON público puede filtrar enlaces privados ni identificadores de reproducción.
+// Se revisan los valores, no los nombres de campo: `meeting_url: null` es un contrato válido.
+const privateValue = /drive\.google\.com|docs\.google\.com|meet\.google\.com|zoom\.us|providerAssetId/i;
+const privateKey = /^(meeting_url|recording_url|recordingPath|storagePath|providerAssetId)$/i;
+
+function scanValues(node, name, path = '') {
+  if (node === null || node === undefined) return;
+  if (typeof node === 'string') {
+    if (privateValue.test(node)) failures.push(`Enlace privado en data/${name} (${path}): ${node}`);
+    return;
+  }
+  if (Array.isArray(node)) return node.forEach((item, i) => scanValues(item, name, `${path}[${i}]`));
+  if (typeof node !== 'object') return;
+  for (const [key, value] of Object.entries(node)) {
+    const here = path ? `${path}.${key}` : key;
+    if (privateKey.test(key) && value) failures.push(`Campo privado con valor en data/${name} (${here})`);
+    scanValues(value, name, here);
+  }
+}
+
+for (const name of jsonFiles) {
+  try { scanValues(JSON.parse(readFileSync(resolve(root, 'data', name), 'utf8')), name); }
+  catch { /* el JSON inválido ya se reportó arriba */ }
+}
+
+if (failures.length) {
+  console.error(failures.join('\n'));
+  process.exit(1);
+}
+
+console.log(`AVI check OK: ${htmlFiles.length} HTML, ${jsFiles.length} JS y ${jsonFiles.length} JSON.`);

@@ -1,0 +1,9 @@
+{
+  "name": "avi-learning-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio publico, aula y arquitectura de cursos de Audiovisual Intelligence.",
+  "scripts": {
+    "check": "node scripts/validate-site.mjs"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "product": {
+    "id": "vision-ai-autoguiado",
+    "slug": "vision-ai-autoguiado",
+    "title": "Visión AI a tu ritmo",
+    "eyebrow": "Curso autoguiado · En desarrollo",
+    "summary": "Una versión autoguiada de Visión AI para recorrer el mapa de la inteligencia artificial aplicada al oficio audiovisual.",
+    "audience": "Profesionales audiovisuales",
+    "delivery": "Video bajo demanda",
+    "access_model": "Compra individual",
+    "status": "in_development",
+    "purchase_status": "not_available",
+    "estimated_scope": "3 etapas · lecciones breves",
+    "contact_email": "academy@audiovisualintelligence.ai"
+  },
+  "editorial": {
+    "source_recordings": "available_pending_review",
+    "publishable": false,
+    "status_label": "Grabaciones disponibles · revisión editorial pendiente",
+    "note": "La existencia de una grabación no implica que la lección esté aprobada para publicación. Cada bloque debe revisarse, editarse, subtitularse y validarse antes de habilitarse."
+  },
+  "experience": [
+    "Lecciones en video organizadas por decisiones reales del workflow audiovisual.",
+    "Transcripciones y subtítulos revisados para volver sobre cada concepto.",
+    "Guías de repaso y recursos descargables cuando el contenido esté aprobado.",
+    "Progreso por lección y continuidad entre dispositivos en la versión comercial."
+  ],
+  "modules": [
+    {
+      "id": "sp-m01",
+      "order": 1,
+      "title": "Panorama visual y fundamentos",
+      "summary": "Del cambio reciente de la IA audiovisual a los sistemas generativos y el lugar del criterio profesional.",
+      "source": "Grabación de Clase 1",
+      "status": "editorial_review",
+      "lessons": [
+        { "id": "sp-l01", "title": "Qué cambió en la producción audiovisual", "status": "editorial_review" },
+        { "id": "sp-l02", "title": "De reglas fijas a patrones aprendidos", "status": "editorial_review" },
+        { "id": "sp-l03", "title": "Dirección, iteración y verificación", "status": "editorial_review" }
+      ]
+    },
+    {
+      "id": "sp-m02",
+      "order": 2,
+      "title": "Ecosistema, equipo IA y preproducción",
+      "summary": "Modelos, asistentes, contexto de proyecto, desarrollo y el primer pase de planificación.",
+      "source": "Grabación de Clase 2",
+      "status": "editorial_review",
+      "lessons": [
+        { "id": "sp-l04", "title": "Elegir entorno y modelo según la tarea", "status": "editorial_review" },
+        { "id": "sp-l05", "title": "Construir un equipo IA con contexto", "status": "editorial_review" },
+        { "id": "sp-l06", "title": "Desarrollo, desglose y planificación", "status": "editorial_review" }
+      ]
+    },
+    {
+      "id": "sp-m03",
+      "order": 3,
+      "title": "Producción, postproducción y cierre",
+      "summary": "Del diseño visual a la generación, el montaje y una adopción responsable dentro del pipeline.",
+      "source": "Grabación de Clase 3",
+      "status": "editorial_review",
+      "lessons": [
+        { "id": "sp-l07", "title": "Biblias, personajes y continuidad visual", "status": "editorial_review" },
+        { "id": "sp-l08", "title": "Stills, video, movimiento y sonido", "status": "editorial_review" },
+        { "id": "sp-l09", "title": "Postproducción, riesgos y próximo workflow", "status": "editorial_review" }
+      ]
+    }
+  ],
+  "release_gates": [
+    "Concordancia entre cada grabación y el contenido efectivamente dictado.",
+    "Edición pedagógica en lecciones breves, sin tiempos muertos ni repeticiones.",
+    "Subtítulos, transcripción, audio y legibilidad validados.",
+    "Derechos, privacidad y referencias visuales revisados para publicación.",
+    "Recursos descargables versionados y sin datos personales.",
+    "Compra, acceso y reproducción protegida probados de punta a punta."
+  ]
+}
