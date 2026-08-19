@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://audiovisualintelligence.ai/</loc></url>
+  <url><loc>https://audiovisualintelligence.ai/talleres.html</loc></url>
+  <url><loc>https://audiovisualintelligence.ai/taller.html?slug=vision-ia</loc></url>
+  <url><loc>https://audiovisualintelligence.ai/taller.html?slug=taller-intensivo-ia</loc></url>
+  <url><loc>https://audiovisualintelligence.ai/taller.html?slug=laboratorio-ia-personalizado</loc></url>
+  <url><loc>https://audiovisualintelligence.ai/taller.html?slug=eduia-basico</loc></url>
+  <url><loc>https://audiovisualintelligence.ai/taller.html?slug=taller-intensivo-ia-edu</loc></url>
+  <url><loc>https://audiovisualintelligence.ai/taller.html?slug=laboratorio-ia-edu</loc></url>
   <url><loc>https://audiovisualintelligence.ai/plataforma.html</loc></url>
   <url><loc>https://audiovisualintelligence.ai/capacitaciones.html</loc></url>
   <url><loc>https://audiovisualintelligence.ai/quienes-somos.html</loc></url>

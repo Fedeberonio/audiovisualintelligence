@@ -3,7 +3,7 @@
     "id": "capacitaciones",
     "title": "Capacitaciones",
     "subtitle": "IA aplicada a desarrollo, pre, producción y post",
-    "auth_required": true,
+    "auth_required": false,
     "evidencia": "Programas dictados a productoras, estudios, universidades y equipos corporativos en República Dominicana, Argentina, Uruguay, México, Chile y Reino Unido."
   },
   "capacitaciones": [
