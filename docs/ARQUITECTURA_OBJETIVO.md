@@ -93,7 +93,9 @@ graph TD
 | `entitlements` | persona ↔ formato | `persona_id`, `formato_id`, `estado`, `otorgado_en`, `vence_en` |
 | `progreso` | persona ↔ lección | `persona_id`, `leccion_id`, `posicion`, `completado_en` |
 
-`modo` de un formato: `en_vivo`, `intensivo`, `autoguiado`, `a_medida`, `licencia`.
+`modo` de un formato: `en_vivo`, `practico`, `intensivo`, `autoguiado`, `a_medida`, `licencia`.
+Por regla comercial, `intensivo` y la palabra "Intensivo" quedan reservados al taller de 12 horas;
+los prácticos de 6 horas se llaman "Práctico".
 
 ### Invariantes
 
