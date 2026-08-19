@@ -2,228 +2,188 @@
   "section": {
     "id": "capacitaciones",
     "title": "Capacitaciones",
-    "subtitle": "IA aplicada a desarrollo, pre, producción y post",
-    "auth_required": false,
-    "evidencia": "Programas dictados a productoras, estudios, universidades y equipos corporativos en República Dominicana, Argentina, Uruguay, México, Chile y Reino Unido."
+    "subtitle": "IA aplicada a desarrollo, preproducción, imagen y producción",
+    "auth_required": true,
+    "evidencia": "Oferta actualizada a partir de Visión AI agosto 2026 y de la arquitectura modular validada el 19 de agosto de 2026."
   },
   "capacitaciones": [
     {
-      "slug": "vision-ia",
-      "titulo": "Visión IA",
+      "slug": "vision-ai-modulo-1",
+      "titulo": "Visión AI · Módulo 1",
       "segmento": "av",
-      "nivel": "Intro",
+      "nivel": "Fundamentos",
+      "estado": "Validado · edición completada",
       "duracion_total": "6 h (3×2 h)",
       "horas_totales": 6,
-      "formato": "En vivo por Google Meet + grabaciones",
-      "grupo": "Sugerido 10–15 participantes",
-      "resumen_corto": "Mapa completo del ecosistema IA con demos en tiempo real.",
-      "objetivos": [
-        "Comprender el ecosistema IA aplicado a producción audiovisual",
-        "Ver procesos clave demostrados end-to-end",
-        "Identificar oportunidades rápidas de adopción"
-      ],
-      "temario_resumido": [
-        "Fundamentos: de reglas a sistemas generativos",
-        "LLMs y asistentes personalizados (GPTs/Projects)",
-        "Desarrollo: ideación, research, guion asistido",
-        "Pre-producción: breakdown, presupuesto, scheduling",
-        "Producción y Post: storyboard/frames, video, upscaling y audio",
-        "Tendencias y próximos pasos"
-      ],
-      "modalidad_horarios": [
-        "3 jornadas de 2 horas, o 2 de 3 horas, a convenir"
-      ],
-      "incluye": [
-        "Lista curada de herramientas",
-        "Templates descargables",
-        "Certificado + grupo privado",
-        "Soporte post-curso (1 semana)"
-      ],
-      "requisitos": "Conexión a internet (las demos las realiza el instructor)",
-      "tags": [
-        "Desarrollo",
-        "Pre-producción",
-        "Producción",
-        "Post"
-      ],
-      "cta_label": "Solicitar información",
-      "trayectoria": [
-        "Programa fundacional de AVI, dictado en ediciones abiertas con participantes internacionales.",
-        "Base del aula Visión AI de la plataforma."
-      ],
-      "lab_line": "investigacion",
-      "lab_label": "Respaldado por la línea Investigación aplicada del I+D Lab"
+      "formato": "En vivo online",
+      "grupo": "Profesionales audiovisuales y equipos",
+      "resumen_corto": "Mapa completo del ecosistema y demostración de un flujo audiovisual desde los fundamentos hasta el plano final.",
+      "objetivos": ["Comprender sistemas generativos, contexto y modelos", "Reconocer aplicaciones reales por etapa del pipeline", "Evaluar herramientas sin delegar el criterio creativo"],
+      "temario_resumido": ["Fundamentos: datos, patrones, contexto y probabilidad", "Modelos, Projects, asistentes y agentes", "Desarrollo, preproducción y demostración de un flujo visual completo"],
+      "modalidad_horarios": ["3 encuentros de 2 horas"],
+      "incluye": ["Recorrido en vivo", "Materiales autorizados de repaso", "Acceso al aula durante el período acordado"],
+      "requisitos": "No requiere experiencia previa con herramientas de IA.",
+      "entregable": "Mapa compartido y criterio para definir un próximo paso.",
+      "tags": ["Fundamentos", "Desarrollo", "Preproducción", "Producción"],
+      "cta_label": "Solicitar información"
     },
     {
-      "slug": "taller-intensivo-ia",
-      "titulo": "Taller Intensivo IA",
+      "slug": "vision-ai-modulo-2p",
+      "titulo": "Visión AI · Módulo 2P",
+      "segmento": "av",
+      "nivel": "Práctico",
+      "estado": "Arquitectura validada",
+      "duracion_total": "6 h",
+      "horas_totales": 6,
+      "formato": "En vivo online · trabajo en equipos",
+      "grupo": "Sugerido: 4 equipos de hasta 5 personas",
+      "resumen_corto": "Desarrollo y preproducción asistidos: del contexto y el coverage a un paquete listo para producir.",
+      "objetivos": ["Construir contexto de proyecto", "Desarrollar y auditar una escena", "Organizar breakdown, scheduling y presupuesto"],
+      "temario_resumido": ["Projects, coverage, escenas y desarrollo", "Breakdown técnico y creativo", "Scheduling, stripboard, presupuesto y paquete de preproducción"],
+      "modalidad_horarios": ["3 encuentros de 2 horas", "Sin tarea obligatoria entre encuentros"],
+      "incluye": ["Práctica guiada", "Plantillas de trabajo", "Corrección en vivo"],
+      "requisitos": "Proyecto o escena seleccionada mediante formulario previo.",
+      "entregable": "Paquete de desarrollo y preproducción listo para alimentar el módulo de imagen.",
+      "tags": ["Desarrollo", "Preproducción", "Projects", "Filmustage"],
+      "cta_label": "Consultar edición"
+    },
+    {
+      "slug": "vision-ai-modulo-2i",
+      "titulo": "Visión AI · Módulo 2I",
+      "segmento": "av",
+      "nivel": "Práctico",
+      "estado": "Nombre provisorio · contenidos definidos",
+      "duracion_total": "6 h",
+      "horas_totales": 6,
+      "formato": "En vivo online · laboratorio",
+      "grupo": "Equipos con una escena o brief viable",
+      "resumen_corto": "Imagen y producción: de la biblia visual a una pieza breve con continuidad, sonido y acabado.",
+      "objetivos": ["Definir identidad visual y bloqueos", "Construir master frames y video con continuidad", "Integrar sonido, edición, upscale y VFX"],
+      "temario_resumido": ["Biblia, casting, vestuario y locaciones", "Shotlist, storyboard, master frame y video", "Música, sonido, edición, upscaling y VFX"],
+      "modalidad_horarios": ["3 encuentros de 2 horas"],
+      "incluye": ["Práctica guiada", "Revisión de continuidad", "Corrección en vivo"],
+      "requisitos": "Brief o escena viable. El resultado del Módulo 2P cumple este requisito.",
+      "entregable": "Teaser breve de 3 a 5 planos cuando se combina con 2P y existe tiempo real de corrección.",
+      "tags": ["Imagen", "Video", "Sonido", "Postproducción"],
+      "cta_label": "Consultar edición"
+    },
+    {
+      "slug": "vision-ai-intensivo-6h",
+      "titulo": "Intensivo práctico",
       "segmento": "av",
       "nivel": "Hands-on",
-      "duracion_total": "12 h (6×2 h) o 2 sábados",
+      "estado": "Arquitectura validada",
+      "duracion_total": "6 h",
+      "horas_totales": 6,
+      "formato": "En vivo online o presencial",
+      "grupo": "Equipos con una escena preparada",
+      "resumen_corto": "Desarrollo e imagen comprimidos para atravesar el flujo y producir una prueba de concepto.",
+      "objetivos": ["Probar el flujo completo", "Tomar decisiones rápidas de dirección", "Obtener una pieza de validación"],
+      "temario_resumido": ["Contexto y preproducción esencial", "Dirección visual y master frame", "Animación de 1 o 2 planos y armado del animatic"],
+      "modalidad_horarios": ["Una jornada de 6 horas o 2 encuentros de 3 horas"],
+      "incluye": ["Laboratorio guiado", "Plantilla de preproducción", "Revisión final"],
+      "requisitos": "Escena o brief viable antes del encuentro.",
+      "entregable": "Prueba de concepto o animatic de 3 a 5 planos; no equivale al teaser corregido del combinado de 12 h.",
+      "tags": ["Intensivo", "Prueba de concepto", "Producción"],
+      "cta_label": "Solicitar información"
+    },
+    {
+      "slug": "vision-ai-practica-completa",
+      "titulo": "Visión AI · Práctica completa",
+      "segmento": "av",
+      "nivel": "Hands-on",
+      "estado": "Arquitectura validada",
+      "duracion_total": "12 h (2P + 2I)",
       "horas_totales": 12,
-      "formato": "En vivo por Google Meet + grabaciones",
-      "grupo": "Sugerido 10–15 participantes",
-      "resumen_corto": "Visión IA + práctica guiada paso a paso.",
-      "objetivos": [
-        "Configurar asistentes y flujos propios",
-        "Aplicar herramientas en casos reales",
-        "Producir entregables (breakdown, assets, clip corto)"
-      ],
-      "temario_resumido": [
-        "Ecosistema y pipeline IA",
-        "GPTs/Projects personalizados",
-        "Pre-pro hands-on (Filmustage, Rivet)",
-        "Generación coherente de imágenes y video",
-        "Post: upscaling/edición/audio",
-        "Proyecto final aplicado"
-      ],
-      "modalidad_horarios": [
-        "6 jornadas de 2 horas, o 4 de 3 horas, a convenir"
-      ],
-      "incluye": [
-        "Presentación y lista de herramientas",
-        "Templates + certificado + grupo privado",
-        "Soporte post-curso (2 semanas)"
-      ],
-      "requisitos": "Accesos a herramientas IA para las prácticas (free/paid según caso)",
-      "tags": [
-        "Desarrollo",
-        "Pre-producción",
-        "Producción",
-        "Post"
-      ],
-      "cta_label": "Ver temario",
-      "trayectoria": [
-        "Impartido a productoras y estudios en República Dominicana, Argentina y Uruguay.",
-        "Versión corporativa dictada para equipos internos de la industria."
-      ],
-      "lab_line": "workflows",
-      "lab_label": "Respaldado por la línea Workflows dedicados del I+D Lab"
+      "formato": "En vivo online · laboratorio",
+      "grupo": "Equipos con proyecto",
+      "resumen_corto": "Seis horas de desarrollo y preproducción más seis horas de imagen y producción.",
+      "objetivos": ["Desarrollar una escena", "Construir el paquete de preproducción", "Producir y corregir un teaser breve"],
+      "temario_resumido": ["Módulo 2P completo", "Módulo 2I completo", "Integración y corrección del flujo"],
+      "modalidad_horarios": ["6 encuentros de 2 horas o esquema a convenir"],
+      "incluye": ["Dos módulos conectados", "Corrección entre etapas", "Materiales de trabajo"],
+      "requisitos": "Proyecto o escena seleccionada antes del inicio.",
+      "entregable": "Teaser breve de 3 a 5 planos con paquete de preproducción y tiempo de corrección.",
+      "tags": ["Desarrollo", "Preproducción", "Imagen", "Producción"],
+      "cta_label": "Armar recorrido"
+    },
+    {
+      "slug": "vision-ai-programa-completo",
+      "titulo": "Visión AI · Programa completo",
+      "segmento": "av",
+      "nivel": "De fundamentos a práctica",
+      "estado": "Arquitectura modular vigente",
+      "duracion_total": "18 h (V1 + 2P + 2I)",
+      "horas_totales": 18,
+      "formato": "En vivo online · aula + laboratorio",
+      "grupo": "Profesionales y equipos",
+      "resumen_corto": "Fundamentos, desarrollo, preproducción, imagen y producción en un único recorrido progresivo.",
+      "objetivos": ["Construir criterio compartido", "Aplicar IA a un proyecto", "Recorrer el pipeline completo con corrección"],
+      "temario_resumido": ["Visión AI · Módulo 1", "Módulo 2P · Desarrollo y preproducción", "Módulo 2I · Imagen y producción"],
+      "modalidad_horarios": ["9 encuentros de 2 horas o esquema institucional"],
+      "incluye": ["Tres módulos conectados", "Materiales de apoyo", "Corrección y cierre"],
+      "requisitos": "No requiere experiencia previa; se define proyecto antes del tramo práctico.",
+      "entregable": "Mapa de criterio, paquete de preproducción y teaser breve corregido.",
+      "tags": ["Programa completo", "18 horas", "Pipeline"],
+      "cta_label": "Solicitar propuesta"
     },
     {
       "slug": "laboratorio-ia-personalizado",
       "titulo": "Laboratorio IA Personalizado",
       "segmento": "av",
       "nivel": "Implementación",
-      "duracion_total": "Fase 1 (3×2 h) + Fase 2 (4×3 h)",
-      "horas_totales": 18,
-      "formato": "En vivo por Google Meet + grabaciones",
-      "grupo": "Sugerido 10–15 participantes (flexible por área)",
-      "resumen_corto": "Diseño y despliegue de workflows IA para tu proyecto/equipo.",
-      "objetivos": [
-        "Diagnóstico y diseño de procesos a medida",
-        "Implementación con el equipo en proyecto piloto",
-        "Creación de templates y manuales internos"
-      ],
-      "temario_resumido": [
-        "Fase 1: bases compartidas",
-        "Fase 2: workflows por área",
-        "Asistentes y automatizaciones",
-        "Pilotaje con métricas",
-        "Manual IA + handover"
-      ],
-      "modalidad_horarios": [
-        "Fase 1: según Visión IA",
-        "Fase 2: 4×3 h, agenda flexible"
-      ],
-      "incluye": [
-        "Análisis previo de proyectos",
-        "GPTs/Asistentes exclusivos",
-        "Manual IA personalizado",
-        "Soporte extendido + seguimiento a 30 días"
-      ],
-      "requisitos": "Herramientas específicas según el proyecto (definidas en el análisis previo)",
-      "tags": [
-        "Implementación",
-        "Eficiencia",
-        "Automatización",
-        "Pilotaje"
-      ],
-      "cta_label": "Agendar diagnóstico",
-      "trayectoria": [
-        "Metodología derivada de pipelines aplicados en producción profesional real."
-      ],
-      "lab_line": "workflows",
-      "lab_label": "Respaldado por la línea Workflows dedicados del I+D Lab"
+      "estado": "A medida",
+      "duracion_total": "Carga a definir",
+      "horas_totales": 0,
+      "formato": "Diagnóstico + laboratorio + acompañamiento",
+      "grupo": "Equipos, productoras e instituciones",
+      "resumen_corto": "Diseño y prueba de workflows IA alrededor de un proyecto o proceso real.",
+      "objetivos": ["Diagnosticar oportunidades", "Diseñar un piloto", "Documentar y transferir el workflow"],
+      "temario_resumido": ["Diagnóstico", "Diseño del flujo", "Piloto, documentación y seguimiento"],
+      "modalidad_horarios": ["A convenir"],
+      "incluye": ["Análisis previo", "Laboratorio aplicado", "Documentación y seguimiento"],
+      "requisitos": "Acceso al proceso, proyecto y equipo involucrado.",
+      "entregable": "Workflow documentado y piloto validado.",
+      "tags": ["Implementación", "Consultoría", "Workflows"],
+      "cta_label": "Agendar diagnóstico"
     },
     {
       "slug": "eduia-basico",
-      "titulo": "EduIA (Educación)",
+      "titulo": "EduIA",
       "segmento": "edu",
-      "nivel": "Básico",
-      "duracion_total": "6 h (3×2 h)",
-      "formato": "En vivo por Google Meet + grabaciones",
-      "grupo": "Aulas 15–30 estudiantes",
-      "resumen_corto": "Introducción práctica a IA para docentes y estudiantes.",
-      "objetivos": [
-        "Comprender fundamentos y usos en el aula",
-        "Usar asistentes para investigación y proyectos",
-        "Ética y citación responsable"
-      ],
-      "temario_resumido": [
-        "Fundamentos y políticas de uso",
-        "Asistentes para lectura/escritura",
-        "Imagen/audio para proyectos",
-        "Evaluación y rúbricas con IA"
-      ],
-      "modalidad_horarios": [
-        "A convenir con la institución"
-      ],
-      "incluye": [
-        "Presentación y lista de herramientas",
-        "Templates para el aula",
-        "Soporte post-curso (1 semana)"
-      ],
-      "requisitos": "Navegador y cuentas institucionales según herramientas",
+      "nivel": "Inicial",
+      "estado": "En desarrollo",
+      "duracion_total": "6 h",
+      "formato": "En vivo online o institucional",
+      "grupo": "Docentes y estudiantes",
+      "resumen_corto": "Introducción práctica y responsable a la IA para investigación, contenidos y proyectos de aula.",
+      "objetivos": ["Comprender fundamentos", "Usar asistentes en tareas educativas", "Aplicar criterios de citación y revisión"],
+      "temario_resumido": ["Fundamentos y políticas de uso", "Asistentes para investigación y escritura", "Imagen, audio, evaluación y revisión"],
+      "modalidad_horarios": ["A convenir con la institución"],
+      "incluye": ["Presentación", "Plantillas para el aula", "Material de referencia"],
+      "requisitos": "Navegador y cuentas institucionales según herramientas.",
+      "entregable": "Guía de uso y diseño de una actividad asistida.",
       "tags": ["Educación", "Proyectos", "Ética"],
-      "cta_label": "+ Info"
-    },
-    {
-      "slug": "taller-intensivo-ia-edu",
-      "titulo": "Taller Intensivo IA (Educación)",
-      "segmento": "edu",
-      "nivel": "Hands-on",
-      "duracion_total": "12 h (6×2 h)",
-      "formato": "En vivo por Google Meet + grabaciones",
-      "grupo": "Docentes y estudiantes avanzados",
-      "resumen_corto": "Del básico a proyectos guiados en el contexto educativo.",
-      "objetivos": [
-        "Diseñar flujos para tareas y proyectos",
-        "Aplicar IA en contenidos y evaluación",
-        "Proyecto final institucional"
-      ],
-      "temario_resumido": [
-        "Ecosistema y herramientas",
-        "Asistentes personalizados",
-        "Imagen/video en clase",
-        "Proyecto final"
-      ],
-      "modalidad_horarios": ["A convenir"],
-      "incluye": ["Templates, certificado, grupo privado"],
-      "requisitos": "Accesos a herramientas (free/paid)",
-      "tags": ["Educación", "Hands-on"],
-      "cta_label": "+ Info"
+      "cta_label": "Consultar"
     },
     {
       "slug": "laboratorio-ia-edu",
-      "titulo": "Laboratorio IA (Educación)",
+      "titulo": "Laboratorio IA para Educación",
       "segmento": "edu",
       "nivel": "Implementación",
-      "duracion_total": "Fases según institución",
+      "estado": "En desarrollo",
+      "duracion_total": "Carga a definir",
       "formato": "Diagnóstico + despliegue",
-      "grupo": "Equipos docentes / cátedras",
-      "resumen_corto": "Workflows IA a medida para el entorno educativo.",
-      "objetivos": [
-        "Diagnóstico y diseño",
-        "Implementación piloto",
-        "Manual y handover"
-      ],
-      "temario_resumido": ["Bases compartidas", "Workflows por área", "Asistentes y automatizaciones"],
+      "grupo": "Equipos docentes y cátedras",
+      "resumen_corto": "Diseño de prácticas y workflows a medida para un entorno educativo concreto.",
+      "objetivos": ["Diagnosticar necesidades", "Probar una práctica institucional", "Documentar criterios y procesos"],
+      "temario_resumido": ["Bases compartidas", "Workflows por área", "Piloto, evaluación y handover"],
       "modalidad_horarios": ["A convenir"],
-      "incluye": ["Manual IA personalizado", "Soporte 30 días"],
-      "requisitos": "Definidos en el análisis previo",
-      "tags": ["Implementación", "Educación"],
-      "cta_label": "+ Info"
+      "incluye": ["Diagnóstico", "Piloto", "Manual y seguimiento"],
+      "requisitos": "Definidos durante el diagnóstico.",
+      "entregable": "Práctica piloto y guía institucional.",
+      "tags": ["Educación", "Implementación", "Instituciones"],
+      "cta_label": "Agendar diagnóstico"
     }
   ]
 }

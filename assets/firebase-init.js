@@ -8,7 +8,7 @@ window.AVI_FIREBASE_CONFIG = {
   measurementId: "G-4RJXTVW9QK"
 };
 
-// Preview privado temporal. Aunque existan otros usuarios en Firebase, solo
+// Acceso reservado. Aunque existan otros usuarios en Firebase, solo
 // estas tres cuentas autenticadas pueden entrar a la plataforma durante esta fase.
 window.AVI_PRIVATE_EMAILS = [
   'fede@audiovisualintelligence.ai',
@@ -36,6 +36,12 @@ window.AVI_MATERIALES = [
     etiqueta: "Clase 2",
     titulo: "Ecosistema, equipo IA y preproducción",
     archivo: "AVI-Vision-AI-Clase-2.pdf"
+  },
+  {
+    id: "clase-03",
+    etiqueta: "Clase 3",
+    titulo: "De la biblia al plano final",
+    archivo: "AVI-Vision-AI-Taller-Completo.pdf"
   }
 ];
 

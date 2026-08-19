@@ -333,14 +333,22 @@ img { display: block; max-width: 100%; height: auto; }
 .cohort-intro h2 { margin:10px 0 0; font-size:clamp(32px,4vw,50px); line-height:1.05; letter-spacing:-.025em; }
 .cohort-intro > p { margin:0; color:var(--platform-muted); font-size:17px; }
 .cohort-sessions { border-top:1px solid var(--platform-border); }
-.cohort-session { display:grid; grid-template-columns:74px minmax(0,1fr) 150px; gap:24px; align-items:center; padding:24px 0; border-bottom:1px solid var(--platform-border); }
+.cohort-session { display:grid; grid-template-columns:74px minmax(0,1fr) 190px; gap:24px; align-items:start; padding:30px 0; border-bottom:1px solid var(--platform-border); }
 .session-number { color:var(--accent); font-size:12px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
 .session-copy > span,.session-pending,.session-complete { color:var(--platform-muted); font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
 .session-complete { color:#f2bd83; }
 .session-copy h3 { margin:6px 0 3px; font-size:clamp(19px,2vw,25px); line-height:1.15; }
 .session-copy p { margin:0; color:var(--platform-muted); }
 .session-copy .session-zones { margin-top:8px; font-size:13px; color:#8b9299; }
-.session-access { justify-self:end; text-align:right; }
+.session-details { margin-top:16px; border-top:1px solid var(--platform-border); }
+.session-details summary { width:max-content; padding:13px 0 2px; color:var(--platform-fg); font-size:13px; font-weight:800; cursor:pointer; }
+.session-details summary::marker { color:var(--accent); }
+.session-details ul { display:grid; gap:7px; margin:14px 0 0; padding:0; list-style:none; }
+.session-details li { position:relative; padding-left:18px; color:var(--platform-muted); font-size:14px; line-height:1.5; }
+.session-details li::before { content:"↗"; position:absolute; left:0; color:var(--accent); }
+.session-details p { margin:14px 0 0; padding-top:12px; border-top:1px solid var(--platform-border); color:var(--platform-muted); font-size:14px; line-height:1.5; }
+.session-details strong { color:var(--platform-fg); }
+.session-access { justify-self:end; padding-top:2px; text-align:right; }
 .classroom-layout { display:grid; grid-template-columns:minmax(0,1fr) 380px; gap:clamp(48px,7vw,92px); padding-bottom:120px; }
 .classroom-guidance { display:grid; grid-template-columns:minmax(0,1fr) minmax(280px,.7fr); gap:clamp(36px,8vw,100px); align-items:start; padding-top:12px; padding-bottom:120px; border-top:1px solid var(--platform-border); }
 .classroom-guidance h2 { margin:10px 0 0; max-width:13ch; font-size:clamp(32px,4vw,50px); line-height:1.05; letter-spacing:-.025em; }

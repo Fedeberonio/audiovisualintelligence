@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-08-19",
+  "title": "Armá tu recorrido Visión AI",
+  "description": "Combiná módulos y obtené una estimación de carga horaria, contenidos y resultado esperado.",
+  "pricing": {
+    "status": "pending_validation",
+    "display": "A cotizar",
+    "note": "El precio se define según modalidad, cantidad de participantes, herramientas y nivel de acompañamiento."
+  },
+  "modules": [
+    {
+      "id": "vision-1",
+      "short_name": "V1",
+      "title": "Visión AI · Módulo 1",
+      "subtitle": "Fundamentos y mapa audiovisual",
+      "hours": 6,
+      "status": "validated_delivered",
+      "status_label": "Validado · edición completada",
+      "description": "Una visión amplia del ecosistema, desde los fundamentos hasta un flujo audiovisual completo.",
+      "syllabus": [
+        "Sistemas generativos, datos, patrones, contexto y probabilidad",
+        "Modelos, asistentes, Projects, agentes y criterios de uso",
+        "Desarrollo, preproducción y demostración de un flujo visual completo"
+      ],
+      "outcome": "Mapa compartido, vocabulario común y criterio para decidir el próximo paso.",
+      "requires": []
+    },
+    {
+      "id": "vision-2p",
+      "short_name": "2P",
+      "title": "Visión AI · Módulo 2P",
+      "subtitle": "Desarrollo y preproducción",
+      "hours": 6,
+      "status": "validated_architecture",
+      "status_label": "Arquitectura validada",
+      "description": "Práctica enfocada en construir y organizar el proyecto antes de producir imágenes.",
+      "syllabus": [
+        "Projects, contexto, coverage, escenas y desarrollo asistido",
+        "Breakdown técnico y creativo",
+        "Scheduling, stripboard, presupuesto y paquete de preproducción"
+      ],
+      "outcome": "Un paquete de desarrollo y preproducción listo para alimentar el módulo de imagen.",
+      "requires": []
+    },
+    {
+      "id": "vision-2i",
+      "short_name": "2I",
+      "title": "Visión AI · Módulo 2I",
+      "subtitle": "Imagen y producción",
+      "hours": 6,
+      "status": "provisional_name",
+      "status_label": "Nombre provisorio · contenidos definidos",
+      "description": "Del brief visual y la biblia a una pieza breve con continuidad, sonido y acabado.",
+      "syllabus": [
+        "Biblia, casting, personajes, vestuario y locaciones",
+        "Shotlist, storyboard, master frame y video con continuidad",
+        "Música, sonido, edición, upscaling y VFX"
+      ],
+      "outcome": "Un teaser breve de 3 a 5 planos, con tiempo real de corrección cuando se combina con 2P.",
+      "requires": ["Brief o escena viable; 2P cumple este requisito"]
+    },
+    {
+      "id": "intensivo-6",
+      "short_name": "I6",
+      "title": "Intensivo práctico",
+      "subtitle": "Desarrollo + imagen comprimidos",
+      "hours": 6,
+      "status": "validated_architecture",
+      "status_label": "Arquitectura validada",
+      "description": "Una versión comprimida de 2P + 2I para probar el flujo completo en menos tiempo.",
+      "syllabus": [
+        "Contexto, escena y preproducción esencial",
+        "Dirección visual, master frame y animación de 1 o 2 planos",
+        "Armado de una prueba de concepto"
+      ],
+      "outcome": "Prueba de concepto o animatic de 3 a 5 planos; no equivale al teaser corregido del combinado de 12 h.",
+      "requires": ["Escena o brief viable antes del encuentro"],
+      "exclusive_with": ["vision-2p", "vision-2i"]
+    }
+  ],
+  "presets": [
+    { "id": "complete", "label": "Programa completo", "module_ids": ["vision-1", "vision-2p", "vision-2i"] },
+    { "id": "practical", "label": "Práctica completa", "module_ids": ["vision-2p", "vision-2i"] },
+    { "id": "preproduction", "label": "Solo desarrollo y pre", "module_ids": ["vision-2p"] },
+    { "id": "production", "label": "Solo imagen y producción", "module_ids": ["vision-2i"] },
+    { "id": "intensive", "label": "Intensivo de prueba", "module_ids": ["intensivo-6"] }
+  ]
+}

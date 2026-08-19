@@ -58,11 +58,26 @@
   };
 
   const acceso = (session) => {
+    if (session.material_status === 'consolidated_pending_link') {
+      return '<span class="session-pending">Material final listo · enlace pendiente</span>';
+    }
     if (session.status === 'completed') return '<span class="session-complete">Clase finalizada</span>';
     if (session.meeting_url) {
       return `<a class="text-action" href="${escapeHtml(session.meeting_url)}" target="_blank" rel="noopener noreferrer">Entrar al encuentro</a>`;
     }
     return '<span class="session-pending">Aún no dictada</span>';
+  };
+
+  const contenidos = (session) => {
+    const topics = Array.isArray(session.topics) ? session.topics : [];
+    if (!topics.length && !session.result) return '';
+    const items = topics.map((topic) => `<li>${escapeHtml(topic)}</li>`).join('');
+    return `
+      <details class="session-details">
+        <summary>Ver contenidos de la clase</summary>
+        ${items ? `<ul>${items}</ul>` : ''}
+        ${session.result ? `<p><strong>Resultado:</strong> ${escapeHtml(session.result)}</p>` : ''}
+      </details>`;
   };
 
   const sessionMarkup = (session, tzCohorte, zonas) => {
@@ -76,6 +91,7 @@
           <h3>${escapeHtml(session.title)}</h3>
           <p>${escapeHtml(session.subtitle)} · ${Math.round(session.duration_minutes / 60)} horas</p>
           ${completed ? '' : husos(session, zonas)}
+          ${contenidos(session)}
         </div>
         <div class="session-access" data-material-slot="${escapeHtml(session.id)}">${acceso(session)}</div>
       </article>`;
@@ -87,7 +103,9 @@
     document.querySelector('[data-cohort-label]')?.replaceChildren(document.createTextNode(cohort.label));
     document.querySelector('[data-cohort-welcome]')?.replaceChildren(document.createTextNode(cohort.welcome));
     document.querySelector('[data-cohort-progress]')?.replaceChildren(
-      document.createTextNode(`${cohort.completed_sessions} de ${cohort.total_sessions} clases dictadas`)
+      document.createTextNode(cohort.status === 'completed'
+        ? `Curso completo · ${cohort.completed_sessions} de ${cohort.total_sessions} clases`
+        : `${cohort.completed_sessions} de ${cohort.total_sessions} clases dictadas`)
     );
 
     const sessions = document.querySelector('[data-cohort-sessions]');

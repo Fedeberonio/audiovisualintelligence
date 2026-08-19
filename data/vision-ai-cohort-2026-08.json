@@ -1,14 +1,14 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "cohort": {
     "id": "vision-ai-agosto-2026",
     "program_id": "vision-ai",
     "label": "Cohorte agosto 2026",
-    "status": "in_progress",
+    "status": "completed",
     "timezone": "America/Argentina/Buenos_Aires",
-    "completed_sessions": 2,
+    "completed_sessions": 3,
     "total_sessions": 3,
-    "welcome": "Dos clases ya fueron dictadas. La guía de cada una está en su fila, más abajo."
+    "welcome": "El taller quedó completado. Acá podés repasar el recorrido y acceder a los materiales autorizados."
   },
   "participant_timezones": [
     { "label": "Argentina", "tz": "America/Argentina/Buenos_Aires" },
@@ -22,34 +22,58 @@
       "id": "clase-01",
       "order": 1,
       "title": "Panorama visual y fundamentos",
-      "subtitle": "De la evolución reciente a los sistemas generativos.",
+      "subtitle": "Del cambio acelerado en la imagen a los sistemas que aprenden patrones.",
       "date": "2026-08-01",
       "start_utc": "2026-08-01T17:00:00Z",
       "duration_minutes": 120,
       "status": "completed",
-      "meeting_url": null
+      "meeting_url": null,
+      "topics": [
+        "Aceleración del cambio visual y laboratorio con Volver al Futuro II",
+        "Diferencia entre sistemas de reglas y sistemas generativos",
+        "Datos, patrones, contexto y probabilidad",
+        "Dirección profesional: iterar, verificar y conservar el criterio"
+      ],
+      "result": "Un lenguaje común para entender qué hace la IA generativa y cómo evaluarla.",
+      "material_status": "available"
     },
     {
       "id": "clase-02",
       "order": 2,
       "title": "Ecosistema, equipo IA y preproducción",
-      "subtitle": "Contexto, modelos, Projects, desarrollo y primeros pases de producción.",
+      "subtitle": "De los modelos y el contexto a un equipo de asistentes para desarrollo y planificación.",
       "date": "2026-08-08",
       "start_utc": "2026-08-08T17:00:00Z",
       "duration_minutes": 120,
       "status": "completed",
-      "meeting_url": null
+      "meeting_url": null,
+      "topics": [
+        "LLMs, tokens, contexto, modelos, razonamiento y costo",
+        "Projects, asistentes, agentes, conectores y Deep Research",
+        "Coverage, escenas, brainstorming y desarrollo asistido",
+        "Breakdown, stripboard, scheduling y presupuesto con Filmustage"
+      ],
+      "result": "Un mapa para configurar equipo y contexto, y acelerar desarrollo y preproducción.",
+      "material_status": "available"
     },
     {
       "id": "clase-03",
       "order": 3,
-      "title": "Producción, postproducción y cierre",
-      "subtitle": "La información y los materiales se habilitarán después del encuentro.",
+      "title": "De la biblia al plano final",
+      "subtitle": "Identidad, continuidad, producción generativa, sonido, post y cierre del recorrido.",
       "date": "2026-08-15",
       "start_utc": "2026-08-15T17:00:00Z",
       "duration_minutes": 120,
-      "status": "upcoming",
-      "meeting_url": null
+      "status": "completed",
+      "meeting_url": null,
+      "topics": [
+        "Biblia creativa, lookbook, casting, personajes, vestuario y locaciones",
+        "Shotlist, storyboard, bloqueos de identidad y master frame",
+        "Video multirreferencia, continuidad, iteración y economía de generación",
+        "Música, sonido, edición, upscaling, VFX y revisión del plano final"
+      ],
+      "result": "El proceso completo, desde una dirección visual definida hasta un teaser y sus decisiones de acabado.",
+      "material_status": "consolidated_pending_link"
     }
   ]
 }

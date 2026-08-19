@@ -40,7 +40,7 @@
       const row = element("article", "workshop-row");
       const number = element("span", "workshop-number", String(index + 1).padStart(2, "0"));
       const body = element("div", "workshop-body");
-      const meta = element("p", "workshop-meta", (item.segmento === "edu" ? "Educación" : "Audiovisual") + " · " + item.nivel + " · " + item.duracion_total);
+      const meta = element("p", "workshop-meta", (item.segmento === "edu" ? "Educación" : "Audiovisual") + " · " + item.nivel + " · " + item.duracion_total + (item.estado ? " · " + item.estado : ""));
       const title = element("h3", "", item.titulo);
       const summary = element("p", "workshop-summary", item.resumen_corto);
       const facts = element("p", "workshop-facts", item.formato + " · " + item.grupo);
@@ -95,7 +95,7 @@
     root.replaceChildren();
 
     const hero = element("section", "detail-hero");
-    hero.append(element("p", "signal-label", (item.segmento === "edu" ? "Educación" : "Audiovisual") + " · " + item.nivel), element("h1", "", item.titulo), element("p", "detail-summary", item.resumen_corto));
+    hero.append(element("p", "signal-label", (item.segmento === "edu" ? "Educación" : "Audiovisual") + " · " + item.nivel + (item.estado ? " · " + item.estado : "")), element("h1", "", item.titulo), element("p", "detail-summary", item.resumen_corto));
     const actions = element("div", "action-row");
     const primary = element("a", "action-primary", item.segmento === "edu" ? "Consultar para mi institución" : "Consultar próxima edición"); primary.href = contactHref(item);
     const back = element("a", "action-secondary", "Ver todos los talleres"); back.href = "talleres.html";
@@ -114,6 +114,7 @@
     const curriculum = detailSection("Recorrido", "Del mapa a la práctica.", item.temario_resumido, true);
     const includes = detailSection("Experiencia", "Qué incluye.", item.incluye, false);
     includes.querySelector(".detail-body").append(element("p", "requirement", "Requisito: " + item.requisitos));
+    if (item.entregable) includes.querySelector(".detail-body").append(element("p", "requirement", "Resultado esperado: " + item.entregable));
 
     const cta = element("section", "public-cta");
     cta.append(element("p", "signal-label", "Próxima edición o programa a medida"), element("h2", "", "Veamos si este recorrido encaja con vos."), element("p", "", "Contanos tu perfil, tu equipo y qué querés transformar."));

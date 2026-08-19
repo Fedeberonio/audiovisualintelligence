@@ -7,7 +7,7 @@
     <meta name="description" content="Audiovisual Intelligence. Inteligencia artificial aplicada al oficio audiovisual." />
     <link rel="canonical" href="https://audiovisualintelligence.ai/" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="assets/public-platform.css?v=2" />
+    <link rel="stylesheet" href="assets/public-platform.css?v=3" />
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" defer></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" defer></script>
     <script src="assets/firebase-init.js?v=6" defer></script>
@@ -34,9 +34,14 @@
 
         <section class="landing-access" id="acceso" aria-labelledby="access-title">
           <div class="landing-access-intro">
-            <p class="signal-label">Preview privado</p>
-            <h2 id="access-title">Entrar a la plataforma</h2>
-            <p>Acceso temporal para el equipo AVI habilitado.</p>
+            <video class="landing-access-logo" autoplay muted loop playsinline aria-hidden="true" preload="metadata">
+              <source src="media/LogoHome.mp4" type="video/mp4" />
+            </video>
+            <div>
+              <p class="signal-label">Aula virtual</p>
+              <h2 id="access-title">Acceso a socios</h2>
+              <p>Ingresá con tu cuenta habilitada.</p>
+            </div>
           </div>
 
           <form class="landing-login-form" id="landingLoginForm">

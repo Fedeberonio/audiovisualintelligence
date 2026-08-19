@@ -7,17 +7,45 @@
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <link rel="canonical" href="https://audiovisualintelligence.ai/talleres.html" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="assets/public-platform.css?v=2" /><script src="assets/gate.js?v=7"></script><script src="assets/public-platform.js?v=2" defer></script>
+    <link rel="stylesheet" href="assets/public-platform.css?v=3" /><script src="assets/gate.js?v=7"></script><script src="assets/public-platform.js?v=3" defer></script><script src="assets/path-builder.js?v=1" defer></script>
   </head>
   <body class="public-site" data-catalog-page>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <header class="public-header solid-header" data-public-header>
       <a class="public-brand" href="/" aria-label="Audiovisual Intelligence, inicio">AVI</a>
-      <nav class="public-nav" id="publicNav" aria-label="Navegación principal"><a href="talleres.html" aria-current="page">Talleres</a><a href="#equipos">Para equipos</a><a href="/#metodo">Método e I+D</a><a href="/#equipo">Equipo</a><a class="nav-login" href="login.html?next=aula.html">Acceso alumnos</a></nav>
+      <nav class="public-nav" id="publicNav" aria-label="Navegación principal"><a href="talleres.html" aria-current="page">Talleres</a><a href="#equipos">Para equipos</a><a href="/#metodo">Método e I+D</a><a href="/#equipo">Equipo</a><a class="nav-login" href="aula.html">Aula virtual</a></nav>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="publicNav" aria-label="Abrir menú"><span></span><span></span></button>
     </header>
     <main id="contenido">
       <section class="catalog-hero"><p class="signal-label">Oferta AVI</p><h1>Talleres para pasar<br />de la curiosidad al criterio.</h1><p>Recorridos en vivo para profesionales, equipos e instituciones. La oferta puede adaptarse al contexto y a los objetivos de cada grupo.</p></section>
+      <section class="path-builder-section" aria-labelledby="builder-title" data-path-builder>
+        <div class="builder-heading">
+          <div><p class="signal-label">Primer prototipo modular</p><h2 id="builder-title" data-builder-title>Armá tu recorrido Visión AI</h2></div>
+          <p data-builder-description>Combiná módulos y obtené una estimación de carga horaria, contenidos y resultado esperado.</p>
+        </div>
+        <div class="builder-presets" data-builder-presets aria-label="Recorridos sugeridos"></div>
+        <div class="builder-workspace">
+          <div class="builder-library">
+            <div class="builder-block-heading"><span>01</span><div><h3>Módulos disponibles</h3><p>Arrastrá un módulo o usá el botón Agregar.</p></div></div>
+            <div class="builder-modules" data-builder-modules></div>
+          </div>
+          <div class="builder-route-panel">
+            <div class="builder-block-heading"><span>02</span><div><h3>Tu recorrido</h3><p>Ordenalo según el camino que querés hacer.</p></div></div>
+            <div class="builder-route" data-builder-route aria-live="polite"></div>
+            <div class="builder-summary">
+              <div><span>Duración estimada</span><strong data-builder-hours>0 h</strong></div>
+              <div><span>Precio aproximado</span><strong data-builder-price>A cotizar</strong></div>
+              <p data-builder-pricing-note></p>
+              <h4>Temario aproximado</h4>
+              <ul data-builder-syllabus></ul>
+              <h4>Resultado esperado</h4>
+              <p data-builder-outcome></p>
+              <p class="builder-requirements" data-builder-requirements></p>
+              <a class="action-primary" href="mailto:academy@audiovisualintelligence.ai?subject=Mi%20recorrido%20Visi%C3%B3n%20AI">Consultar este recorrido</a>
+            </div>
+          </div>
+        </div>
+      </section>
       <section class="catalog-section" aria-labelledby="catalog-title">
         <div class="catalog-toolbar"><h2 id="catalog-title">Encontrá tu recorrido</h2><div class="segment-control" aria-label="Filtrar talleres"><button type="button" data-segment="all" aria-pressed="true">Todos</button><button type="button" data-segment="av" aria-pressed="false">Audiovisual</button><button type="button" data-segment="edu" aria-pressed="false">Educación</button></div></div>
         <div class="catalog-list" data-workshop-list aria-live="polite"><p class="catalog-loading">Cargando talleres…</p></div>

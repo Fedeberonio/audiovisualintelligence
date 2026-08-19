@@ -1,120 +1,80 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "program": {
     "slug": "vision-ai",
     "title": "Visión AI",
     "eyebrow": "Programa fundacional de AVI",
-    "summary": "Una visión completa y aplicada de la inteligencia artificial para profesionales audiovisuales.",
-    "promise": "Entender el mapa, reconocer oportunidades reales y diseñar un próximo paso para tu flujo de trabajo.",
+    "summary": "Una introducción completa y aplicada a la inteligencia artificial para profesionales audiovisuales.",
+    "promise": "Entender el mapa, ver un flujo audiovisual completo y reconocer dónde incorporar IA sin delegar el criterio.",
     "duration": "6 horas",
     "format": "3 encuentros en vivo de 2 horas",
     "audience": "Profesionales audiovisuales",
-    "status": "en_inscripcion",
-    "contact_email": "avi.info.desk@gmail.com"
+    "status": "cohort_completed",
+    "contact_email": "academy@audiovisualintelligence.ai"
   },
   "outcomes": [
     "Comprender el ecosistema actual sin depender de una herramienta específica.",
-    "Reconocer aplicaciones concretas en desarrollo, preproducción, producción y post.",
-    "Evaluar herramientas con criterio creativo, técnico y económico.",
-    "Definir un primer workflow aplicable a un proyecto real."
+    "Organizar asistentes y contexto para desarrollo y preproducción.",
+    "Reconocer un flujo de imagen y video desde la biblia hasta el plano final.",
+    "Evaluar resultados con criterio creativo, técnico y económico."
   ],
   "modules": [
     {
-      "id": "m01",
+      "id": "clase-01",
       "order": 1,
-      "title": "El nuevo mapa audiovisual",
-      "duration": "45 min",
-      "summary": "De la automatización a los sistemas generativos y su impacto en el oficio.",
-      "result": "Un mapa compartido de conceptos, posibilidades y límites.",
+      "title": "Panorama visual y fundamentos",
+      "duration": "Clase 1 · 2 h",
+      "summary": "Aceleración visual, reglas frente a generación, datos, patrones, contexto y probabilidad.",
+      "result": "Un lenguaje común para entender y evaluar sistemas generativos.",
       "status": "available",
-      "resources": ["r01", "r02"]
+      "resources": ["r01"]
     },
     {
-      "id": "m02",
+      "id": "clase-02",
       "order": 2,
-      "title": "Asistentes, lenguaje y criterio",
-      "duration": "60 min",
-      "summary": "LLMs, prompting, contexto y asistentes personalizados para trabajo audiovisual.",
-      "result": "Un marco para conversar con sistemas de IA sin delegar el criterio.",
+      "title": "Ecosistema, equipo IA y preproducción",
+      "duration": "Clase 2 · 2 h",
+      "summary": "Modelos, Projects, asistentes, agentes, coverage, breakdown, scheduling y presupuesto.",
+      "result": "Un mapa para construir contexto y acelerar desarrollo y planificación.",
+      "status": "available",
+      "resources": ["r02"]
+    },
+    {
+      "id": "clase-03",
+      "order": 3,
+      "title": "De la biblia al plano final",
+      "duration": "Clase 3 · 2 h",
+      "summary": "Biblia, lookbook, casting, shotlist, storyboard, master frame, video, sonido, edición, upscale y VFX.",
+      "result": "Una lectura completa del flujo que convierte una dirección visual en un teaser.",
       "status": "available",
       "resources": ["r03"]
-    },
-    {
-      "id": "m03",
-      "order": 3,
-      "title": "Desarrollo y preproducción",
-      "duration": "75 min",
-      "summary": "Ideación, research, guion, breakdown, presupuesto, scheduling y presentación.",
-      "result": "Una selección de oportunidades aplicables a un proyecto propio.",
-      "status": "available",
-      "resources": []
-    },
-    {
-      "id": "m04",
-      "order": 4,
-      "title": "Imagen, video y continuidad",
-      "duration": "75 min",
-      "summary": "Storyboards, frames, video generativo, coherencia visual y control de calidad.",
-      "result": "Criterios para decidir cuándo generar, cuándo producir y cómo combinar ambos mundos.",
-      "status": "available",
-      "resources": []
-    },
-    {
-      "id": "m05",
-      "order": 5,
-      "title": "Postproducción, audio y entrega",
-      "duration": "60 min",
-      "summary": "Edición asistida, upscaling, VFX, voz, música, sonido y revisión.",
-      "result": "Un panorama de aceleración responsable del pipeline de post.",
-      "status": "available",
-      "resources": []
-    },
-    {
-      "id": "m06",
-      "order": 6,
-      "title": "Tu próximo workflow",
-      "duration": "45 min",
-      "summary": "Priorización, riesgos, prueba piloto y plan de adopción.",
-      "result": "Un próximo paso concreto para aplicar después del programa.",
-      "status": "available",
-      "resources": ["r04"]
     }
   ],
   "resources": [
     {
       "id": "r01",
-      "type": "pdf",
-      "title": "Presentación Visión A.I.",
-      "description": "Documento de referencia del programa.",
-      "url": "contenidos.html",
-      "access": "student"
+      "type": "guide",
+      "title": "Guía de clase 1",
+      "description": "Fundamentos, conceptos y referencias de la primera clase.",
+      "url": "aula.html",
+      "access": "participant"
     },
     {
       "id": "r02",
       "type": "guide",
-      "title": "Mapa de herramientas",
-      "description": "Taxonomía de herramientas por etapa del pipeline.",
-      "url": "#proximamente",
-      "access": "student",
-      "status": "coming_soon"
+      "title": "Guía de clase 2",
+      "description": "Ecosistema, asistentes y preproducción.",
+      "url": "aula.html",
+      "access": "participant"
     },
     {
       "id": "r03",
-      "type": "template",
-      "title": "Plantilla de contexto audiovisual",
-      "description": "Base para construir asistentes con contexto de proyecto.",
-      "url": "#proximamente",
-      "access": "student",
-      "status": "coming_soon"
-    },
-    {
-      "id": "r04",
-      "type": "worksheet",
-      "title": "Canvas de adopción IA",
-      "description": "Herramienta para priorizar un piloto de bajo riesgo.",
-      "url": "#proximamente",
-      "access": "student",
-      "status": "coming_soon"
+      "type": "guide",
+      "title": "Material final consolidado",
+      "description": "Recorrido completo del taller, incluida la tercera clase.",
+      "url": "aula.html",
+      "access": "participant",
+      "status": "secure_link_pending"
     }
   ],
   "services": [
