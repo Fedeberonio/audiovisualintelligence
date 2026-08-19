@@ -11,7 +11,22 @@
   var button = document.getElementById("landingSubmit");
   var message = document.getElementById("landingLoginMessage");
   var session = document.getElementById("landingSession");
+  var accessDialog = document.getElementById("acceso");
+  var accessTrigger = document.getElementById("landingAccessTrigger");
+  var accessClose = document.getElementById("landingAccessClose");
   var submitting = false;
+
+  accessTrigger.addEventListener("click", function () {
+    accessDialog.showModal();
+    window.setTimeout(function () {
+      var target = form.hidden ? accessDialog.querySelector("a") : email;
+      if (target) target.focus();
+    }, 0);
+  });
+  accessClose.addEventListener("click", function () { accessDialog.close(); });
+  accessDialog.addEventListener("click", function (event) {
+    if (event.target === accessDialog) accessDialog.close();
+  });
 
   function setLoading(loading) {
     button.disabled = loading;
