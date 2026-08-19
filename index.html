@@ -7,18 +7,36 @@
     <meta name="description" content="Audiovisual Intelligence. Inteligencia artificial aplicada al oficio audiovisual." />
     <link rel="canonical" href="https://audiovisualintelligence.ai/" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="assets/public-platform.css?v=5" />
+    <link rel="stylesheet" href="assets/public-platform.css?v=6" />
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" defer></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" defer></script>
     <script src="assets/firebase-init.js?v=6" defer></script>
     <script src="assets/landing-login.js?v=3" defer></script>
+    <script src="assets/contact.js?v=1" defer></script>
   </head>
   <body class="public-site private-landing">
     <a class="skip-link" href="#landingAccessTrigger">Saltar al acceso</a>
     <header class="landing-header">
       <a class="public-brand" href="/" aria-label="Audiovisual Intelligence, inicio">AVI</a>
-      <a class="landing-info-link" href="mailto:academy@audiovisualintelligence.ai?subject=Solicitud%20de%20informaci%C3%B3n%20AVI">Solicitar información</a>
+      <button class="landing-info-link" id="contactTrigger" type="button" aria-haspopup="dialog">Solicitar información</button>
     </header>
+
+    <dialog class="landing-access contact-dialog" id="contactDialog" aria-labelledby="contactTitle">
+      <button class="landing-access-close" id="contactClose" type="button" aria-label="Cerrar contacto">×</button>
+      <div class="landing-access-intro">
+        <p class="signal-label">Contacto rápido</p>
+        <h2 id="contactTitle">Hablemos.</h2>
+        <p>Dejanos preparado el mensaje y abrimos Gmail con todo completo.</p>
+      </div>
+      <form class="contact-form" id="contactForm">
+        <label><span>Nombre</span><input id="contactName" name="name" autocomplete="name" required /></label>
+        <label><span>Tu email</span><input id="contactEmail" name="email" type="email" autocomplete="email" inputmode="email" required /></label>
+        <label><span>¿En qué podemos ayudarte?</span><textarea id="contactMessage" name="message" rows="5" required></textarea></label>
+        <button class="action-primary" type="submit">Preparar mensaje</button>
+        <button class="contact-copy" id="contactCopy" type="button">Copiar correo de AVI</button>
+        <p class="contact-status" id="contactStatus" role="status" aria-live="polite"></p>
+      </form>
+    </dialog>
 
     <main class="private-landing-main">
       <section class="private-landing-hero" aria-labelledby="landing-title">

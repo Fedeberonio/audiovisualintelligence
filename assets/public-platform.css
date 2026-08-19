@@ -63,7 +63,8 @@ body.public-site button, body.public-site a { -webkit-tap-highlight-color: trans
 /* Portada privada: una sola escena pública con acceso AVI integrado. */
 .private-landing { min-height: 100svh; }
 .landing-header { position: absolute; inset: 0 0 auto; z-index: 50; display: flex; align-items: center; justify-content: space-between; min-height: 76px; padding: 0 clamp(20px, 4vw, 64px); border-bottom: 1px solid color-mix(in oklch, var(--avi-white) 16%, transparent); }
-.landing-info-link { padding: 9px 14px; border: 1px solid color-mix(in oklch, var(--avi-orange) 55%, var(--avi-border)); border-radius: 999px; color: var(--avi-orange) !important; font-size: 14px; font-weight: 750; text-decoration: none; }
+.landing-info-link { padding: 9px 14px; border: 1px solid color-mix(in oklch, var(--avi-orange) 55%, var(--avi-border)); border-radius: 999px; background: color-mix(in oklch, var(--avi-black) 40%, transparent); color: var(--avi-orange) !important; font: inherit; font-size: 14px; font-weight: 750; text-decoration: none; cursor: pointer; }
+.landing-info-link:hover, .landing-info-link:focus-visible { border-color: var(--avi-orange); background: var(--avi-orange); color: var(--avi-black) !important; }
 .private-landing-main, .private-landing-hero { min-height: 100svh; }
 .private-landing-hero { position: relative; display: grid; align-items: center; overflow: hidden; isolation: isolate; }
 .private-landing-scrim { position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, color-mix(in oklch, var(--avi-black) 94%, transparent) 0%, color-mix(in oklch, var(--avi-black) 54%, transparent) 48%, color-mix(in oklch, var(--avi-black) 8%, transparent) 80%); }
@@ -97,6 +98,16 @@ body.public-site button, body.public-site a { -webkit-tap-highlight-color: trans
 .landing-session { display: grid; gap: 14px; margin-top: 34px; }
 .landing-session[hidden], .landing-login-form[hidden] { display: none; }
 .landing-session p { margin: 0 0 6px; color: var(--avi-muted); }
+.contact-dialog { width: min(460px, calc(100% - 32px)); }
+.contact-dialog .landing-access-intro > p:last-child { max-width: 34ch; margin: 17px 0 0; color: var(--avi-muted); font-size: 15px; line-height: 1.5; }
+.contact-form { display: grid; gap: 15px; margin-top: 28px; }
+.contact-form label { display: grid; gap: 7px; color: var(--avi-muted); font-size: 12px; font-weight: 700; }
+.contact-form input, .contact-form textarea { width: 100%; padding: 11px 13px; border: 1px solid var(--avi-border); border-radius: 10px; outline: none; background: var(--avi-graphite); color: var(--avi-white); font: inherit; resize: vertical; }
+.contact-form input { min-height: 46px; }
+.contact-form input:focus, .contact-form textarea:focus { border-color: var(--avi-orange); box-shadow: 0 0 0 3px color-mix(in oklch, var(--avi-orange) 22%, transparent); }
+.contact-copy { min-height: 42px; border: 1px solid var(--avi-border); border-radius: 999px; background: transparent; color: var(--avi-white); font: inherit; font-size: 13px; font-weight: 750; cursor: pointer; }
+.contact-copy:hover, .contact-copy:focus-visible { border-color: var(--avi-orange); color: var(--avi-orange); }
+.contact-status { min-height: 20px; margin: 0; color: var(--avi-orange); font-size: 13px; }
 
 @media (max-width: 900px) {
   .private-landing-copy { padding-top: 120px; padding-bottom: 110px; }
