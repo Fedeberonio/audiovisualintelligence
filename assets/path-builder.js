@@ -127,10 +127,47 @@
     render();
   }
 
+  // El configurador lee la fuente única de Formación y arma su vista desde
+  // ahí: los módulos son las unidades de contenido y los recorridos sugeridos
+  // son los formatos publicados de AVI Vision. No tiene datos propios.
+  function fromFormacion(payload) {
+    return {
+      title: (payload.configurador || {}).titulo || "Armá tu recorrido",
+      description: (payload.configurador || {}).descripcion || "",
+      pricing: {
+        display: (payload.precios || {}).display || "A cotizar",
+        note: (payload.precios || {}).nota || ""
+      },
+      modules: (payload.modulos || []).map(function (mod) {
+        return {
+          id: mod.id,
+          short_name: mod.corto,
+          title: mod.titulo,
+          subtitle: mod.estado_etiqueta || "",
+          description: mod.descripcion || "",
+          hours: mod.horas || 0,
+          status_label: mod.estado_etiqueta || "",
+          syllabus: mod.temario || [],
+          outcome: mod.resultado || "",
+          requires: mod.requiere || [],
+          exclusive_with: mod.excluye || []
+        };
+      }),
+      presets: (payload.formatos || [])
+        .filter(function (item) {
+          return item.sistema === "avi-vision" && item.publica === true && (item.modulo_ids || []).length;
+        })
+        .sort(function (a, b) { return (a.orden || 999) - (b.orden || 999); })
+        .map(function (item) {
+          return { id: item.slug, label: item.titulo, module_ids: item.modulo_ids.slice() };
+        })
+    };
+  }
+
   function load() {
-    fetch("data/vision-ai-paths.json", { cache: "no-store" }).then(function (response) {
+    fetch("data/formacion.json", { cache: "no-store" }).then(function (response) {
       if (!response.ok) throw new Error("No se pudo cargar el configurador"); return response.json();
-    }).then(init).catch(function () { root.innerHTML = '<p class="catalog-error">No pudimos cargar el configurador. La oferta sigue disponible en la lista de talleres.</p>'; });
+    }).then(fromFormacion).then(init).catch(function () { root.innerHTML = '<p class="catalog-error">No pudimos cargar el configurador. La oferta sigue disponible en la lista de talleres.</p>'; });
   }
 
   if (window.AVI_ACCESO && window.AVI_ACCESO.ok) load();

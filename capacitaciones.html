@@ -143,15 +143,26 @@
       // Dinámica: cargar capacitaciones desde JSON
       const panels = document.getElementById('panels');
 
-      fetch('data/capacitaciones.json', {cache:'no-store'})
+      fetch('data/formacion.json', {cache:'no-store'})
         .then(r=>r.json())
         .then(data=>{
-          if (data.section && data.section.evidencia) document.getElementById('evidencia').textContent = data.section.evidencia;
+          // Adaptador a la fuente única de Formación: el temario y los
+          // objetivos se componen desde los módulos referenciados.
+          const mods = {}; (data.modulos||[]).forEach(m=>{ mods[m.id]=m; });
+          const componer = it => {
+            const propios = (it.modulo_ids||[]).map(id=>mods[id]).filter(Boolean);
+            return Object.assign({}, it, {
+              temario_resumido: propios.length ? propios.flatMap(m=>m.temario||[]) : (it.proceso||[]),
+              objetivos: propios.length===1 ? (propios[0].objetivos||[])
+                : propios.length ? propios.map(m=>m.resultado).filter(Boolean)
+                : (it.objetivos_propios||[])
+            });
+          };
           // Filtra por segmento; sin modo elegido cae en audiovisual, así la
           // página funciona sola aunque no se pase por modos.html.
           let modo = null; try { modo = sessionStorage.getItem('avi_modo'); } catch(_) {}
           if (!modo) modo = 'av';
-          const items = (data.capacitaciones||[]).filter(x=> (x.segmento===modo) ).slice(0,3);
+          const items = (data.formatos||[]).filter(x=> x.publica===true && x.segmento===modo ).slice(0,3).map(componer);
           // Construir paneles tipo glass con contenido del JSON
           panels.innerHTML = items.map((it, i)=>{
             const objetivos = (it.objetivos||[]).map(x=>`<li>${x}</li>`).join('');

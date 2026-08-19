@@ -61,13 +61,43 @@
   }
 
   async function loadPlatform() {
-    var response = await fetch("data/capacitaciones.json", { cache: "no-store" });
+    var response = await fetch("data/formacion.json", { cache: "no-store" });
     if (!response.ok) throw new Error("No se pudo cargar la oferta");
-    return response.json();
+    return resolveComposition(await response.json());
+  }
+
+  // El contenido vive una sola vez en `modulos`; cada formato lo compone por
+  // referencia (modulo_ids). Acá se resuelve esa composición para que el resto
+  // del render trabaje con datos ya armados:
+  // - temario_compuesto: bloques {titulo, lineas} — un bloque por módulo, con
+  //   título solo cuando hay más de uno; los formatos a medida usan `proceso`.
+  // - objetivos_res: los objetivos del módulo si hay uno; el resultado de cada
+  //   módulo si hay varios; `objetivos_propios` si no compone módulos.
+  function resolveComposition(payload) {
+    var porId = {};
+    (payload.modulos || []).forEach(function (mod) { porId[mod.id] = mod; });
+
+    (payload.formatos || []).forEach(function (item) {
+      var mods = (item.modulo_ids || []).map(function (id) { return porId[id]; }).filter(Boolean);
+
+      if (mods.length) {
+        item.temario_compuesto = mods.map(function (mod) {
+          return { titulo: mods.length > 1 ? mod.titulo : null, lineas: mod.temario || [] };
+        });
+        item.objetivos_res = mods.length === 1
+          ? (mods[0].objetivos || [])
+          : mods.map(function (mod) { return mod.resultado; }).filter(Boolean);
+      } else {
+        item.temario_compuesto = [{ titulo: null, lineas: item.proceso || [] }];
+        item.objetivos_res = item.objetivos_propios || [];
+      }
+    });
+
+    return payload;
   }
 
   function publicTraining(payload) {
-    return (Array.isArray(payload.capacitaciones) ? payload.capacitaciones : [])
+    return (Array.isArray(payload.formatos) ? payload.formatos : [])
       .filter(function (item) { return item.publica === true; })
       .sort(function (a, b) { return (a.orden || 999) - (b.orden || 999); });
   }
@@ -199,8 +229,17 @@
       facts.append(block);
     });
 
-    var outcomes = detailSection("Qué propone", "Criterio que se vuelve acción.", item.objetivos, false);
-    var curriculum = detailSection("Qué se trabaja", "Un recorrido aplicado.", item.temario_resumido, true);
+    var outcomes = detailSection("Qué propone", "Criterio que se vuelve acción.", item.objetivos_res, false);
+
+    var curriculum = element("section", "detail-section detail-split");
+    var currHeading = element("div", "detail-heading");
+    currHeading.append(element("p", "signal-label", "Qué se trabaja"), element("h2", "", "Un recorrido aplicado."));
+    var currBody = element("div", "detail-body");
+    (item.temario_compuesto || []).forEach(function (bloque) {
+      if (bloque.titulo) currBody.append(element("h3", "curriculum-part", bloque.titulo));
+      appendList(currBody, bloque.lineas, true);
+    });
+    curriculum.append(currHeading, currBody);
     var experience = detailSection("Cómo se trabaja", "La experiencia de capacitación.", item.incluye, false);
     experience.querySelector(".detail-body").append(element("p", "requirement", "Requisito: " + item.requisitos));
     if (item.entregable) experience.querySelector(".detail-body").append(element("p", "requirement detail-outcome", "Resultado esperado: " + item.entregable));
@@ -242,7 +281,7 @@
     var root = document.querySelector("[data-system-detail]");
     if (!root) return;
     var allItems = publicTraining(payload);
-    var items = (system.capacitaciones || []).map(function (slug) {
+    var items = (system.formatos || []).map(function (slug) {
       return allItems.find(function (item) { return item.slug === slug; });
     }).filter(Boolean);
     root.replaceChildren();

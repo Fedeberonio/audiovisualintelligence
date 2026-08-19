@@ -1,0 +1,351 @@
+{
+  "schema_version": 1,
+  "nota": "Fuente única de Formación. El contenido vive en `modulos` y se escribe una sola vez; `formatos` compone módulos por referencia y agrega solo encuadre comercial. Ver docs/ARQUITECTURA_OBJETIVO.md.",
+
+  "sistemas": [
+    {
+      "slug": "avi-vision",
+      "titulo": "AVI Vision",
+      "etiqueta": "Sistema de capacitación audiovisual",
+      "resumen": "Un sistema de capacitación en inteligencia artificial aplicada a la producción audiovisual, organizado en distintos puntos de entrada para comprender, practicar y profundizar.",
+      "propuesta": "Nace de la experiencia de producción y la convierte en distintos puntos de entrada según el momento de cada profesional o equipo.",
+      "formatos": [
+        "vision-ai-modulo-1",
+        "vision-ai-modulo-practico",
+        "vision-ai-practico-produccion",
+        "vision-ai-practico-creatividad",
+        "avi-vision-intensivo-integral-12h"
+      ]
+    }
+  ],
+
+  "modulos": [
+    {
+      "id": "vision-1",
+      "corto": "V1",
+      "titulo": "Fundamentos y mapa audiovisual",
+      "descripcion": "Una visión amplia del ecosistema, desde los fundamentos hasta un flujo audiovisual completo.",
+      "horas": 6,
+      "estado": "validated_delivered",
+      "estado_etiqueta": "Validado · edición completada",
+      "temario": [
+        "Sistemas generativos, datos, patrones, contexto y probabilidad",
+        "Modelos, asistentes, Projects, agentes y criterios de uso",
+        "Desarrollo, preproducción y demostración de un flujo visual completo"
+      ],
+      "objetivos": [
+        "Comprender sistemas generativos, contexto y modelos",
+        "Reconocer aplicaciones reales en las distintas etapas de producción",
+        "Evaluar herramientas sin delegar el criterio creativo"
+      ],
+      "resultado": "Mapa compartido, vocabulario común y criterio para decidir el próximo paso.",
+      "requiere": []
+    },
+    {
+      "id": "vision-2p",
+      "corto": "2P",
+      "titulo": "Desarrollo y preproducción",
+      "descripcion": "Práctica enfocada en construir y organizar el proyecto antes de producir imágenes.",
+      "horas": 6,
+      "estado": "validated_architecture",
+      "estado_etiqueta": "Arquitectura validada",
+      "temario": [
+        "Projects, contexto, coverage, escenas y desarrollo asistido",
+        "Breakdown técnico y creativo",
+        "Scheduling, stripboard, presupuesto y paquete de preproducción"
+      ],
+      "objetivos": [
+        "Construir contexto de proyecto",
+        "Desarrollar y auditar una escena",
+        "Organizar breakdown, scheduling y presupuesto"
+      ],
+      "resultado": "Un paquete de desarrollo y preproducción listo para alimentar el módulo de imagen.",
+      "requiere": []
+    },
+    {
+      "id": "vision-2i",
+      "corto": "2I",
+      "titulo": "Imagen y producción",
+      "descripcion": "Del brief visual y la biblia a una pieza breve con continuidad, sonido y acabado.",
+      "horas": 6,
+      "estado": "validated_architecture",
+      "estado_etiqueta": "Contenidos definidos",
+      "temario": [
+        "Biblia, casting, personajes, vestuario y locaciones",
+        "Shotlist, storyboard, master frame y video con continuidad",
+        "Música, sonido, edición, upscaling y VFX"
+      ],
+      "objetivos": [
+        "Definir identidad visual y bloqueos",
+        "Construir master frames y video con continuidad",
+        "Integrar sonido, edición, upscale y VFX"
+      ],
+      "resultado": "Un teaser breve de 3 a 5 planos, con tiempo real de corrección cuando se combina con Desarrollo y preproducción.",
+      "requiere": [
+        "Brief o escena viable; Desarrollo y preproducción cumple este requisito"
+      ]
+    },
+    {
+      "id": "intensivo-6",
+      "corto": "I6",
+      "titulo": "Flujo completo comprimido",
+      "descripcion": "Una versión comprimida de desarrollo e imagen para probar el flujo completo en menos tiempo.",
+      "horas": 6,
+      "estado": "validated_architecture",
+      "estado_etiqueta": "Arquitectura validada",
+      "temario": [
+        "Contexto, escena y preproducción esencial",
+        "Dirección visual, master frame y animación de 1 o 2 planos",
+        "Armado de una prueba de concepto"
+      ],
+      "objetivos": [
+        "Probar el flujo completo",
+        "Tomar decisiones rápidas de dirección",
+        "Obtener una pieza de validación"
+      ],
+      "resultado": "Prueba de concepto o animatic de 3 a 5 planos; no equivale al teaser corregido del recorrido de 12 horas.",
+      "requiere": [
+        "Escena o brief viable antes del encuentro"
+      ],
+      "excluye": ["vision-2p", "vision-2i"]
+    },
+    {
+      "id": "eduia-nucleo",
+      "corto": "E1",
+      "titulo": "IA para investigación, contenidos y aula",
+      "descripcion": "Introducción práctica y responsable a la IA en contextos educativos.",
+      "horas": 6,
+      "estado": "validated_architecture",
+      "estado_etiqueta": "Contenidos definidos",
+      "temario": [
+        "Fundamentos y políticas de uso",
+        "Asistentes para investigación y escritura",
+        "Imagen, audio, evaluación y revisión"
+      ],
+      "objetivos": [
+        "Comprender fundamentos",
+        "Usar asistentes en tareas educativas",
+        "Aplicar criterios de citación y revisión"
+      ],
+      "resultado": "Guía de uso y diseño de una actividad asistida.",
+      "requiere": []
+    }
+  ],
+
+  "formatos": [
+    {
+      "slug": "vision-ai-modulo-1",
+      "titulo": "Visión AI · Teórico-demo práctico",
+      "sistema": "avi-vision",
+      "modo": "en_vivo",
+      "modulo_ids": ["vision-1"],
+      "orden": 1,
+      "publica": true,
+      "estado_comercial": "disponible",
+      "etiqueta_publica": "Comprender",
+      "segmento": "av",
+      "nivel": "Fundamentos",
+      "duracion_total": "6 h (3×2 h)",
+      "horas_totales": 6,
+      "formato": "En vivo online",
+      "grupo": "Profesionales audiovisuales y equipos",
+      "resumen_corto": "Fundamentos, demostración y criterio para aplicar IA al trabajo audiovisual.",
+      "modalidad_horarios": ["3 encuentros de 2 horas"],
+      "incluye": ["Recorrido en vivo", "Materiales autorizados de repaso", "Acceso al aula durante el período acordado"],
+      "requisitos": "No requiere experiencia previa con herramientas de IA.",
+      "entregable": "Mapa compartido y criterio para definir un próximo paso.",
+      "tags": ["Fundamentos", "Desarrollo", "Preproducción", "Producción"],
+      "cta_label": "Solicitar información"
+    },
+    {
+      "slug": "vision-ai-modulo-practico",
+      "titulo": "Visión AI · Módulo práctico",
+      "sistema": "avi-vision",
+      "modo": "intensivo",
+      "modulo_ids": ["intensivo-6"],
+      "orden": 2,
+      "publica": true,
+      "estado_comercial": "disponible",
+      "etiqueta_publica": "Llevarlo a la práctica",
+      "segmento": "av",
+      "nivel": "Hands-on",
+      "duracion_total": "6 h",
+      "horas_totales": 6,
+      "formato": "En vivo online · trabajo en equipos",
+      "grupo": "Equipos con una escena preparada",
+      "resumen_corto": "El complemento práctico de Visión AI: una experiencia intensiva en equipos sobre una escena propia.",
+      "modalidad_horarios": ["Una jornada de 6 horas o 2 encuentros de 3 horas"],
+      "incluye": ["Laboratorio guiado", "Plantilla de preproducción", "Revisión final"],
+      "requisitos": "Haber cursado Visión AI · Teórico-demo práctico y llegar con una escena viable.",
+      "entregable": "Prueba de concepto o animatic de 3 a 5 planos.",
+      "tags": ["Módulo práctico", "Prueba de concepto", "Producción"],
+      "cta_label": "Solicitar información"
+    },
+    {
+      "slug": "vision-ai-practico-produccion",
+      "titulo": "AVI Vision · Intensivo · Producción",
+      "sistema": "avi-vision",
+      "modo": "intensivo",
+      "modulo_ids": ["vision-2p"],
+      "orden": 3,
+      "publica": true,
+      "estado_comercial": "disponible",
+      "etiqueta_publica": "Profundizar en producción",
+      "segmento": "av",
+      "nivel": "Práctico",
+      "duracion_total": "6 h",
+      "horas_totales": 6,
+      "formato": "En vivo online · trabajo en equipos",
+      "grupo": "Sugerido: 4 equipos de hasta 5 personas",
+      "resumen_corto": "Especialización práctica en desarrollo y preproducción sobre una escena trabajada en equipo.",
+      "modalidad_horarios": ["3 encuentros de 2 horas", "Sin tarea obligatoria entre encuentros"],
+      "incluye": ["Práctica guiada", "Plantillas de trabajo", "Corrección en vivo"],
+      "requisitos": "Haber cursado Visión AI y contar con una escena o proyecto seleccionado.",
+      "entregable": "Paquete de desarrollo y preproducción listo para alimentar el módulo de imagen.",
+      "tags": ["Desarrollo", "Preproducción", "Planificación", "Producción"],
+      "cta_label": "Solicitar información"
+    },
+    {
+      "slug": "vision-ai-practico-creatividad",
+      "titulo": "AVI Vision · Intensivo · Creatividad",
+      "sistema": "avi-vision",
+      "modo": "intensivo",
+      "modulo_ids": ["vision-2i"],
+      "orden": 4,
+      "publica": true,
+      "estado_comercial": "disponible",
+      "etiqueta_publica": "Profundizar en creatividad",
+      "segmento": "av",
+      "nivel": "Práctico",
+      "duracion_total": "6 h",
+      "horas_totales": 6,
+      "formato": "En vivo online · laboratorio",
+      "grupo": "Equipos con una escena o brief viable",
+      "resumen_corto": "Especialización práctica en preproducción creativa y realización visual sobre una escena preparada.",
+      "modalidad_horarios": ["3 encuentros de 2 horas"],
+      "incluye": ["Práctica guiada", "Revisión de continuidad", "Corrección en vivo"],
+      "requisitos": "Haber cursado Visión AI y llegar con una escena trabajada. El Intensivo Producción permite preparar ese material.",
+      "entregable": "Pieza audiovisual breve construida a partir de una escena previamente desarrollada.",
+      "tags": ["Imagen", "Video", "Sonido", "Postproducción"],
+      "cta_label": "Solicitar información"
+    },
+    {
+      "slug": "avi-vision-intensivo-integral-12h",
+      "titulo": "AVI Vision · Intensivo integral",
+      "sistema": "avi-vision",
+      "modo": "intensivo",
+      "modulo_ids": ["vision-2p", "vision-2i"],
+      "orden": 5,
+      "publica": true,
+      "estado_comercial": "disponible",
+      "etiqueta_publica": "Producción + Creatividad",
+      "segmento": "av",
+      "nivel": "Hands-on",
+      "duracion_total": "12 h (Producción + Creatividad)",
+      "horas_totales": 12,
+      "formato": "En vivo online",
+      "grupo": "Profesionales audiovisuales y equipos",
+      "resumen_corto": "Producción y creatividad reunidas en un único recorrido intensivo.",
+      "modalidad_horarios": ["6 encuentros de 2 horas o esquema a convenir"],
+      "incluye": ["Dos intensivos conectados", "Materiales de trabajo", "Cierre integrado"],
+      "requisitos": "Haber cursado Visión AI y seleccionar previamente una escena o proyecto.",
+      "entregable": "Paquete de preproducción y teaser de 3 a 5 planos, sujeto al material de partida y al proceso de trabajo del equipo.",
+      "tags": ["Producción", "Creatividad", "12 horas"],
+      "cta_label": "Solicitar información"
+    },
+    {
+      "slug": "eduia-basico",
+      "titulo": "EduIA",
+      "sistema": null,
+      "modo": "en_vivo",
+      "modulo_ids": ["eduia-nucleo"],
+      "orden": 6,
+      "publica": true,
+      "estado_comercial": "disponible",
+      "etiqueta_publica": "Educación",
+      "segmento": "edu",
+      "nivel": "Inicial",
+      "duracion_total": "6 h",
+      "horas_totales": 6,
+      "formato": "En vivo online o institucional",
+      "grupo": "Docentes y estudiantes",
+      "resumen_corto": "Introducción práctica y responsable a la IA para investigación, contenidos y proyectos de aula.",
+      "modalidad_horarios": ["A convenir con la institución"],
+      "incluye": ["Presentación", "Plantillas para el aula", "Material de referencia"],
+      "requisitos": "Navegador y cuentas institucionales según herramientas.",
+      "entregable": "Guía de uso y diseño de una actividad asistida.",
+      "tags": ["Educación", "Proyectos", "Ética"],
+      "cta_label": "Solicitar información"
+    },
+    {
+      "slug": "formacion-a-medida",
+      "titulo": "Capacitación y asesoría a medida",
+      "sistema": null,
+      "modo": "a_medida",
+      "modulo_ids": [],
+      "proceso": [
+        "Diagnóstico y objetivos",
+        "Diseño de contenidos y práctica",
+        "Acompañamiento y cierre"
+      ],
+      "orden": 7,
+      "publica": true,
+      "estado_comercial": "disponible",
+      "etiqueta_publica": "Equipos e instituciones",
+      "segmento": "custom",
+      "nivel": "A medida",
+      "duracion_total": "A definir",
+      "horas_totales": 0,
+      "formato": "Online, presencial o combinado",
+      "grupo": "Equipos, productoras e instituciones",
+      "resumen_corto": "Capacitaciones, asesorías y sistemas de aprendizaje diseñados alrededor de necesidades concretas.",
+      "objetivos_propios": [
+        "Identificar la necesidad real",
+        "Diseñar una experiencia aplicable",
+        "Transferir criterio y capacidad al equipo"
+      ],
+      "modalidad_horarios": ["A convenir"],
+      "incluye": ["Diagnóstico inicial", "Diseño específico", "Materiales y acompañamiento según alcance"],
+      "requisitos": "Se definen durante la conversación inicial.",
+      "entregable": "Sistema de capacitación y acompañamiento ajustado al contexto del equipo.",
+      "tags": ["Capacitación", "Asesoría", "A medida"],
+      "cta_label": "Solicitar información"
+    },
+    {
+      "slug": "vision-ai-autoguiado",
+      "titulo": "Visión AI a tu ritmo",
+      "sistema": "avi-vision",
+      "modo": "autoguiado",
+      "modulo_ids": ["vision-1"],
+      "orden": 8,
+      "publica": false,
+      "estado_comercial": "en_desarrollo",
+      "etiqueta_publica": "A tu ritmo",
+      "segmento": "av",
+      "nivel": "Fundamentos",
+      "duracion_total": "Lecciones breves bajo demanda",
+      "horas_totales": 6,
+      "formato": "Video bajo demanda",
+      "grupo": "Profesionales audiovisuales",
+      "resumen_corto": "La versión autoguiada de Visión AI para recorrer el mapa a tu ritmo.",
+      "modalidad_horarios": [],
+      "incluye": [],
+      "requisitos": "No requiere experiencia previa con herramientas de IA.",
+      "entregable": "",
+      "tags": ["Autoguiado"],
+      "cta_label": "Sumarme a la lista de espera",
+      "nota_editorial": "El detalle editorial (lecciones, estados y compuertas de publicación) vive en data/vision-ai-autoguiado.json."
+    }
+  ],
+
+  "precios": {
+    "estado": "pending_validation",
+    "display": "A cotizar",
+    "nota": "El precio se define según modalidad, cantidad de participantes, herramientas y nivel de acompañamiento."
+  },
+
+  "configurador": {
+    "titulo": "Armá tu recorrido Visión AI",
+    "descripcion": "Combiná módulos y obtené una estimación de carga horaria, contenidos y resultado esperado."
+  }
+}

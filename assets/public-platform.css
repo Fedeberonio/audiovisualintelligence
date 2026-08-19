@@ -579,3 +579,8 @@ ul.detail-list li::before { content: "↗"; position: absolute; left: 0; color: 
   .landing-placeholder .public-landing-copy { padding: 96px 0 54px; }
   .landing-placeholder .landing-access-trigger { bottom: 14px; }
 }
+
+/* Temario compuesto: cuando un formato reúne más de un módulo, cada parte
+   lleva el título del módulo que la aporta. */
+.curriculum-part { margin: 26px 0 10px; color: var(--avi-orange); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.curriculum-part:first-child { margin-top: 0; }
