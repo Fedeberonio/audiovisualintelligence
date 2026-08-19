@@ -12,16 +12,18 @@
   var message = document.getElementById("landingLoginMessage");
   var session = document.getElementById("landingSession");
   var accessDialog = document.getElementById("acceso");
-  var accessTrigger = document.getElementById("landingAccessTrigger");
+  var accessTriggers = Array.prototype.slice.call(document.querySelectorAll("[data-access-trigger], #landingAccessTrigger"));
   var accessClose = document.getElementById("landingAccessClose");
   var submitting = false;
 
-  accessTrigger.addEventListener("click", function () {
-    accessDialog.showModal();
-    window.setTimeout(function () {
-      var target = form.hidden ? accessDialog.querySelector("a") : email;
-      if (target) target.focus();
-    }, 0);
+  accessTriggers.forEach(function (accessTrigger) {
+    accessTrigger.addEventListener("click", function () {
+      accessDialog.showModal();
+      window.setTimeout(function () {
+        var target = form.hidden ? accessDialog.querySelector("a") : email;
+        if (target) target.focus();
+      }, 0);
+    });
   });
   accessClose.addEventListener("click", function () { accessDialog.close(); });
   accessDialog.addEventListener("click", function (event) {
@@ -33,17 +35,25 @@
     button.textContent = loading ? "Verificando…" : "Entrar";
   }
 
-  function showSession() {
+  function showSession(access) {
     form.hidden = true;
     session.hidden = false;
+    var continueLink = document.getElementById("landingContinue");
+    if (continueLink) continueLink.href = access && access.private ? "plataforma.html" : "aula.html";
+  }
+
+  function resolveAccess(user) {
+    return Promise.all([window.AVI_privateAccess(user), window.AVI_access(user)]).then(function (results) {
+      return results[0].ok ? results[0] : results[1];
+    });
   }
 
   auth.onAuthStateChanged(function (user) {
     if (!user) return;
-    window.AVI_privateAccess(user).then(function (access) {
+    resolveAccess(user).then(function (access) {
       if (access.ok) {
-        if (submitting) location.replace("plataforma.html");
-        else showSession();
+        if (submitting) location.replace(access.private ? "plataforma.html" : "aula.html");
+        else showSession(access);
         return;
       }
       return auth.signOut().then(function () {

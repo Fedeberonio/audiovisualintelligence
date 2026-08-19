@@ -298,3 +298,134 @@ ul.detail-list li::before { content: "↗"; position: absolute; left: 0; color: 
   .pinocchio-hero { background: var(--avi-graphite); }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+/* Landing publica: una puerta cinematografica, contenida y orientada. */
+.public-landing { overflow-x: hidden; }
+.public-landing .landing-header {
+  position: absolute;
+  background: linear-gradient(180deg, color-mix(in oklch, var(--avi-black) 72%, transparent), transparent);
+}
+.landing-nav { display: flex; align-items: center; gap: clamp(16px, 2.5vw, 34px); }
+.landing-nav a, .landing-nav button {
+  min-height: 42px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--avi-white);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  opacity: .78;
+  transition: opacity 180ms ease-out, color 180ms ease-out;
+}
+.landing-nav a:hover, .landing-nav button:hover,
+.landing-nav a:focus-visible, .landing-nav button:focus-visible { color: var(--avi-orange); opacity: 1; }
+.landing-nav button { padding: 8px 13px; border: 1px solid color-mix(in oklch, var(--avi-orange) 58%, transparent); border-radius: 999px; color: var(--avi-orange); opacity: 1; }
+.public-landing-main { min-height: 100svh; }
+.public-landing-hero { position: relative; min-height: 100svh; display: grid; align-items: center; overflow: hidden; isolation: isolate; background: var(--avi-black) url("../media/landing-poster.jpg") center / cover no-repeat; }
+.public-landing-scrim { position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, color-mix(in oklch, var(--avi-black) 94%, transparent) 0%, color-mix(in oklch, var(--avi-black) 56%, transparent) 48%, color-mix(in oklch, var(--avi-black) 8%, transparent) 82%); }
+.public-landing-copy { width: min(720px, calc(100% - 40px)); margin-left: max(20px, calc((100vw - var(--max)) / 2)); padding: 118px 0 104px; }
+.public-landing-copy h1 { margin: 0; max-width: 8ch; font-size: clamp(60px, 9.5vw, 124px); line-height: .86; letter-spacing: -.06em; }
+.public-landing-copy > p:not(.signal-label) { max-width: 44ch; margin: 28px 0 0; color: var(--avi-white); font-size: clamp(18px, 2vw, 23px); line-height: 1.48; text-wrap: balance; }
+.landing-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.landing-actions button, .student-entry button, .landing-contact button { font-family: inherit; cursor: pointer; }
+
+.avi-territory, .landing-programs, .student-entry, .avi-experience, .landing-contact {
+  width: min(var(--max), calc(100% - 40px));
+  margin: 0 auto;
+}
+.avi-territory { padding: clamp(100px, 15vw, 200px) 0; }
+.avi-territory > .signal-label { margin-bottom: clamp(38px, 6vw, 70px); }
+.territory-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(14px, 2vw, 24px) 0;
+  border-bottom: 1px solid var(--avi-border);
+  font-size: clamp(38px, 7.2vw, 96px);
+  font-weight: 800;
+  line-height: .92;
+  letter-spacing: -.05em;
+  text-transform: uppercase;
+}
+.territory-line:first-of-type { border-top: 1px solid var(--avi-border); }
+.territory-line span:last-child { color: var(--avi-muted); font-weight: 430; }
+
+.landing-programs { padding: clamp(94px, 12vw, 160px) 0; border-top: 1px solid var(--avi-border); }
+.landing-section-intro { display: grid; grid-template-columns: 1.25fr .75fr; gap: clamp(36px, 8vw, 110px); align-items: end; margin-bottom: clamp(54px, 8vw, 90px); }
+.landing-section-intro h2 { max-width: 12ch; margin: 0; font-size: clamp(44px, 6.8vw, 88px); line-height: .92; letter-spacing: -.05em; }
+.landing-section-intro > p { max-width: 40ch; margin: 0; color: var(--avi-muted); font-size: 18px; line-height: 1.62; }
+.landing-program-list { border-top: 1px solid var(--avi-border); }
+.landing-program {
+  display: grid;
+  grid-template-columns: 54px minmax(280px, 1.2fr) minmax(250px, .7fr) auto;
+  gap: clamp(18px, 3vw, 42px);
+  align-items: start;
+  padding: clamp(28px, 4vw, 46px) 0;
+  border-bottom: 1px solid var(--avi-border);
+}
+.landing-program-index { padding-top: 6px; color: var(--avi-orange); font-size: 12px; font-weight: 800; letter-spacing: .12em; }
+.landing-program-copy h3 { margin: 0; font-size: clamp(26px, 3vw, 40px); line-height: 1.04; letter-spacing: -.03em; }
+.landing-program-copy p { max-width: 52ch; margin: 14px 0 0; color: var(--avi-muted); line-height: 1.58; }
+.landing-program-meta { display: grid; gap: 18px; margin: 0; }
+.landing-program-meta div { display: grid; gap: 4px; }
+.landing-program-meta dt { color: var(--avi-muted); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.landing-program-meta dd { margin: 0; font-size: 14px; line-height: 1.4; }
+.program-contact {
+  min-height: 42px;
+  padding: 0 0 3px;
+  border: 0;
+  border-bottom: 1px solid var(--avi-orange);
+  background: transparent;
+  color: var(--avi-orange);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.program-contact:hover, .program-contact:focus-visible { color: var(--avi-white); border-color: var(--avi-white); }
+.program-sequence-note { max-width: 62ch; margin: 28px 0 0 auto; color: var(--avi-muted); font-size: 14px; line-height: 1.6; }
+.landing-program-group { margin-top: clamp(74px, 10vw, 120px); }
+.landing-program-group .signal-label { margin-bottom: 24px; }
+
+.student-entry { padding: clamp(84px, 11vw, 140px) 0; border-top: 1px solid var(--avi-border); }
+.student-entry > div { display: flex; align-items: end; justify-content: space-between; gap: 32px; }
+.student-entry h2 { max-width: 17ch; margin: 0; font-size: clamp(38px, 5.8vw, 72px); line-height: .98; letter-spacing: -.045em; }
+.student-entry .action-primary { flex: 0 0 auto; }
+.avi-experience { padding: clamp(80px, 11vw, 150px) 0; border-top: 1px solid var(--avi-border); }
+.avi-experience p { max-width: 24ch; margin: 0; font-size: clamp(30px, 5vw, 64px); font-weight: 520; line-height: 1.12; letter-spacing: -.035em; }
+.avi-experience strong { color: var(--avi-orange); font-weight: 800; }
+.landing-contact { padding: clamp(90px, 12vw, 160px) 0; border-top: 1px solid var(--avi-border); }
+.landing-contact h2 { max-width: 15ch; margin: 0 0 34px; font-size: clamp(42px, 6.5vw, 84px); line-height: .95; letter-spacing: -.05em; }
+.landing-contact > a { display: block; width: max-content; margin-top: 22px; color: var(--avi-muted) !important; font-size: 14px; text-underline-offset: 5px; }
+.landing-footer { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; padding-right: 0; padding-left: 0; }
+.landing-access-intro > p:last-child { margin: 17px 0 0; color: var(--avi-muted); font-size: 15px; line-height: 1.5; }
+
+@media (max-width: 920px) {
+  .landing-program { grid-template-columns: 42px minmax(0, 1fr) minmax(220px, .65fr); }
+  .landing-program .program-contact { grid-column: 2; justify-self: start; }
+}
+
+@media (max-width: 700px) {
+  .landing-nav a { display: none; }
+  .public-landing-copy { display: flex; justify-content: center; flex-direction: column; min-height: 100svh; margin: 0 20px; padding: 105px 0 120px; }
+  .public-landing-copy h1 { max-width: none; font-size: clamp(50px, 14.8vw, 64px); }
+  .public-landing-copy > p:not(.signal-label) { margin-top: 22px; font-size: 17px; }
+  .public-landing-scrim { background: linear-gradient(0deg, color-mix(in oklch, var(--avi-black) 96%, transparent) 0%, color-mix(in oklch, var(--avi-black) 58%, transparent) 72%, color-mix(in oklch, var(--avi-black) 10%, transparent) 100%); }
+  .landing-actions { align-items: stretch; flex-direction: column; width: min(100%, 320px); }
+  .landing-actions > * { width: 100%; }
+  .territory-line { align-items: flex-start; flex-direction: column; gap: 3px; }
+  .landing-section-intro, .landing-program { grid-template-columns: 1fr; }
+  .landing-program-index { padding-top: 0; }
+  .landing-program-meta { grid-template-columns: 1fr 1fr; }
+  .landing-program .program-contact { grid-column: auto; }
+  .student-entry > div { align-items: flex-start; flex-direction: column; }
+}
+
+@media (max-width: 420px) {
+  .landing-nav button { padding: 7px 10px; font-size: 11px; }
+  .landing-program-meta { grid-template-columns: 1fr; }
+}

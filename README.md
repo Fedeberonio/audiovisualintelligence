@@ -4,8 +4,8 @@ Primera base de producto para convertir Audiovisual Intelligence en una platafor
 
 ## Experiencias principales
 
-- `index.html`: entrada audiovisual de marca.
-- `plataforma.html`: pagina publica de Vision AI, recorrido, consultoria y captacion.
+- `index.html`: landing publica de marca, oferta breve, contacto y acceso al aula.
+- `plataforma.html`: experiencia interna del equipo AVI durante la etapa actual.
 - `aula.html`: espacio inicial del alumno, protegido por el flujo de acceso existente.
 - `capacitaciones.html`: catalogo anterior de capacitaciones.
 - `quienes-somos.html`: trayectoria y equipo.
@@ -31,7 +31,7 @@ Desde la raiz del proyecto:
 python3 -m http.server 4173
 ```
 
-Abrir `http://127.0.0.1:4173/plataforma.html`.
+Abrir `http://127.0.0.1:4173/`.
 
 El servidor local es necesario porque los navegadores no permiten cargar el JSON mediante `fetch()` desde `file://`.
 

@@ -2,7 +2,7 @@
   "use strict";
 
   var AVI_EMAIL = "academy@audiovisualintelligence.ai";
-  var trigger = document.getElementById("contactTrigger");
+  var triggers = Array.prototype.slice.call(document.querySelectorAll("[data-contact-trigger], #contactTrigger"));
   var dialog = document.getElementById("contactDialog");
   var close = document.getElementById("contactClose");
   var form = document.getElementById("contactForm");
@@ -12,13 +12,15 @@
   var email = document.getElementById("contactEmail");
   var message = document.getElementById("contactMessage");
 
-  function openContact() {
+  function openContact(event) {
     status.textContent = "";
+    var topic = event && event.currentTarget ? event.currentTarget.getAttribute("data-contact-topic") : "";
+    if (topic && !message.value.trim()) message.value = "Quiero recibir información sobre " + topic + ".";
     dialog.showModal();
     window.setTimeout(function () { name.focus(); }, 0);
   }
 
-  trigger.addEventListener("click", openContact);
+  triggers.forEach(function (trigger) { trigger.addEventListener("click", openContact); });
   close.addEventListener("click", function () { dialog.close(); });
   dialog.addEventListener("click", function (event) {
     if (event.target === dialog) dialog.close();

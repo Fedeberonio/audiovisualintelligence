@@ -1,6 +1,6 @@
 // Access gate con Firebase Auth (sesion real).
-// - Solo las tres cuentas incluidas en AVI_PRIVATE_EMAILS pueden entrar.
-// - Los claims de alumnos no conceden acceso durante el preview privado.
+// - Las paginas internas siguen reservadas al equipo AVI.
+// - El aula admite tambien cuentas con un rol docente o de alumno autorizado.
 (function () {
   var robots = document.createElement('meta');
   robots.name = 'robots';
@@ -75,7 +75,12 @@
     if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG);
     firebase.auth().onAuthStateChanged(function (user) {
       if (!user) { showMembersScreen(); return; }
-      window.AVI_privateAccess(user).then(function (acceso) {
+      var resolver = paginaActual() === 'aula.html'
+        ? Promise.all([window.AVI_privateAccess(user), window.AVI_access(user)]).then(function (resultados) {
+            return resultados[0].ok ? resultados[0] : resultados[1];
+          })
+        : window.AVI_privateAccess(user);
+      resolver.then(function (acceso) {
         if (!acceso.ok) { showMembersScreen(); return; }
         allowPage(acceso);
       }).catch(function () { showMembersScreen(); });

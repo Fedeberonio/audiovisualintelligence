@@ -4,14 +4,15 @@
 
 La plataforma continúa desplegable como sitio estático en GitHub Pages. La primera capa separa presentación, contenido y experiencia:
 
-- `plataforma.html`: descubrimiento y conversión pública.
+- `index.html`: landing pública y contenida, con territorio AVI, oferta breve, contacto y acceso al aula.
+- `plataforma.html`: plataforma interna del equipo AVI durante esta etapa.
 - `aula.html`: experiencia inicial del alumno.
 - `data/vision-ai.json`: definición del programa.
-- `data/vision-ai-cohort-demo.json`: definición reemplazable de cohorte y sesiones.
+- `data/vision-ai-cohort-2026-08.json`: definición reemplazable de cohorte y sesiones.
 - `assets/platform.js`: render compartido del programa.
 - `assets/classroom.js`: estado de cohorte y progreso local.
 
-El progreso se conserva en `localStorage` con la clave `avi_progress:vision-ai:device`. Es deliberadamente local y no representa una cuenta real.
+La landing no publica proyectos, clientes, alianzas, metodologías, herramientas específicas ni hojas de ruta. El aula admite cuentas con claims autorizados; las demás páginas internas continúan limitadas al equipo AVI.
 
 ## Frontera de seguridad
 
@@ -49,12 +50,12 @@ La interfaz ya trabaja con identificadores estables de programa, módulo, recurs
 
 ## Ruta de migración
 
-### Fase A — Validación estática, actual
+### Fase A — Puerta pública y acceso autenticado, actual
 
-- Propuesta pública.
-- Cohorte demostrativa.
-- Progreso por dispositivo.
-- Recursos públicos o marcados como próximos.
+- Landing pública deliberadamente contenida.
+- Oferta comercial breve y contacto rápido.
+- Acceso autenticado de alumnos y equipo.
+- Aula con cohorte y materiales autorizados.
 
 ### Fase B — Identidad y materiales reales
 

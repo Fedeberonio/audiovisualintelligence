@@ -3,23 +3,205 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Audiovisual Intelligence — Acceso privado</title>
-    <meta name="description" content="Audiovisual Intelligence. Inteligencia artificial aplicada al oficio audiovisual." />
+    <title>Audiovisual Intelligence — IA aplicada al oficio</title>
+    <meta name="description" content="AVI investiga, desarrolla, produce y forma en la intersección entre la experiencia audiovisual y la inteligencia artificial." />
     <link rel="canonical" href="https://audiovisualintelligence.ai/" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="assets/public-platform.css?v=6" />
+    <link rel="stylesheet" href="assets/public-platform.css?v=7" />
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" defer></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" defer></script>
-    <script src="assets/firebase-init.js?v=6" defer></script>
-    <script src="assets/landing-login.js?v=3" defer></script>
-    <script src="assets/contact.js?v=1" defer></script>
+    <script src="assets/firebase-init.js?v=7" defer></script>
+    <script src="assets/landing-login.js?v=4" defer></script>
+    <script src="assets/contact.js?v=2" defer></script>
   </head>
-  <body class="public-site private-landing">
-    <a class="skip-link" href="#landingAccessTrigger">Saltar al acceso</a>
+  <body class="public-site public-landing">
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
     <header class="landing-header">
       <a class="public-brand" href="/" aria-label="Audiovisual Intelligence, inicio">AVI</a>
-      <button class="landing-info-link" id="contactTrigger" type="button" aria-haspopup="dialog">Solicitar información</button>
+      <nav class="landing-nav" aria-label="Navegación principal">
+        <a href="#territorio">Territorio</a>
+        <a href="#talleres">Talleres</a>
+        <button type="button" data-access-trigger aria-haspopup="dialog">Acceso alumnos</button>
+      </nav>
     </header>
+
+    <main id="contenido" class="public-landing-main">
+      <section class="public-landing-hero" aria-labelledby="landing-title">
+        <video class="pinocchio-film" autoplay muted loop playsinline aria-hidden="true" preload="metadata" poster="media/landing-poster.jpg">
+          <source src="media/landing_0.mp4" type="video/mp4" />
+        </video>
+        <div class="public-landing-scrim"></div>
+        <div class="public-landing-copy">
+          <p class="signal-label">Audiovisual Intelligence</p>
+          <h1 id="landing-title">IA aplicada<br />al oficio.</h1>
+          <p>Un hub donde la experiencia en la industria audiovisual se encuentra con la inteligencia artificial.</p>
+          <div class="landing-actions">
+            <a class="action-primary" href="#talleres">Explorar talleres</a>
+            <button class="action-secondary" type="button" data-access-trigger aria-haspopup="dialog">Acceso alumnos</button>
+          </div>
+        </div>
+
+        <button class="landing-access-trigger" type="button" data-access-trigger aria-label="Abrir acceso al aula" aria-haspopup="dialog">
+          <video autoplay muted loop playsinline aria-hidden="true" preload="metadata">
+            <source src="media/LogoHome.mp4" type="video/mp4" />
+          </video>
+        </button>
+      </section>
+
+      <section class="avi-territory" id="territorio" aria-labelledby="territory-title">
+        <p class="signal-label" id="territory-title">El territorio AVI</p>
+        <div class="territory-line"><span>Desarrollo</span><span>y producción</span></div>
+        <div class="territory-line"><span>Investigación</span><span>y laboratorio</span></div>
+        <div class="territory-line"><span>Formación</span></div>
+      </section>
+
+      <section class="landing-programs" id="talleres" aria-labelledby="programs-title">
+        <div class="landing-section-intro">
+          <div>
+            <p class="signal-label">Talleres y programas</p>
+            <h2 id="programs-title">Entrar por la práctica.</h2>
+          </div>
+          <p>Recorridos para profesionales, equipos e instituciones que quieren comprender y aplicar IA con criterio audiovisual.</p>
+        </div>
+
+        <div class="landing-program-list">
+          <article class="landing-program">
+            <span class="landing-program-index">01</span>
+            <div class="landing-program-copy">
+              <h3>Visión AI · Módulo 1</h3>
+              <p>Una introducción completa al territorio de la inteligencia artificial aplicada al trabajo audiovisual.</p>
+            </div>
+            <dl class="landing-program-meta">
+              <div><dt>Duración</dt><dd>6 horas</dd></div>
+              <div><dt>Modalidad</dt><dd>En vivo online</dd></div>
+            </dl>
+            <button class="program-contact" type="button" data-contact-trigger data-contact-topic="Visión AI · Módulo 1">Solicitar información</button>
+          </article>
+
+          <article class="landing-program">
+            <span class="landing-program-index">02</span>
+            <div class="landing-program-copy">
+              <h3>Visión AI · Módulo 2</h3>
+              <p>El complemento práctico de Visión AI: una experiencia en equipos sobre una escena propia.</p>
+            </div>
+            <dl class="landing-program-meta">
+              <div><dt>Duración</dt><dd>6 horas</dd></div>
+              <div><dt>Modalidad</dt><dd>Intensivo en vivo online</dd></div>
+            </dl>
+            <button class="program-contact" type="button" data-contact-trigger data-contact-topic="Visión AI · Módulo 2">Solicitar información</button>
+          </article>
+
+          <article class="landing-program">
+            <span class="landing-program-index">03</span>
+            <div class="landing-program-copy">
+              <h3>Visión AI · Módulo 2 — Producción</h3>
+              <p>Una especialización práctica centrada en desarrollo y preproducción.</p>
+            </div>
+            <dl class="landing-program-meta">
+              <div><dt>Duración</dt><dd>6 horas</dd></div>
+              <div><dt>Modalidad</dt><dd>En vivo online</dd></div>
+            </dl>
+            <button class="program-contact" type="button" data-contact-trigger data-contact-topic="Visión AI · Módulo 2 — Producción">Solicitar información</button>
+          </article>
+
+          <article class="landing-program">
+            <span class="landing-program-index">04</span>
+            <div class="landing-program-copy">
+              <h3>Visión AI · Módulo 2 — Creativo</h3>
+              <p>Una especialización práctica centrada en preproducción creativa y realización visual.</p>
+            </div>
+            <dl class="landing-program-meta">
+              <div><dt>Duración</dt><dd>6 horas</dd></div>
+              <div><dt>Modalidad</dt><dd>En vivo online</dd></div>
+            </dl>
+            <button class="program-contact" type="button" data-contact-trigger data-contact-topic="Visión AI · Módulo 2 — Creativo">Solicitar información</button>
+          </article>
+
+          <article class="landing-program">
+            <span class="landing-program-index">05</span>
+            <div class="landing-program-copy">
+              <h3>Visión AI · Programa completo</h3>
+              <p>El recorrido integral que conecta fundamentos y práctica audiovisual en una misma experiencia.</p>
+            </div>
+            <dl class="landing-program-meta">
+              <div><dt>Duración</dt><dd>18 horas</dd></div>
+              <div><dt>Modalidad</dt><dd>En vivo · aula + laboratorio</dd></div>
+            </dl>
+            <button class="program-contact" type="button" data-contact-trigger data-contact-topic="Visión AI · Programa completo">Solicitar información</button>
+          </article>
+        </div>
+        <p class="program-sequence-note">Las dos especializaciones pueden cursarse en secuencia como un recorrido completo de 12 horas.</p>
+
+        <div class="landing-program-group">
+          <p class="signal-label">Otros programas AVI</p>
+        </div>
+        <div class="landing-program-list">
+          <article class="landing-program">
+            <span class="landing-program-index">06</span>
+            <div class="landing-program-copy">
+              <h3>EduIA</h3>
+              <p>Formación práctica y responsable para docentes, estudiantes e instituciones educativas.</p>
+            </div>
+            <dl class="landing-program-meta">
+              <div><dt>Duración</dt><dd>6 horas</dd></div>
+              <div><dt>Modalidad</dt><dd>Online o institucional</dd></div>
+            </dl>
+            <button class="program-contact" type="button" data-contact-trigger data-contact-topic="EduIA">Solicitar información</button>
+          </article>
+
+          <article class="landing-program">
+            <span class="landing-program-index">07</span>
+            <div class="landing-program-copy">
+              <h3>Laboratorio IA personalizado</h3>
+              <p>Un espacio aplicado para equipos, productoras e instituciones con una necesidad concreta.</p>
+            </div>
+            <dl class="landing-program-meta">
+              <div><dt>Duración</dt><dd>A definir</dd></div>
+              <div><dt>Modalidad</dt><dd>Diagnóstico + laboratorio</dd></div>
+            </dl>
+            <button class="program-contact" type="button" data-contact-trigger data-contact-topic="Laboratorio IA personalizado">Solicitar información</button>
+          </article>
+
+          <article class="landing-program">
+            <span class="landing-program-index">08</span>
+            <div class="landing-program-copy">
+              <h3>Laboratorio IA para educación</h3>
+              <p>Diseño de prácticas a medida para equipos docentes, cátedras e instituciones.</p>
+            </div>
+            <dl class="landing-program-meta">
+              <div><dt>Duración</dt><dd>A definir</dd></div>
+              <div><dt>Modalidad</dt><dd>Diagnóstico + despliegue</dd></div>
+            </dl>
+            <button class="program-contact" type="button" data-contact-trigger data-contact-topic="Laboratorio IA para educación">Solicitar información</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="student-entry" aria-labelledby="student-title">
+        <p class="signal-label">Acceso directo</p>
+        <div>
+          <h2 id="student-title">¿Ya participás de un programa AVI?</h2>
+          <button class="action-primary" type="button" data-access-trigger aria-haspopup="dialog">Ingresar al aula</button>
+        </div>
+      </section>
+
+      <section class="avi-experience" aria-label="Experiencia AVI">
+        <p>Más de <strong>25 años</strong> de experiencia internacional en producción audiovisual, aplicados a investigar y construir nuevas formas de hacer.</p>
+      </section>
+
+      <section class="landing-contact" id="contacto" aria-labelledby="contact-heading">
+        <p class="signal-label">Contacto</p>
+        <h2 id="contact-heading">Una conversación puede ser el punto de entrada.</h2>
+        <button class="action-primary" type="button" data-contact-trigger>Solicitar información</button>
+        <a href="mailto:academy@audiovisualintelligence.ai">academy@audiovisualintelligence.ai</a>
+      </section>
+    </main>
+
+    <footer class="public-footer landing-footer">
+      <strong>AVI</strong>
+      <div><span>© 2026 Audiovisual Intelligence</span></div>
+    </footer>
 
     <dialog class="landing-access contact-dialog" id="contactDialog" aria-labelledby="contactTitle">
       <button class="landing-access-close" id="contactClose" type="button" aria-label="Cerrar contacto">×</button>
@@ -38,57 +220,27 @@
       </form>
     </dialog>
 
-    <main class="private-landing-main">
-      <section class="private-landing-hero" aria-labelledby="landing-title">
-        <video class="pinocchio-film" autoplay muted loop playsinline aria-hidden="true" preload="metadata">
-          <source src="media/landing_0.mp4" type="video/mp4" />
-        </video>
-        <div class="private-landing-scrim"></div>
-        <div class="private-landing-copy">
-          <p class="signal-label">Audiovisual Intelligence</p>
-          <h1 id="landing-title">IA aplicada<br />al oficio.</h1>
-          <p>Formación, investigación y acompañamiento para procesos audiovisuales y educativos. Desarrollo y producción de proyectos híbridos y full IA. Laboratorio de desarrollo de nuevas tecnologías aplicadas.</p>
+    <dialog class="landing-access" id="acceso" aria-labelledby="access-title">
+      <button class="landing-access-close" id="landingAccessClose" type="button" aria-label="Cerrar acceso">×</button>
+      <div class="landing-access-intro">
+        <p class="signal-label">Aula virtual</p>
+        <h2 id="access-title">Acceso alumnos</h2>
+        <p>Ingresá con la cuenta asociada a tu programa.</p>
+      </div>
+      <form class="landing-login-form" id="landingLoginForm">
+        <label><span>Email</span><input id="landingEmail" type="email" required autocomplete="username" inputmode="email" /></label>
+        <label><span>Contraseña</span><input id="landingPassword" type="password" required autocomplete="current-password" /></label>
+        <button class="action-primary" id="landingSubmit" type="submit">Entrar</button>
+        <div class="landing-login-meta">
+          <p id="landingLoginMessage" role="alert" aria-live="polite"></p>
+          <a href="cambiar-clave.html">Recuperar contraseña</a>
         </div>
-
-        <button class="landing-access-trigger" id="landingAccessTrigger" type="button" aria-label="Abrir acceso a socios" aria-haspopup="dialog">
-          <video autoplay muted loop playsinline aria-hidden="true" preload="metadata">
-            <source src="media/LogoHome.mp4" type="video/mp4" />
-          </video>
-        </button>
-
-        <dialog class="landing-access" id="acceso" aria-labelledby="access-title">
-          <button class="landing-access-close" id="landingAccessClose" type="button" aria-label="Cerrar acceso">×</button>
-          <div class="landing-access-intro">
-            <div>
-              <p class="signal-label">Aula virtual</p>
-              <h2 id="access-title">Acceso a socios</h2>
-              <p>Ingresá con tu cuenta habilitada.</p>
-            </div>
-          </div>
-
-          <form class="landing-login-form" id="landingLoginForm">
-            <label>
-              <span>Email</span>
-              <input id="landingEmail" type="email" required autocomplete="username" inputmode="email" />
-            </label>
-            <label>
-              <span>Contraseña</span>
-              <input id="landingPassword" type="password" required autocomplete="current-password" />
-            </label>
-            <button class="action-primary" id="landingSubmit" type="submit">Entrar</button>
-            <div class="landing-login-meta">
-              <p id="landingLoginMessage" role="alert" aria-live="polite"></p>
-              <a href="cambiar-clave.html">Recuperar contraseña</a>
-            </div>
-          </form>
-
-          <div class="landing-session" id="landingSession" hidden>
-            <p>Tu sesión AVI está habilitada.</p>
-            <a class="action-primary" href="plataforma.html">Continuar a la plataforma</a>
-            <a class="quiet-link" href="logout.html">Cerrar sesión</a>
-          </div>
-        </dialog>
-      </section>
-    </main>
+      </form>
+      <div class="landing-session" id="landingSession" hidden>
+        <p>Tu sesión AVI está habilitada.</p>
+        <a class="action-primary" id="landingContinue" href="aula.html">Continuar</a>
+        <a class="quiet-link" href="logout.html">Cerrar sesión</a>
+      </div>
+    </dialog>
   </body>
 </html>
