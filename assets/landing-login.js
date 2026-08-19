@@ -18,7 +18,7 @@
 
   accessTriggers.forEach(function (accessTrigger) {
     accessTrigger.addEventListener("click", function () {
-      accessDialog.showModal();
+      if (!accessDialog.open) accessDialog.showModal();
       window.setTimeout(function () {
         var target = form.hidden ? accessDialog.querySelector("a") : email;
         if (target) target.focus();
@@ -29,6 +29,14 @@
   accessDialog.addEventListener("click", function (event) {
     if (event.target === accessDialog) accessDialog.close();
   });
+
+  if (new URLSearchParams(location.search).get("acceso") === "alumnos") {
+    if (!accessDialog.open) accessDialog.showModal();
+    window.setTimeout(function () { email.focus(); }, 0);
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, "", location.pathname + location.hash);
+    }
+  }
 
   function setLoading(loading) {
     button.disabled = loading;

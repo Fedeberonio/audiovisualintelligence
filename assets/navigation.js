@@ -18,7 +18,7 @@
   }
 
   var PUBLIC_ITEMS = [
-    ['capacitaciones.html', 'Programas'],
+    ['capacitaciones.html', 'Formación'],
     ['clase-abierta.html', 'Clase abierta'],
     ['id-lab.html', 'I+D Lab'],
     ['quienes-somos.html', 'Quiénes somos'],

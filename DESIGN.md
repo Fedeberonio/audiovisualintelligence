@@ -1,6 +1,6 @@
 ---
-name: AVI Learning Platform
-description: Plataforma cinematografica de formacion y consultoria en IA audiovisual
+name: AVI Systems Platform
+description: Plataforma cinematografica de sistemas, formacion, laboratorio y produccion audiovisual con IA
 colors:
   cinematic-black: "#050505"
   projection-white: "#f5f5f3"
@@ -54,15 +54,15 @@ components:
     padding: "28px"
 ---
 
-# Design System: AVI Learning Platform
+# Design System: AVI Systems Platform
 
 ## 1. Overview
 
-**Creative North Star: "La sala de proyeccion activa"**
+**Creative North Star: "La sala de produccion activa"**
 
-AVI conserva la atmosfera actual: un espacio oscuro, audiovisual y concentrado donde el naranja funciona como senal de orientacion. La plataforma debe sentirse como entrar a una sesion de trabajo dirigida por un profesional de cine, no como navegar una biblioteca academica o una startup de IA.
+AVI conserva la atmosfera actual: un espacio oscuro, audiovisual y concentrado donde el naranja funciona como senal de orientacion. La plataforma debe sentirse como entrar a un sistema de produccion en funcionamiento, dirigido por profesionales con oficio, no como navegar una academia o una startup generica de IA.
 
-La evolucion introduce mayor claridad, jerarquia y estructura, pero no cambia el caracter existente. Los videos siguen aportando presencia cinematografica; la interfaz se mantiene sobria para que el contenido, la voz de Federico y el progreso del alumno sean protagonistas.
+La evolucion introduce mayor claridad, jerarquia y estructura, pero no cambia el caracter existente. Los videos aportan presencia cinematografica; las lineas, conexiones y estados muestran que Formacion, Laboratorio y Produccion pertenecen al mismo sistema. En las superficies publicas la marca es protagonista; en el aula, el aprendizaje y el progreso.
 
 **Key Characteristics:**
 
@@ -100,7 +100,7 @@ Una paleta de sala oscura con una unica senal calida y reconocible.
 
 ### Hierarchy
 
-- **Display** (800, `clamp(2.5rem, 6vw, 4.5rem)`, 1.02): heroes y titulos de programa.
+- **Display** (800, `clamp(2.5rem, 6vw, 4.5rem)`, 1.02): heroes y títulos de sistemas o capacitaciones.
 - **Headline** (800, `clamp(1.75rem, 4vw, 2.5rem)`, 1.1): secciones principales.
 - **Title** (700, `1.25rem`, 1.25): modulos y recursos.
 - **Body** (400, `1rem`, 1.6): lectura hasta 72 caracteres.
@@ -160,7 +160,7 @@ Lista vertical de modulos con numero, estado, duracion y resultado esperado. El 
 ### Do:
 
 - **Do** conservar negro, video, naranja y tipografia fuerte como identidad central.
-- **Do** usar contenido estructurado para programas, modulos y recursos.
+- **Do** usar contenido estructurado para areas, sistemas, capacitaciones, servicios, proyectos, modulos y recursos.
 - **Do** mantener contraste AA y foco visible en todos los controles.
 - **Do** explicar la aplicacion audiovisual concreta de cada modulo.
 - **Do** ofrecer alternativa estatica cuando el movimiento este reducido.
@@ -172,4 +172,4 @@ Lista vertical de modulos con numero, estado, duracion y resultado esperado. El 
 - **Don't** usar neon, gradientes morados, robots o ciencia ficcion superficial como codigo visual de IA.
 - **Don't** convertir cada contenido en una tarjeta identica.
 - **Don't** usar glassmorphism cuando no exista una razon espacial real.
-- **Don't** ocultar la narrativa y la presencia humana de AVI detras de un dashboard administrativo.
+- **Don't** ocultar el origen de AVI en la produccion real detras de un dashboard administrativo.

@@ -2,25 +2,59 @@
   "use strict";
 
   var AVI_EMAIL = "academy@audiovisualintelligence.ai";
-  var triggers = Array.prototype.slice.call(document.querySelectorAll("[data-contact-trigger], #contactTrigger"));
-  var dialog = document.getElementById("contactDialog");
-  var close = document.getElementById("contactClose");
-  var form = document.getElementById("contactForm");
-  var copy = document.getElementById("contactCopy");
-  var status = document.getElementById("contactStatus");
-  var name = document.getElementById("contactName");
-  var email = document.getElementById("contactEmail");
-  var message = document.getElementById("contactMessage");
 
-  function openContact(event) {
+  function ensureDialog() {
+    var existing = document.getElementById("contactDialog");
+    if (existing) return existing;
+
+    var dialog = document.createElement("dialog");
+    dialog.className = "landing-access contact-dialog";
+    dialog.id = "contactDialog";
+    dialog.setAttribute("aria-labelledby", "contactTitle");
+    dialog.innerHTML = [
+      '<button class="landing-access-close" id="contactClose" type="button" aria-label="Cerrar contacto">×</button>',
+      '<div class="landing-access-intro">',
+      '<p class="signal-label">Contacto rápido</p>',
+      '<h2 id="contactTitle">Hablemos.</h2>',
+      '<p>Dejanos preparado el mensaje y abrimos Gmail con todo completo.</p>',
+      '</div>',
+      '<form class="contact-form" id="contactForm">',
+      '<label><span>Nombre</span><input id="contactName" name="name" autocomplete="name" required /></label>',
+      '<label><span>Tu email</span><input id="contactEmail" name="email" type="email" autocomplete="email" inputmode="email" required /></label>',
+      '<label><span>¿En qué podemos ayudarte?</span><textarea id="contactMessage" name="message" rows="5" required></textarea></label>',
+      '<button class="action-primary" type="submit">Preparar mensaje</button>',
+      '<button class="contact-copy" id="contactCopy" type="button">Copiar correo de AVI</button>',
+      '<p class="contact-status" id="contactStatus" role="status" aria-live="polite"></p>',
+      '</form>'
+    ].join("");
+    document.body.append(dialog);
+    return dialog;
+  }
+
+  var dialog = ensureDialog();
+  var close = dialog.querySelector("#contactClose");
+  var form = dialog.querySelector("#contactForm");
+  var copy = dialog.querySelector("#contactCopy");
+  var status = dialog.querySelector("#contactStatus");
+  var name = dialog.querySelector("#contactName");
+  var email = dialog.querySelector("#contactEmail");
+  var message = dialog.querySelector("#contactMessage");
+
+  function openContact(trigger) {
     status.textContent = "";
-    var topic = event && event.currentTarget ? event.currentTarget.getAttribute("data-contact-topic") : "";
-    if (topic && !message.value.trim()) message.value = "Quiero recibir información sobre " + topic + ".";
-    dialog.showModal();
+    var topic = trigger ? trigger.getAttribute("data-contact-topic") : "";
+    if (topic) message.value = "Quiero recibir información sobre " + topic + ".";
+    if (!dialog.open) dialog.showModal();
     window.setTimeout(function () { name.focus(); }, 0);
   }
 
-  triggers.forEach(function (trigger) { trigger.addEventListener("click", openContact); });
+  document.addEventListener("click", function (event) {
+    var trigger = event.target.closest("[data-contact-trigger], #contactTrigger");
+    if (!trigger) return;
+    event.preventDefault();
+    openContact(trigger);
+  });
+
   close.addEventListener("click", function () { dialog.close(); });
   dialog.addEventListener("click", function (event) {
     if (event.target === dialog) dialog.close();
