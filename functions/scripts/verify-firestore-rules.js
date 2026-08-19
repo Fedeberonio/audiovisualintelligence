@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Prueba las reglas desplegadas con tokens reales de alumno y docente. */
+/** Prueba el preview privado con tokens reales de alumno y equipo AVI. */
 
 'use strict';
 
@@ -42,30 +42,40 @@ async function main() {
   );
   initializeApp({ credential: cert(serviceAccount), projectId: PROJECT_ID });
   const auth = getAuth();
-  const [student, teacher] = await Promise.all([
+  const [student, fede, academy, cindy] = await Promise.all([
     auth.getUserByEmail('fberon@gmail.com'),
-    auth.getUserByEmail('academy@audiovisualintelligence.ai')
+    auth.getUserByEmail('fede@audiovisualintelligence.ai'),
+    auth.getUserByEmail('academy@audiovisualintelligence.ai'),
+    auth.getUserByEmail('cindytoribiocruz@gmail.com')
   ]);
-  const [studentToken, teacherToken] = await Promise.all([
+  const [studentToken, fedeToken, academyToken, cindyToken] = await Promise.all([
     idToken(student.uid),
-    idToken(teacher.uid)
+    idToken(fede.uid),
+    idToken(academy.uid),
+    idToken(cindy.uid)
   ]);
 
   const checks = {
     unauthenticatedCommon: await status('class_materials/clase-02'),
     studentCommon: await status('class_materials/clase-02', studentToken),
     studentOwnProfile: await status('students/' + student.uid, studentToken),
-    studentTeacherProfile: await status('students/' + teacher.uid, studentToken),
-    teacherCommon: await status('class_materials/clase-02', teacherToken),
-    teacherStudentProfile: await status('students/' + student.uid, teacherToken)
+    studentFedeProfile: await status('students/' + fede.uid, studentToken),
+    fedeCommon: await status('class_materials/clase-02', fedeToken),
+    fedeStudentProfile: await status('students/' + student.uid, fedeToken),
+    academyCommon: await status('class_materials/clase-02', academyToken),
+    academyStudentProfile: await status('students/' + student.uid, academyToken),
+    cindyCommon: await status('class_materials/clase-02', cindyToken)
   };
   const expected = {
     unauthenticatedCommon: 403,
-    studentCommon: 200,
-    studentOwnProfile: 200,
-    studentTeacherProfile: 403,
-    teacherCommon: 200,
-    teacherStudentProfile: 403
+    studentCommon: 403,
+    studentOwnProfile: 403,
+    studentFedeProfile: 403,
+    fedeCommon: 200,
+    fedeStudentProfile: 403,
+    academyCommon: 200,
+    academyStudentProfile: 403,
+    cindyCommon: 200
   };
   const ok = Object.keys(expected).every((key) => checks[key] === expected[key]);
   console.log(JSON.stringify({ ok, checks, expected }, null, 2));

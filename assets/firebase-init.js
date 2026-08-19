@@ -8,8 +8,18 @@ window.AVI_FIREBASE_CONFIG = {
   measurementId: "G-4RJXTVW9QK"
 };
 
-// Acceso real = custom claims administrados fuera del navegador:
-// student:true, teacher:true o admin:true.
+// Preview privado temporal. Aunque existan otros usuarios en Firebase, solo
+// estas tres cuentas autenticadas pueden entrar a la plataforma durante esta fase.
+window.AVI_PRIVATE_EMAILS = [
+  'fede@audiovisualintelligence.ai',
+  'academy@audiovisualintelligence.ai',
+  'cindytoribiocruz@gmail.com'
+];
+
+// La administración funcional de AVI queda separada del acceso interno.
+window.AVI_ADMIN_EMAILS = [
+  'fede@audiovisualintelligence.ai'
+];
 
 // Materiales protegidos: class_materials ofrece lectura comun a los roles
 // autorizados y students/{uid} ofrece la descarga nominal del alumno. Drive
@@ -35,7 +45,8 @@ var AVI_CDN = "https://www.gstatic.com/firebasejs/10.12.2/";
 // esquemas javascript: y rutas inesperadas.
 var AVI_NEXT_PAGES = [
   'aula.html', 'capacitaciones.html', 'contenidos.html', 'clientes.html',
-  'contacto.html', 'id-lab.html', 'quienes-somos.html', 'plataforma.html'
+  'contacto.html', 'id-lab.html', 'quienes-somos.html', 'plataforma.html',
+  'talleres.html', 'taller.html', 'clase-abierta.html', 'modos.html'
 ];
 
 window.AVI_safeNext = function (value) {
@@ -83,4 +94,24 @@ window.AVI_access = function (user) {
   return leer(false)
     .then(function (r) { return r.ok ? r : leer(true); })
     .catch(function () { return { ok: false, admin: false, teacher: false, student: false }; });
+};
+
+// Autorización temporal del preview: identidad Firebase + lista cerrada.
+// Durante esta fase, el email define también el nivel funcional: Fede es el
+// único admin y las otras dos cuentas son equipo interno sin administración.
+window.AVI_privateAccess = function (user) {
+  var email = user && user.email ? user.email.trim().toLowerCase() : '';
+  var permitido = window.AVI_PRIVATE_EMAILS.indexOf(email) !== -1;
+  if (!permitido) {
+    return Promise.resolve({ ok: false, private: false, admin: false, teacher: false, student: false });
+  }
+  var esAdmin = window.AVI_ADMIN_EMAILS.indexOf(email) !== -1;
+  return Promise.resolve({
+    ok: true,
+    private: true,
+    admin: esAdmin,
+    teacher: false,
+    student: false,
+    email: email
+  });
 };

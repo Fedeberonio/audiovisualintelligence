@@ -1,25 +1,28 @@
 rules_version = '2';
 
-// students/{uid} contiene el perfil minimo y los enlaces de Drive autorizados
-// para ese alumno. Solo el Admin SDK escribe; el navegador solo lee el documento
-// cuyo uid coincide con el token y cuyo claim student es verdadero.
+// Preview privado temporal: solo las tres cuentas AVI expresamente habilitadas
+// pueden leer materiales. Los claims student/teacher/admin no alcanzan por sí solos.
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    function isPrivateAviTeam() {
+      return request.auth != null
+        && request.auth.token.email in [
+          'fede@audiovisualintelligence.ai',
+          'academy@audiovisualintelligence.ai',
+          'cindytoribiocruz@gmail.com'
+        ];
+    }
+
     match /students/{uid} {
-      allow read: if request.auth != null
-        && request.auth.uid == uid
-        && request.auth.token.student == true;
+      allow read: if false;
       allow write: if false;
     }
 
     // Copias maestras para lectura online. El enlace solo se entrega a una
     // sesion Firebase con un rol autorizado; Drive vuelve a validar el email.
     match /class_materials/{classId} {
-      allow read: if request.auth != null
-        && (request.auth.token.student == true
-          || request.auth.token.teacher == true
-          || request.auth.token.admin == true);
+      allow read: if isPrivateAviTeam();
       allow write: if false;
     }
 

@@ -3,61 +3,65 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Audiovisual Intelligence — IA aplicada al oficio</title>
-    <meta name="description" content="Talleres, programas y laboratorios de inteligencia artificial para profesionales audiovisuales, docentes e instituciones." />
+    <title>Audiovisual Intelligence — Acceso privado</title>
+    <meta name="description" content="Audiovisual Intelligence. Inteligencia artificial aplicada al oficio audiovisual." />
     <link rel="canonical" href="https://audiovisualintelligence.ai/" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="assets/public-platform.css?v=1" />
-    <script src="assets/public-platform.js?v=1" defer></script>
+    <link rel="stylesheet" href="assets/public-platform.css?v=2" />
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" defer></script>
+    <script src="assets/firebase-init.js?v=6" defer></script>
+    <script src="assets/landing-login.js?v=1" defer></script>
   </head>
-  <body class="public-site">
-    <a class="skip-link" href="#contenido">Saltar al contenido</a>
-    <header class="public-header" data-public-header>
+  <body class="public-site private-landing">
+    <a class="skip-link" href="#acceso">Saltar al acceso</a>
+    <header class="landing-header">
       <a class="public-brand" href="/" aria-label="Audiovisual Intelligence, inicio">AVI</a>
-      <nav class="public-nav" id="publicNav" aria-label="Navegación principal">
-        <a href="talleres.html">Talleres</a><a href="talleres.html#equipos">Para equipos</a><a href="#metodo">Método e I+D</a><a href="#equipo">Equipo</a><a class="nav-login" href="login.html?next=aula.html">Acceso alumnos</a>
-      </nav>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="publicNav" aria-label="Abrir menú"><span></span><span></span></button>
+      <a class="landing-info-link" href="mailto:academy@audiovisualintelligence.ai?subject=Solicitud%20de%20informaci%C3%B3n%20AVI">Solicitar información</a>
     </header>
-    <main id="contenido">
-      <section class="pinocchio-hero" aria-labelledby="home-title">
-        <video class="pinocchio-film" autoplay muted loop playsinline aria-hidden="true" preload="metadata"><source src="media/landing_0.mp4" type="video/mp4" /></video>
-        <div class="hero-scrim"></div>
-        <div class="hero-copy">
+
+    <main class="private-landing-main">
+      <section class="private-landing-hero" aria-labelledby="landing-title">
+        <video class="pinocchio-film" autoplay muted loop playsinline aria-hidden="true" preload="metadata">
+          <source src="media/landing_0.mp4" type="video/mp4" />
+        </video>
+        <div class="private-landing-scrim"></div>
+        <div class="private-landing-copy">
           <p class="signal-label">Audiovisual Intelligence</p>
-          <h1 id="home-title">IA aplicada<br />al oficio.</h1>
-          <p>Formación y acompañamiento para comprender, probar e implementar inteligencia artificial en procesos audiovisuales y educativos.</p>
-          <div class="action-row"><a class="action-primary" href="talleres.html">Ver talleres</a><a class="action-secondary" href="login.html?next=aula.html">Acceso alumnos</a></div>
+          <h1 id="landing-title">IA aplicada<br />al oficio.</h1>
+          <p>Formación, investigación y acompañamiento para procesos audiovisuales y educativos.</p>
         </div>
-        <a class="hero-cue" href="#recorridos">Explorar la oferta <span aria-hidden="true">↓</span></a>
+
+        <section class="landing-access" id="acceso" aria-labelledby="access-title">
+          <div class="landing-access-intro">
+            <p class="signal-label">Preview privado</p>
+            <h2 id="access-title">Entrar a la plataforma</h2>
+            <p>Acceso temporal para el equipo AVI habilitado.</p>
+          </div>
+
+          <form class="landing-login-form" id="landingLoginForm">
+            <label>
+              <span>Email</span>
+              <input id="landingEmail" type="email" required autocomplete="username" inputmode="email" />
+            </label>
+            <label>
+              <span>Contraseña</span>
+              <input id="landingPassword" type="password" required autocomplete="current-password" />
+            </label>
+            <button class="action-primary" id="landingSubmit" type="submit">Entrar</button>
+            <div class="landing-login-meta">
+              <p id="landingLoginMessage" role="alert" aria-live="polite"></p>
+              <a href="cambiar-clave.html">Recuperar contraseña</a>
+            </div>
+          </form>
+
+          <div class="landing-session" id="landingSession" hidden>
+            <p>Tu sesión AVI está habilitada.</p>
+            <a class="action-primary" href="plataforma.html">Continuar a la plataforma</a>
+            <a class="quiet-link" href="logout.html">Cerrar sesión</a>
+          </div>
+        </section>
       </section>
-      <section class="public-section intro-section" id="recorridos">
-        <div class="section-heading"><p class="signal-label">Elegí tu punto de entrada</p><h2>No vendemos una lista de herramientas.</h2><p>Partimos de decisiones reales de desarrollo, preproducción, producción, post y docencia.</p></div>
-        <div class="path-list">
-          <a class="path-row" href="talleres.html?segmento=av"><span>01</span><div><h3>Profesionales audiovisuales</h3><p>Visión general, práctica intensiva e implementación en equipos.</p></div><b aria-hidden="true">↗</b></a>
-          <a class="path-row" href="talleres.html?segmento=edu"><span>02</span><div><h3>Docentes e instituciones</h3><p>Uso responsable, proyectos, evaluación y workflows educativos.</p></div><b aria-hidden="true">↗</b></a>
-          <a class="path-row" href="talleres.html#equipos"><span>03</span><div><h3>Productoras y organizaciones</h3><p>Diagnóstico, capacitación a medida y laboratorio de implementación.</p></div><b aria-hidden="true">↗</b></a>
-        </div>
-      </section>
-      <section class="public-section featured-section" aria-labelledby="featured-title">
-        <div class="section-heading compact-heading"><p class="signal-label">Programas principales</p><h2 id="featured-title">Del mapa al workflow.</h2></div>
-        <div class="featured-programs">
-          <article class="featured-program featured-program-main"><video autoplay muted loop playsinline aria-hidden="true" preload="metadata"><source src="media/vision-ia-teaser.mp4" type="video/mp4" /></video><div class="featured-copy"><span>6 horas · Introducción aplicada</span><h3>Visión IA</h3><p>Una lectura completa del ecosistema con demostraciones y criterio audiovisual.</p><a href="taller.html?slug=vision-ia">Conocer el programa</a></div></article>
-          <article class="featured-program"><div class="featured-copy"><span>12 horas · Hands-on</span><h3>Taller Intensivo IA</h3><p>Práctica guiada para producir entregables y diseñar flujos propios.</p><a href="taller.html?slug=taller-intensivo-ia">Ver recorrido</a></div></article>
-          <article class="featured-program"><div class="featured-copy"><span>Implementación · A medida</span><h3>Laboratorio IA</h3><p>Un piloto acompañado para transformar procesos concretos del equipo.</p><a href="taller.html?slug=laboratorio-ia-personalizado">Explorar laboratorio</a></div></article>
-        </div>
-        <a class="text-link" href="talleres.html">Ver los seis talleres disponibles <span aria-hidden="true">→</span></a>
-      </section>
-      <section class="public-section method-section" id="metodo" aria-labelledby="method-title">
-        <div class="section-heading compact-heading"><p class="signal-label">Método AVI</p><h2 id="method-title">Comprender. Probar. Implementar.</h2></div>
-        <ol class="method-steps"><li><span>01</span><h3>Comprender</h3><p>Ubicar la tecnología dentro del mapa de producción o aprendizaje.</p></li><li><span>02</span><h3>Probar</h3><p>Trabajar sobre casos y decisiones que el equipo reconoce.</p></li><li><span>03</span><h3>Implementar</h3><p>Convertir lo aprendido en un proceso repetible y documentado.</p></li></ol>
-      </section>
-      <section class="public-section team-section" id="equipo" aria-labelledby="team-title">
-        <div class="section-heading compact-heading"><p class="signal-label">Equipo AVI</p><h2 id="team-title">Criterio audiovisual antes que automatización.</h2></div>
-        <div class="team-statement"><p>AVI articula experiencia en dirección, producción, investigación y docencia para traducir la inteligencia artificial a decisiones concretas de trabajo.</p><a class="text-link" href="mailto:academy@audiovisualintelligence.ai?subject=Conocer%20al%20equipo%20AVI">Conocer al equipo <span aria-hidden="true">→</span></a></div>
-      </section>
-      <section class="public-cta" id="contacto"><p class="signal-label">Próxima edición o programa a medida</p><h2>Contanos qué querés transformar.</h2><p>Respondemos desde la cuenta institucional de AVI.</p><a class="action-primary" href="mailto:academy@audiovisualintelligence.ai?subject=Consulta%20sobre%20talleres%20AVI">Conversar con AVI</a></section>
     </main>
-    <footer class="public-footer"><strong>AVI</strong><div><a href="mailto:academy@audiovisualintelligence.ai">academy@audiovisualintelligence.ai</a><span>© <span data-current-year></span> Audiovisual Intelligence</span></div></footer>
   </body>
 </html>

@@ -137,6 +137,13 @@
     }
   }
 
-  initCatalog();
-  initDetail();
+  function initPrivateContent() {
+    initCatalog();
+    initDetail();
+  }
+
+  if (document.querySelector("[data-catalog-page], [data-workshop-page]")) {
+    if (window.AVI_ACCESO && window.AVI_ACCESO.ok) initPrivateContent();
+    else document.addEventListener("avi:access-ready", initPrivateContent, { once: true });
+  }
 })();
