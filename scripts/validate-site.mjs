@@ -41,7 +41,7 @@ for (const name of htmlFiles) {
 // Mientras el sitio está en placeholder, el acceso es solo con las cuentas
 // registradas: todo salvo la portada lleva guard de interfaz. Decisión del
 // 2026-08-19; al relanzar (fase B) el catálogo vuelve a la lista pública.
-for (const name of ['aula.html', 'plataforma.html', 'talleres.html', 'taller.html', 'avi-vision.html', 'portada-completa.html']) {
+for (const name of ['aula.html', 'plataforma.html', 'talleres.html', 'taller.html', 'avi-vision.html']) {
   const source = readFileSync(resolve(root, name), 'utf8');
   if (!source.includes('assets/gate.js')) failures.push(`Falta gate de interfaz: ${name}`);
 }

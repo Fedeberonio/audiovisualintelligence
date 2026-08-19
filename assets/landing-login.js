@@ -43,11 +43,23 @@
     button.textContent = loading ? "Verificando…" : "Entrar";
   }
 
+  function unlock() {
+    document.body.classList.remove("landing-placeholder");
+  }
+
   function showSession(access) {
     form.hidden = true;
     session.hidden = false;
     var continueLink = document.getElementById("landingContinue");
-    if (continueLink) continueLink.href = access && access.private ? "portada-completa.html" : "aula.html";
+    if (!continueLink) return;
+    if (access && access.private) {
+      // El socio ya está donde quiere estar: la portada desbloqueada.
+      continueLink.textContent = "Seguir en la portada";
+      continueLink.href = "#contenido";
+      continueLink.addEventListener("click", function () { accessDialog.close(); });
+    } else {
+      continueLink.href = "aula.html";
+    }
   }
 
   function resolveAccess(user) {
@@ -60,7 +72,18 @@
     if (!user) return;
     resolveAccess(user).then(function (access) {
       if (access.ok) {
-        if (submitting) location.replace(access.private ? "portada-completa.html" : "aula.html");
+        if (access.private) {
+          // Sin redirección: la portada se abre en el lugar y sigue el scroll.
+          unlock();
+          if (submitting) {
+            submitting = false;
+            setLoading(false);
+            accessDialog.close();
+          }
+          showSession(access);
+          return;
+        }
+        if (submitting) location.replace("aula.html");
         else showSession(access);
         return;
       }

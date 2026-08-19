@@ -584,3 +584,16 @@ ul.detail-list li::before { content: "↗"; position: absolute; left: 0; color: 
    lleva el título del módulo que la aporta. */
 .curriculum-part { margin: 26px 0 10px; color: var(--avi-orange); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .curriculum-part:first-child { margin-top: 0; }
+
+/* Estado bloqueado de la portada: el visitante ve una sola pantalla. Una
+   sesión de socio quita la clase y la misma página se abre en el lugar. */
+.landing-placeholder .avi-thesis,
+.landing-placeholder .avi-territory,
+.landing-placeholder .landing-programs,
+.landing-placeholder .avi-private-area,
+.landing-placeholder .student-entry,
+.landing-placeholder .avi-experience,
+.landing-placeholder .landing-contact,
+.landing-placeholder .landing-footer { display: none; }
+.landing-placeholder .only-socio { display: none; }
+body:not(.landing-placeholder) .only-locked { display: none; }
