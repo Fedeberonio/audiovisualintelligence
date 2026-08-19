@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /aula.html
+Disallow: /avi-vision.html
 Disallow: /auth-ok.html
 Disallow: /capacitaciones.html
 Disallow: /clase-abierta.html

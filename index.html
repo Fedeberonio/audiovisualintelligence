@@ -7,14 +7,15 @@
     <meta name="description" content="AVI investiga, desarrolla, produce y forma en la intersección entre la experiencia audiovisual y la inteligencia artificial." />
     <link rel="canonical" href="https://audiovisualintelligence.ai/" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="assets/public-platform.css?v=9" />
+    <link rel="stylesheet" href="assets/public-platform.css?v=10" />
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" defer></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" defer></script>
     <script src="assets/firebase-init.js?v=7" defer></script>
     <script src="assets/landing-login.js?v=5" defer></script>
     <script src="assets/contact.js?v=3" defer></script>
+    <script src="assets/landing-hero.js?v=1" defer></script>
   </head>
-  <body class="public-site public-landing">
+  <body class="public-site public-landing landing-placeholder">
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
     <header class="landing-header">
@@ -23,16 +24,14 @@
 
     <main id="contenido" class="public-landing-main">
       <section class="public-landing-hero" aria-labelledby="landing-title">
-        <video class="pinocchio-film" autoplay muted loop playsinline aria-hidden="true" preload="metadata" poster="media/landing-poster.jpg">
-          <source src="media/landing_0.mp4" type="video/mp4" />
-        </video>
+        <video class="pinocchio-film" autoplay muted loop playsinline aria-hidden="true" preload="metadata" poster="media/landing-poster.jpg" data-film="media/landing_0.mp4"></video>
         <div class="public-landing-scrim"></div>
         <div class="public-landing-copy">
           <p class="signal-label">Audiovisual Intelligence</p>
           <h1 id="landing-title">IA aplicada<br />al oficio.</h1>
           <p>Experiencia real de producción audiovisual convertida en sistemas de trabajo potenciados por inteligencia artificial.</p>
           <div class="landing-actions">
-            <a class="action-primary" href="#territorio">Productos y Servicios</a>
+            <button class="action-primary" type="button" data-contact-trigger>Solicitar información</button>
             <button class="action-secondary" type="button" data-access-trigger aria-haspopup="dialog">Alumnos</button>
           </div>
         </div>
@@ -43,191 +42,7 @@
           </video>
         </button>
       </section>
-
-      <section class="avi-thesis" aria-labelledby="thesis-title">
-        <p class="signal-label">El origen</p>
-        <div class="avi-thesis-statement">
-          <h2 id="thesis-title">AVI nace de<br />la producción.</h2>
-          <p>Convertimos décadas de experiencia audiovisual en sistemas para capacitar, investigar y producir.</p>
-        </div>
-        <div class="avi-system-loop" aria-label="El sistema AVI">
-          <span>Producir</span><i aria-hidden="true"></i><span>Sistematizar</span><i aria-hidden="true"></i><span>Transferir</span>
-        </div>
-      </section>
-
-      <section class="avi-territory" id="territorio" aria-labelledby="territory-title">
-        <p class="signal-label" id="territory-title">El territorio AVI</p>
-        <a class="territory-line" href="#formacion"><span>Formación</span><small>Transferimos el sistema</small></a>
-        <a class="territory-line" href="#investigacion"><span>Investigación y laboratorio</span><small>Diseñamos el sistema</small></a>
-        <a class="territory-line" href="#desarrollo"><span>Desarrollo y producción</span><small>Operamos el sistema</small></a>
-      </section>
-
-      <section class="landing-programs" id="formacion" aria-labelledby="programs-title">
-        <div class="landing-section-intro">
-          <div>
-            <p class="signal-label">Formación</p>
-            <h2 id="programs-title">El sistema se transfiere.</h2>
-          </div>
-          <p>Capacitaciones prácticas y asesorías para profesionales, equipos e instituciones. Todo parte de problemas, decisiones y procesos reales de producción.</p>
-        </div>
-
-        <div class="landing-system-intro">
-          <div>
-            <p class="signal-label">Sistema de capacitación audiovisual</p>
-            <h3>AVI Vision</h3>
-            <p>Inteligencia artificial aplicada a la producción audiovisual, organizada en distintos puntos de entrada para comprender, practicar y profundizar.</p>
-          </div>
-          <a class="action-secondary" href="avi-vision.html">Explorar AVI Vision</a>
-        </div>
-
-        <div class="landing-program-list">
-          <article class="landing-program">
-            <span class="landing-program-index">01</span>
-            <div class="landing-program-copy">
-              <h3>Visión AI · Teórico-demo práctico</h3>
-              <p>Fundamentos, demostración y criterio para aplicar inteligencia artificial al trabajo audiovisual.</p>
-            </div>
-            <dl class="landing-program-meta">
-              <div><dt>Duración</dt><dd>6 horas</dd></div>
-              <div><dt>Modalidad</dt><dd>En vivo online</dd></div>
-            </dl>
-            <div class="landing-program-actions"><a class="program-detail" href="taller.html?slug=vision-ai-modulo-1">Ver capacitación</a><button class="program-contact" type="button" data-contact-trigger data-contact-topic="Visión AI · Teórico-demo práctico">Solicitar información</button></div>
-          </article>
-
-          <article class="landing-program">
-            <span class="landing-program-index">02</span>
-            <div class="landing-program-copy">
-              <h3>Visión AI · Módulo práctico</h3>
-              <p>El complemento práctico de Visión AI: una experiencia en equipos sobre una escena propia.</p>
-            </div>
-            <dl class="landing-program-meta">
-              <div><dt>Duración</dt><dd>6 horas</dd></div>
-              <div><dt>Modalidad</dt><dd>En vivo online</dd></div>
-            </dl>
-            <div class="landing-program-actions"><a class="program-detail" href="taller.html?slug=vision-ai-modulo-practico">Ver capacitación</a><button class="program-contact" type="button" data-contact-trigger data-contact-topic="Visión AI · Módulo práctico">Solicitar información</button></div>
-          </article>
-
-          <article class="landing-program">
-            <span class="landing-program-index">03</span>
-            <div class="landing-program-copy">
-              <h3>AVI Vision · Intensivo · Producción</h3>
-              <p>Una opción intensiva centrada en desarrollo y preproducción.</p>
-            </div>
-            <dl class="landing-program-meta">
-              <div><dt>Duración</dt><dd>6 horas</dd></div>
-              <div><dt>Modalidad</dt><dd>En vivo online</dd></div>
-            </dl>
-            <div class="landing-program-actions"><a class="program-detail" href="taller.html?slug=vision-ai-practico-produccion">Ver capacitación</a><button class="program-contact" type="button" data-contact-trigger data-contact-topic="AVI Vision · Intensivo · Producción">Solicitar información</button></div>
-          </article>
-
-          <article class="landing-program">
-            <span class="landing-program-index">04</span>
-            <div class="landing-program-copy">
-              <h3>AVI Vision · Intensivo · Creatividad</h3>
-              <p>Una opción intensiva centrada en preproducción creativa y realización visual.</p>
-            </div>
-            <dl class="landing-program-meta">
-              <div><dt>Duración</dt><dd>6 horas</dd></div>
-              <div><dt>Modalidad</dt><dd>En vivo online</dd></div>
-            </dl>
-            <div class="landing-program-actions"><a class="program-detail" href="taller.html?slug=vision-ai-practico-creatividad">Ver capacitación</a><button class="program-contact" type="button" data-contact-trigger data-contact-topic="AVI Vision · Intensivo · Creatividad">Solicitar información</button></div>
-          </article>
-
-          <article class="landing-program">
-            <span class="landing-program-index">05</span>
-            <div class="landing-program-copy">
-              <h3>AVI Vision · Intensivo integral</h3>
-              <p>Producción y creatividad reunidas en un único recorrido intensivo.</p>
-            </div>
-            <dl class="landing-program-meta">
-              <div><dt>Duración</dt><dd>12 horas</dd></div>
-              <div><dt>Modalidad</dt><dd>En vivo online</dd></div>
-            </dl>
-            <div class="landing-program-actions"><a class="program-detail" href="taller.html?slug=avi-vision-intensivo-integral-12h">Ver capacitación</a><button class="program-contact" type="button" data-contact-trigger data-contact-topic="AVI Vision · Intensivo integral · 12 horas">Solicitar información</button></div>
-          </article>
-        </div>
-        <p class="program-sequence-note">El Intensivo integral reúne Producción y Creatividad en 12 horas.</p>
-
-        <div class="landing-program-group">
-          <p class="signal-label">Otros sistemas de formación</p>
-        </div>
-        <div class="landing-program-list">
-          <article class="landing-program">
-            <span class="landing-program-index">06</span>
-            <div class="landing-program-copy">
-              <h3>EduIA</h3>
-              <p>Formación práctica y responsable para docentes, estudiantes e instituciones educativas.</p>
-            </div>
-            <dl class="landing-program-meta">
-              <div><dt>Duración</dt><dd>6 horas</dd></div>
-              <div><dt>Modalidad</dt><dd>Online o institucional</dd></div>
-            </dl>
-            <div class="landing-program-actions"><a class="program-detail" href="taller.html?slug=eduia-basico">Ver capacitación</a><button class="program-contact" type="button" data-contact-trigger data-contact-topic="EduIA">Solicitar información</button></div>
-          </article>
-
-          <article class="landing-program">
-            <span class="landing-program-index">07</span>
-            <div class="landing-program-copy">
-              <h3>Capacitación y asesoría a medida</h3>
-              <p>Diseñamos sistemas de aprendizaje, acompañamiento e implementación alrededor de necesidades concretas.</p>
-            </div>
-            <dl class="landing-program-meta">
-              <div><dt>Duración</dt><dd>A definir</dd></div>
-              <div><dt>Modalidad</dt><dd>Diseño y acompañamiento</dd></div>
-            </dl>
-            <div class="landing-program-actions"><a class="program-detail" href="taller.html?slug=formacion-a-medida">Ver servicio</a><button class="program-contact" type="button" data-contact-trigger data-contact-topic="Capacitación y asesoría a medida">Solicitar información</button></div>
-          </article>
-        </div>
-      </section>
-
-      <section class="avi-private-area" id="investigacion" aria-labelledby="research-title">
-        <div class="avi-private-area-heading">
-          <p class="signal-label">Área AVI</p>
-          <h2 id="research-title">Investigación<br /><span>y laboratorio.</span></h2>
-        </div>
-        <div class="avi-private-area-copy">
-          <p>Diseñamos y validamos sistemas, workflows y herramientas dedicadas para necesidades audiovisuales concretas.</p>
-          <p class="avi-private-status">Esta área trabaja actualmente por consulta.</p>
-          <button class="program-contact" type="button" data-contact-trigger data-contact-topic="Investigación y laboratorio AVI">Solicitar información</button>
-        </div>
-      </section>
-
-      <section class="avi-private-area" id="desarrollo" aria-labelledby="production-title">
-        <div class="avi-private-area-heading">
-          <p class="signal-label">Área AVI</p>
-          <h2 id="production-title">Desarrollo<br /><span>y producción.</span></h2>
-        </div>
-        <div class="avi-private-area-copy">
-          <p>Desarrollamos y producimos proyectos audiovisuales integrando experiencia, tecnología y sistemas híbridos de producción.</p>
-          <p class="avi-private-status">Esta área trabaja actualmente por consulta.</p>
-          <button class="program-contact" type="button" data-contact-trigger data-contact-topic="Desarrollo y producción audiovisual AVI">Solicitar información</button>
-        </div>
-      </section>
-
-      <section class="student-entry" aria-labelledby="student-title">
-        <p class="signal-label">Acceso directo</p>
-        <div>
-          <h2 id="student-title">¿Ya participás de una capacitación AVI?</h2>
-          <button class="action-primary" type="button" data-access-trigger aria-haspopup="dialog">Ingresar al aula</button>
-        </div>
-      </section>
-
-      <section class="avi-experience" aria-label="Experiencia AVI">
-        <p>Décadas de experiencia internacional en producción audiovisual, convertidas en nuevas formas de hacer.</p>
-      </section>
-
-      <section class="landing-contact" id="contacto" aria-labelledby="contact-heading">
-        <p class="signal-label">Contacto</p>
-        <h2 id="contact-heading">Una conversación puede ser el punto de entrada.</h2>
-        <button class="action-primary" type="button" data-contact-trigger>Solicitar información</button>
-        <a href="mailto:academy@audiovisualintelligence.ai">academy@audiovisualintelligence.ai</a>
-      </section>
     </main>
-
-    <footer class="public-footer landing-footer">
-      <strong>AVI</strong>
-      <div><span>© 2026 Audiovisual Intelligence</span></div>
-    </footer>
 
     <dialog class="landing-access contact-dialog" id="contactDialog" aria-labelledby="contactTitle">
       <button class="landing-access-close" id="contactClose" type="button" aria-label="Cerrar contacto">×</button>
