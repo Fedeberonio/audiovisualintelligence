@@ -11,7 +11,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js" defer></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js" defer></script>
     <script src="assets/firebase-init.js?v=8" defer></script>
-    <script src="assets/landing-login.js?v=5" defer></script>
+    <script src="assets/landing-login.js?v=6" defer></script>
     <script src="assets/contact.js?v=3" defer></script>
     <script src="assets/landing-hero.js?v=1" defer></script>
   </head>
@@ -32,11 +32,11 @@
           <p>Experiencia real de producción audiovisual convertida en sistemas de trabajo potenciados por inteligencia artificial.</p>
           <div class="landing-actions">
             <button class="action-primary" type="button" data-contact-trigger>Solicitar información</button>
-            <button class="action-secondary" type="button" data-access-trigger aria-haspopup="dialog">Alumnos</button>
+            <button class="action-secondary" type="button" data-access-trigger aria-haspopup="dialog">Socios</button>
           </div>
         </div>
 
-        <button class="landing-access-trigger" type="button" data-access-trigger aria-label="Abrir acceso al aula" aria-haspopup="dialog">
+        <button class="landing-access-trigger" type="button" data-access-trigger aria-label="Abrir ingreso para socios" aria-haspopup="dialog">
           <video autoplay muted loop playsinline aria-hidden="true" preload="metadata">
             <source src="media/LogoHome.mp4" type="video/mp4" />
           </video>
@@ -64,9 +64,9 @@
     <dialog class="landing-access" id="acceso" aria-labelledby="access-title">
       <button class="landing-access-close" id="landingAccessClose" type="button" aria-label="Cerrar acceso">×</button>
       <div class="landing-access-intro">
-        <p class="signal-label">Aula virtual</p>
-        <h2 id="access-title">Acceso alumnos</h2>
-        <p>Ingresá con la cuenta asociada a tu capacitación.</p>
+        <p class="signal-label">Acceso privado</p>
+        <h2 id="access-title">Ingreso para socios</h2>
+        <p>Ingresá con tu cuenta AVI habilitada.</p>
       </div>
       <form class="landing-login-form" id="landingLoginForm">
         <label><span>Email</span><input id="landingEmail" type="email" required autocomplete="username" inputmode="email" /></label>
