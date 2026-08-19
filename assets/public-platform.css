@@ -332,7 +332,7 @@ ul.detail-list li::before { content: "↗"; position: absolute; left: 0; color: 
 .landing-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
 .landing-actions button, .student-entry button, .landing-contact button { font-family: inherit; cursor: pointer; }
 
-.avi-territory, .landing-programs, .student-entry, .avi-experience, .landing-contact {
+.avi-territory, .landing-programs, .avi-private-area, .student-entry, .avi-experience, .landing-contact {
   width: min(var(--max), calc(100% - 40px));
   margin: 0 auto;
 }
@@ -390,6 +390,18 @@ ul.detail-list li::before { content: "↗"; position: absolute; left: 0; color: 
 .program-sequence-note { max-width: 62ch; margin: 28px 0 0 auto; color: var(--avi-muted); font-size: 14px; line-height: 1.6; }
 .landing-program-group { margin-top: clamp(74px, 10vw, 120px); }
 .landing-program-group .signal-label { margin-bottom: 24px; }
+.avi-private-area {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: clamp(36px, 10vw, 150px);
+  padding: clamp(94px, 12vw, 160px) 0;
+  border-top: 1px solid var(--avi-border);
+}
+.avi-private-area-heading h2 { max-width: 11ch; margin: 0; font-size: clamp(44px, 6.8vw, 88px); line-height: .92; letter-spacing: -.05em; }
+.avi-private-area-heading h2 span { color: var(--avi-muted); font-weight: 430; }
+.avi-private-area-copy { align-self: end; max-width: 42ch; }
+.avi-private-area-copy > p:first-child { margin: 0; color: var(--avi-white); font-size: clamp(18px, 2vw, 23px); line-height: 1.5; }
+.avi-private-status { margin: 30px 0 26px; color: var(--avi-muted); font-size: 14px; }
 
 .student-entry { padding: clamp(84px, 11vw, 140px) 0; border-top: 1px solid var(--avi-border); }
 .student-entry > div { display: flex; align-items: end; justify-content: space-between; gap: 32px; }
@@ -418,7 +430,7 @@ ul.detail-list li::before { content: "↗"; position: absolute; left: 0; color: 
   .landing-actions { align-items: stretch; flex-direction: column; width: min(100%, 320px); }
   .landing-actions > * { width: 100%; }
   .territory-line { align-items: flex-start; flex-direction: column; gap: 3px; }
-  .landing-section-intro, .landing-program { grid-template-columns: 1fr; }
+  .landing-section-intro, .landing-program, .avi-private-area { grid-template-columns: 1fr; }
   .landing-program-index { padding-top: 0; }
   .landing-program-meta { grid-template-columns: 1fr 1fr; }
   .landing-program .program-contact { grid-column: auto; }
