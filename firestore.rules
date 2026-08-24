@@ -1,7 +1,8 @@
 rules_version = '2';
 
-// Preview privado temporal: solo las tres cuentas AVI expresamente habilitadas
-// pueden leer materiales. Los claims student/teacher/admin no alcanzan por sí solos.
+// Contrato siguiente: el contenido público no contiene datos personales. Los
+// perfiles e invitaciones se gestionan desde scripts con Admin SDK; el cliente
+// sólo puede leer su perfil y verificar una invitación opaca, no listarla.
 service cloud.firestore {
   match /databases/{database}/documents {
 
@@ -14,6 +15,38 @@ service cloud.firestore {
         ];
     }
 
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function hasRole(role) {
+      return signedIn() && request.auth.token[role] == true;
+    }
+
+    function isStaff() {
+      return hasRole('admin') || hasRole('teacher');
+    }
+
+    function validContactRequest() {
+      return request.resource.data.keys().hasOnly([
+          'name', 'email', 'topic', 'message', 'source', 'status', 'createdAt'
+        ])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 2
+        && request.resource.data.name.size() <= 120
+        && request.resource.data.email is string
+        && request.resource.data.email.size() <= 254
+        && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
+        && request.resource.data.topic is string
+        && request.resource.data.topic.size() <= 160
+        && request.resource.data.message is string
+        && request.resource.data.message.size() >= 4
+        && request.resource.data.message.size() <= 3000
+        && request.resource.data.source == 'web'
+        && request.resource.data.status == 'new'
+        && request.resource.data.createdAt == request.time;
+    }
+
     match /students/{uid} {
       allow read: if false;
       allow write: if false;
@@ -22,8 +55,34 @@ service cloud.firestore {
     // Copias maestras para lectura online. El enlace solo se entrega a una
     // sesion Firebase con un rol autorizado; Drive vuelve a validar el email.
     match /class_materials/{classId} {
-      allow read: if isPrivateAviTeam();
+      allow read: if isPrivateAviTeam() || hasRole('student') || isStaff();
       allow write: if false;
+    }
+
+    // Perfil mínimo de Hub: nunca contiene materiales ni enlaces privados.
+    // Se escribe exclusivamente con Admin SDK; cada persona sólo puede leer
+    // el suyo. El equipo con roles explícitos puede acompañar la operación.
+    match /hub_members/{uid} {
+      allow get: if signedIn() && (request.auth.uid == uid || isStaff());
+      allow list: if isStaff();
+      allow write: if false;
+    }
+
+    // El ID de este documento es un token aleatorio de alta entropía. No lleva
+    // nombre, email ni datos de inscripción. Se permite sólo get directo para
+    // validar la invitación antes del login; listar y escribir quedan vedados.
+    match /invitations/{token} {
+      allow get: if true;
+      allow list, write: if false;
+    }
+
+    // Buzón de consultas públicas: el visitante sólo puede crear un mensaje
+    // válido. No puede leer ni modificar ninguna consulta, ni conocer las de
+    // otras personas. El equipo usa roles explícitos para leerlo.
+    match /contact_requests/{requestId} {
+      allow create: if validContactRequest();
+      allow read: if isStaff();
+      allow update, delete: if false;
     }
 
     match /{document=**} {

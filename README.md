@@ -7,6 +7,8 @@ Primera base de producto para convertir Audiovisual Intelligence en una platafor
 - `index.html`: landing publica de marca, oferta breve, contacto y acceso al aula.
 - `plataforma.html`: experiencia interna del equipo AVI durante la etapa actual.
 - `aula.html`: espacio inicial del alumno, protegido por el flujo de acceso existente.
+- `invitacion.html`: validación pública de un código de invitación opaco.
+- `hub.html`: continuidad privada inicial de cada persona invitada.
 - `capacitaciones.html`: catalogo anterior de capacitaciones.
 - `quienes-somos.html`: trayectoria y equipo.
 
@@ -35,9 +37,21 @@ Abrir `http://127.0.0.1:4173/`.
 
 El servidor local es necesario porque los navegadores no permiten cargar el JSON mediante `fetch()` desde `file://`.
 
+Para revisar la nueva experiencia sin publicar ni usar cuentas reales:
+
+```bash
+npm run preview
+```
+
+Abrir `http://127.0.0.1:4173/`. La invitación de demostración local está en
+`/invitacion.html?code=AVI-LOCAL-DEMO-2026`; el modo demo sólo existe en
+`localhost`, no consulta Firebase y no puede activarse desde el dominio público.
+
 ## Acceso y seguridad
 
 - Firebase Authentication habilita alumnos mediante el claim `student:true`.
+- Firebase Authentication habilita miembros del Hub mediante `member:true`; el
+  código de invitación no es una credencial de acceso a materiales.
 - Firestore entrega a cada uid únicamente sus propios enlaces de materiales.
 - Los PDF nominales viven en un Google Shared Drive y se comparten por email con rol de lectura.
 - Google Drive valida la cuenta autorizada o el PIN de visitante; el enlace por sí solo no concede acceso.

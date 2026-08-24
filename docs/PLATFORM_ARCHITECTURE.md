@@ -7,6 +7,8 @@ La plataforma continúa desplegable como sitio estático en GitHub Pages. La pri
 - `index.html`: landing pública y contenida, con territorio AVI, oferta breve, contacto y acceso al aula.
 - `plataforma.html`: plataforma interna del equipo AVI durante esta etapa.
 - `aula.html`: experiencia inicial del alumno.
+- `invitacion.html`: puerta pública por código opaco, sin datos personales ni contenido privado.
+- `hub.html`: espacio privado inicial para personas invitadas o participantes.
 - `data/vision-ai.json`: definición del programa.
 - `data/vision-ai-cohort-2026-08.json`: definición reemplazable de cohorte y sesiones.
 - `assets/platform.js`: render compartido del programa.
@@ -63,6 +65,8 @@ La interfaz ya trabaja con identificadores estables de programa, módulo, recurs
 - Firestore para el perfil mínimo y los enlaces privados de cada uid.
 - Google Shared Drive para PDFs nominales, con permisos por email.
 - Reglas versionadas dentro del repositorio.
+- Invitaciones persistentes administradas por AVI: el código sirve para enlazar
+  una invitación privada; una cuenta autenticada determina el acceso al Hub.
 
 ### Fase C — Operación docente
 

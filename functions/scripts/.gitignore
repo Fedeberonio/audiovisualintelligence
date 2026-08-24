@@ -8,6 +8,8 @@ serviceAccount.json
 credenciales-*.csv
 activaciones-*.csv
 activacion-*.txt
+invitaciones-*.csv
+invitacion-*.txt
 restablecer-*.txt
 students.csv
 materiales/

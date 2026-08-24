@@ -48,12 +48,21 @@ window.AVI_MATERIALES = [
 
 var AVI_CDN = "https://www.gstatic.com/firebasejs/10.12.2/";
 
+// Sólo sirve para revisar la experiencia localmente. Nunca se activa en el
+// dominio publicado y no sustituye Firebase ni sus reglas en producción.
+window.AVI_LOCAL_PREVIEW = location.hostname === '127.0.0.1' || location.hostname === 'localhost';
+
+// URL pública de la web app institucional que avisa a academy@. No es un
+// secreto, pero se completa sólo después de crear y probar Apps Script.
+window.AVI_CONTACT_NOTIFY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwhMp_qQIrH-CuAIUhQnZ_77KDoudXYJQaTsPVuoGXWTAJO2L7bpT3Dwm7Jr0lCbOJO/exec';
+
 // Redirecciones posteriores al login: lista cerrada para impedir URLs externas,
 // esquemas javascript: y rutas inesperadas.
 var AVI_NEXT_PAGES = [
   'aula.html', 'capacitaciones.html', 'contenidos.html', 'clientes.html',
   'contacto.html', 'id-lab.html', 'quienes-somos.html', 'plataforma.html',
-  'talleres.html', 'taller.html', 'avi-vision.html', 'clase-abierta.html', 'modos.html'
+  'talleres.html', 'taller.html', 'avi-vision.html', 'clase-abierta.html', 'modos.html',
+  'hub.html'
 ];
 
 window.AVI_safeNext = function (value) {
@@ -83,7 +92,7 @@ window.AVI_ensureFirestore = function () {
 // Si el token cacheado todavia no trae el rol (el claim se puso despues
 // del ultimo login), reintenta una vez forzando refresh.
 window.AVI_access = function (user) {
-  if (!user) return Promise.resolve({ ok: false, admin: false, teacher: false, student: false });
+  if (!user) return Promise.resolve({ ok: false, admin: false, teacher: false, student: false, member: false });
 
   function leer(force) {
     return user.getIdTokenResult(force).then(function (t) {
@@ -91,16 +100,17 @@ window.AVI_access = function (user) {
       var acceso = {
         admin: claims.admin === true,
         teacher: claims.teacher === true,
-        student: claims.student === true
+        student: claims.student === true,
+        member: claims.member === true
       };
-      acceso.ok = acceso.admin || acceso.teacher || acceso.student;
+      acceso.ok = acceso.admin || acceso.teacher || acceso.student || acceso.member;
       return acceso;
     });
   }
 
   return leer(false)
     .then(function (r) { return r.ok ? r : leer(true); })
-    .catch(function () { return { ok: false, admin: false, teacher: false, student: false }; });
+    .catch(function () { return { ok: false, admin: false, teacher: false, student: false, member: false }; });
 };
 
 // Autorización temporal del preview: identidad Firebase + lista cerrada.
@@ -110,7 +120,7 @@ window.AVI_privateAccess = function (user) {
   var email = user && user.email ? user.email.trim().toLowerCase() : '';
   var permitido = window.AVI_PRIVATE_EMAILS.indexOf(email) !== -1;
   if (!permitido) {
-    return Promise.resolve({ ok: false, private: false, admin: false, teacher: false, student: false });
+    return Promise.resolve({ ok: false, private: false, admin: false, teacher: false, student: false, member: false });
   }
   var esAdmin = window.AVI_ADMIN_EMAILS.indexOf(email) !== -1;
   return Promise.resolve({
@@ -119,6 +129,7 @@ window.AVI_privateAccess = function (user) {
     admin: esAdmin,
     teacher: false,
     student: false,
+    member: false,
     email: email
   });
 };

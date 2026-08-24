@@ -32,6 +32,38 @@ aparte con:
 node create-students.js students-test.csv --include-test
 ```
 
+## Invitar al Hub AVI
+
+La invitación da continuidad privada a una persona antes de que tenga una
+inscripción o un curso asignado. Crea una cuenta con el claim `member:true`, un
+perfil privado `hub_members/{uid}` y un código opaco y permanente en
+`invitations/{token}`. El token no guarda nombre ni email y no concede por sí
+solo acceso a materiales: la cuenta Firebase sigue siendo la frontera real.
+
+```bash
+node create-invitation.js \
+  --email persona@example.com \
+  --name "Nombre Apellido" \
+  --type m2-practica \
+  --dry-run
+```
+
+Al quitar `--dry-run`, el script deja un archivo local 0600 con el código, la
+URL privada y, si la cuenta es nueva, un enlace temporal de activación. No envía
+WhatsApp ni correo. Antes de usarlo en producción deben estar desplegadas las
+reglas de `firestore.rules` y habilitado el dominio público de continuación en
+Firebase Authentication.
+
+## Consultas web institucionales
+
+La recepción primaria de consultas es la Web App institucional de Google Apps
+Script: guarda cada consulta en la planilla privada de AVI y avisa a
+`academy@audiovisualintelligence.ai`. El proyecto fuente vive en
+`functions/apps-script/contact-intake.gs`; ver su README. `contact_requests`
+es un respaldo opcional en Firebase que se activa al desplegar las reglas con
+la cuenta AVI correcta. No se usa Gmail del visitante, WhatsApp personal ni
+credenciales en el repositorio.
+
 ## Acceso docente y administrativo
 
 Los roles internos también se asignan con claims; no hay listas de emails con

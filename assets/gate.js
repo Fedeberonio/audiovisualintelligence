@@ -34,11 +34,15 @@
     var render = function () {
       var pageTitle = (document.title || 'AVI').split('—')[0].split('|')[0].trim();
       var destino = encodeURIComponent(paginaActual());
+      var esHub = paginaActual() === 'hub.html';
+      var texto = esHub
+        ? 'Esta sección está disponible para personas invitadas por AVI. Ingresá con la cuenta asociada a tu invitación.'
+        : 'Esta sección está disponible únicamente para el equipo AVI habilitado.';
       document.body.innerHTML =
         '<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000;color:#fff;text-align:center;padding:24px;">' +
           '<div style="font-size:14px;letter-spacing:.35em;text-transform:uppercase;color:#ff6a00;margin-bottom:18px;">Audiovisual Intelligence</div>' +
           '<h1 style="font-size:clamp(28px,6vw,56px);margin:0 0 14px;font-weight:600;">' + pageTitle + '</h1>' +
-          '<p style="max-width:34em;color:#bbb;font-size:16px;line-height:1.6;margin:0 0 28px;">Esta sección está disponible únicamente para el equipo AVI habilitado.</p>' +
+          '<p style="max-width:34em;color:#bbb;font-size:16px;line-height:1.6;margin:0 0 28px;">' + texto + '</p>' +
           '<a href="login.html?next=' + destino + '" style="padding:12px 24px;border-radius:999px;background:#ff7a00;color:#090706;font-size:14px;font-weight:800;text-decoration:none;">Ingresar con cuenta AVI</a>' +
 
           '<div style="margin-top:30px;display:flex;gap:22px;flex-wrap:wrap;justify-content:center;">' +
@@ -66,6 +70,13 @@
     else reveal();
   }
 
+  // El Hub puede recorrerse en modo demostración desde localhost sin iniciar
+  // sesión ni consultar Firebase. El bypass está limitado a la máquina local.
+  if ((location.hostname === '127.0.0.1' || location.hostname === 'localhost') && paginaActual() === 'hub.html') {
+    allowPage({ ok: true, member: true, preview: true });
+    return;
+  }
+
   Promise.all([
     loadScript(CDN + 'firebase-app-compat.js'),
     loadScript('assets/firebase-init.js?v=11')
@@ -79,6 +90,8 @@
         ? Promise.all([window.AVI_privateAccess(user), window.AVI_access(user)]).then(function (resultados) {
             return resultados[0].ok ? resultados[0] : resultados[1];
           })
+        : paginaActual() === 'hub.html'
+          ? window.AVI_access(user)
         : window.AVI_privateAccess(user);
       resolver.then(function (acceso) {
         if (!acceso.ok) { showMembersScreen(); return; }

@@ -4,6 +4,7 @@
   "private": true,
   "description": "Sitio publico, aula y arquitectura de cursos de Audiovisual Intelligence.",
   "scripts": {
-    "check": "node scripts/validate-site.mjs"
+    "check": "node scripts/validate-site.mjs",
+    "preview": "node scripts/preview-local.mjs"
   }
 }

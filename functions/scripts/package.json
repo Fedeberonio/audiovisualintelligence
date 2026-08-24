@@ -6,6 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "create-students": "node create-students.js",
+    "create-invitation": "node create-invitation.js",
     "grant-role": "node grant-role.js",
     "upload-materials": "node upload-materials.js"
   },
