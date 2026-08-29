@@ -1,60 +1,23 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es" data-site-mode="holding">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AVI — Elegir modo</title>
-    <link rel="preload" as="style" href="assets/styles.css?v=6" />
-    <link rel="stylesheet" href="assets/styles.css?v=6" />
-    <script src="assets/gate.js?v=8"></script>
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+    <meta name="description" content="Audiovisual Intelligence está preparando una nueva publicación." />
+    <meta name="theme-color" content="#1a1714" />
+    <title>Audiovisual Intelligence</title>
+    <link rel="canonical" href="https://audiovisualintelligence.ai/" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/site-hold.css" />
   </head>
-  <body class="has-bg-video">
-    <video class="bg-video" autoplay muted loop playsinline aria-hidden="true" preload="metadata" poster="comingsoon.gif">
-      <source src="media/enter_0.mp4" type="video/mp4" />
-    </video>
-    <header class="site-header">
-      <div class="container inner">
-        <a class="brand" href="capacitaciones.html" aria-label="Inicio">AVI</a>
-        <button class="hamburger" id="hamburger" aria-label="Abrir menú"><span></span></button>
-      </div>
-    </header>
-    <main>
-      <section class="hero container" style="text-align:center">
-        <div class="eyebrow">Selecciona un modo</div>
-        <h1 class="title-xxl">Audiovisual o Educativo</h1>
-        <p class="subtitle">Elige tu recorrido para ver cursos y contenidos relevantes.</p>
-        <div class="spacer-lg"></div>
-        <div class="course-names" style="justify-content:center">
-          <button class="name-btn" id="m-av">Audiovisual (Film)</button>
-          <button class="name-btn" id="m-edu">Educativo</button>
-        </div>
-        <div class="spacer-xl"></div>
+  <body>
+    <main class="site-hold" aria-labelledby="site-hold-title">
+      <section class="site-hold__notice">
+        <p class="site-hold__mark">Audiovisual Intelligence</p>
+        <h1 id="site-hold-title">El sitio está temporalmente en pausa.</h1>
+        <p>Estamos preparando una nueva publicación.</p>
       </section>
-      <div class="spacer-scroll"></div>
     </main>
-    <footer class="site-footer">
-      <div class="container">
-        <a class="footer-logo" href="capacitaciones.html" aria-label="Ir a Capacitaciones">
-          <video autoplay muted loop playsinline preload="none" style="opacity:0">
-            <source src="media/LogoHome.mp4" type="video/mp4" />
-          </video>
-        </a>
-        <div class="copyright">© <span id="y"></span> Audiovisual Intelligence</div>
-      </div>
-    </footer>
-    <script>
-      document.getElementById('y').textContent = new Date().getFullYear();
-      const choose = (modo)=>{ try { sessionStorage.setItem('avi_modo', modo); } catch (_) {} location.replace('capacitaciones.html'); };
-      document.getElementById('m-av')?.addEventListener('click', ()=>choose('av'));
-      document.getElementById('m-edu')?.addEventListener('click', ()=>choose('edu'));
-      // Mostrar logo cuando se ve
-      if ('IntersectionObserver' in window) {
-        const fl = document.querySelector('.footer-logo');
-        const ioFL = new IntersectionObserver((entries)=>{ for (const e of entries) if (e.isIntersecting) { fl.classList.add('is-visible'); fl.querySelector('video').style.opacity='1'; ioFL.unobserve(fl); } }, {rootMargin:'0px 0px -10% 0px'});
-        if (fl) ioFL.observe(fl);
-      } else { document.querySelector('.footer-logo')?.classList.add('is-visible'); }
-    </script>
   </body>
-  
 </html>
-

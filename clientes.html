@@ -1,80 +1,23 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es" data-site-mode="holding">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AVI — Clientes</title>
-    <meta name="description" content="Clientes — Audiovisual Intelligence" />
-    <link rel="preload" as="style" href="assets/styles.css?v=6" />
-    <link rel="stylesheet" href="assets/styles.css?v=6" />
-    <script src="assets/gate.js?v=8"></script>
-      <script src="assets/navigation.js?v=6" defer></script>
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+    <meta name="description" content="Audiovisual Intelligence está preparando una nueva publicación." />
+    <meta name="theme-color" content="#1a1714" />
+    <title>Audiovisual Intelligence</title>
+    <link rel="canonical" href="https://audiovisualintelligence.ai/" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/site-hold.css" />
   </head>
-  <body class="has-bg-video">
-    <!-- Fondo de video global -->
-    <video class="bg-video" autoplay muted loop playsinline aria-hidden="true" preload="metadata" poster="comingsoon.gif">
-      <source src="media/Clientes_01.mp4" type="video/mp4" />
-    </video>
-    <header class="site-header">
-      <div class="container inner">
-        <a class="brand" href="capacitaciones.html" aria-label="Inicio">AVI</a>
-        <button class="hamburger" id="hamburger" aria-label="Abrir menú"><span></span></button>
-      </div>
-      <nav class="mobile-menu" id="mobileMenu" aria-label="Navegación principal" hidden>
-        <ul class="menu-list">
-          <li><a href="capacitaciones.html">Capacitaciones</a></li>
-          <li><a href="quienes-somos.html">Quienes somos</a></li>
-          <li><a href="contenidos.html">Contenidos de estudio</a></li>
-          <li><a href="clientes.html" aria-current="page">Clientes</a></li>
-          <li><a href="id-lab.html">I+D Lab</a></li>
-        </ul>
-      </nav>
-    </header>
-
-    <main>
-      <section class="hero container">
-        <div class="eyebrow">Próximamente</div>
-        <h1 class="title-xxl">Clientes</h1>
-        <p class="subtitle">Sección disponible en breve. Mantendremos la estética minimalista y la paleta actual.</p>
-        <div class="spacer-xl"></div>
+  <body>
+    <main class="site-hold" aria-labelledby="site-hold-title">
+      <section class="site-hold__notice">
+        <p class="site-hold__mark">Audiovisual Intelligence</p>
+        <h1 id="site-hold-title">El sitio está temporalmente en pausa.</h1>
+        <p>Estamos preparando una nueva publicación.</p>
       </section>
-      <div class="spacer-scroll"></div>
     </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <a class="footer-logo" href="capacitaciones.html" aria-label="Ir a Capacitaciones">
-          <video autoplay muted loop playsinline preload="none" style="opacity:0">
-            <source src="media/LogoHome.mp4" type="video/mp4" />
-          </video>
-        </a>
-        <div class="copyright">© <span id="y"></span> Audiovisual Intelligence</div>
-      </div>
-    </footer>
-    <script>
-      // Año en footer
-      document.getElementById('y').textContent = new Date().getFullYear();
-      // Suavizar fondo y paneo vertical del video según scroll (mismo esquema que otras páginas)
-      const softenOnScroll = () => {
-        const y = window.scrollY || 0;
-        if (y > 40) document.body.classList.add('bg-soften');
-        else document.body.classList.remove('bg-soften');
-        const docH = document.body.scrollHeight - window.innerHeight;
-        const p = docH > 0 ? Math.min(Math.max(y / docH, 0), 1) : 0;
-        const yPct = Math.round(p * 100);
-        document.documentElement.style.setProperty('--bgY', `${yPct}%`);
-      };
-      softenOnScroll();
-      window.addEventListener('scroll', softenOnScroll, { passive: true });
-      // Mostrar logo de footer solo al entrar en viewport
-      if ('IntersectionObserver' in window) {
-        const fl = document.querySelector('.footer-logo');
-        const ioFL = new IntersectionObserver((entries)=>{
-          for (const e of entries) if (e.isIntersecting) { fl.classList.add('is-visible'); fl.querySelector('video')?.style && (fl.querySelector('video').style.opacity='1'); ioFL.unobserve(fl); }
-        }, {rootMargin:'0px 0px -10% 0px'});
-        if (fl) ioFL.observe(fl);
-      } else { document.querySelector('.footer-logo')?.classList.add('is-visible'); }
-    </script>
   </body>
-  
 </html>

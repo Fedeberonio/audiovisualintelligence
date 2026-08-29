@@ -38,18 +38,59 @@ for (const name of htmlFiles) {
   }
 }
 
+const holdingPages = htmlFiles.filter((name) =>
+  readFileSync(resolve(root, name), 'utf8').includes('data-site-mode="holding"')
+);
+const holdingMode = holdingPages.length === htmlFiles.length;
+
+if (holdingPages.length && !holdingMode) {
+  failures.push('Modo temporal incompleto: todas las páginas HTML deben usar el mismo estado.');
+}
+
 // Mientras el sitio está en placeholder, el acceso es solo con las cuentas
 // registradas: todo salvo la portada lleva guard de interfaz. Decisión del
 // 2026-08-19; al relanzar (fase B) el catálogo vuelve a la lista pública.
-for (const name of ['aula.html', 'hub.html', 'plataforma.html', 'talleres.html', 'taller.html', 'avi-vision.html']) {
-  const source = readFileSync(resolve(root, name), 'utf8');
-  if (!source.includes('assets/gate.js')) failures.push(`Falta gate de interfaz: ${name}`);
-}
+if (holdingMode) {
+  const holdingCssPath = resolve(root, 'assets', 'site-hold.css');
+  if (!existsSync(holdingCssPath)) {
+    failures.push('Falta la hoja de estilo del placeholder temporal.');
+  } else {
+    const holdingCss = readFileSync(holdingCssPath, 'utf8');
+    if (/@keyframes|\banimation\s*:|\btransition\s*:/i.test(holdingCss)) {
+      failures.push('El placeholder temporal no puede incluir movimiento.');
+    }
+  }
 
-// Las superficies públicas nunca deben quedar protegidas por error.
-for (const name of ['index.html', 'invitacion.html']) {
-  const source = readFileSync(resolve(root, name), 'utf8');
-  if (source.includes('assets/gate.js')) failures.push(`Página pública protegida por error: ${name}`);
+  for (const name of htmlFiles) {
+    const source = readFileSync(resolve(root, name), 'utf8');
+    if (!source.includes('assets/site-hold.css')) failures.push(`Falta estilo temporal: ${name}`);
+    if (!source.includes('name="robots" content="noindex, nofollow, noarchive, nosnippet"')) {
+      failures.push(`Falta noindex temporal: ${name}`);
+    }
+    if (!source.includes('id="site-hold-title"')) failures.push(`Falta título temporal: ${name}`);
+    if (/<(?:script|video|audio|form)\b/i.test(source)) {
+      failures.push(`El placeholder debe ser estático: ${name}`);
+    }
+  }
+
+  const robots = readFileSync(resolve(root, 'robots.txt'), 'utf8');
+  if (!/^Disallow:\s*\/\s*$/m.test(robots)) {
+    failures.push('robots.txt debe bloquear el rastreo durante la pausa temporal.');
+  }
+
+  const sitemap = readFileSync(resolve(root, 'sitemap.xml'), 'utf8');
+  if (/<url>/i.test(sitemap)) failures.push('El sitemap temporal no debe listar páginas.');
+} else {
+  for (const name of ['aula.html', 'hub.html', 'plataforma.html', 'talleres.html', 'taller.html', 'avi-vision.html']) {
+    const source = readFileSync(resolve(root, name), 'utf8');
+    if (!source.includes('assets/gate.js')) failures.push(`Falta gate de interfaz: ${name}`);
+  }
+
+  // Las superficies públicas nunca deben quedar protegidas por error.
+  for (const name of ['index.html', 'invitacion.html']) {
+    const source = readFileSync(resolve(root, name), 'utf8');
+    if (source.includes('assets/gate.js')) failures.push(`Página pública protegida por error: ${name}`);
+  }
 }
 
 // El código de invitación es sólo una referencia opaca: ninguna página o dato

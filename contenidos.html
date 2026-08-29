@@ -1,164 +1,23 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es" data-site-mode="holding">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AVI — Contenidos de estudio</title>
-    <meta name="description" content="Contenidos de estudio — Audiovisual Intelligence" />
-    <link rel="preload" as="style" href="assets/styles.css?v=6" />
-    <link rel="stylesheet" href="assets/styles.css?v=6" />
-    <script src="assets/gate.js?v=8"></script>
-      <script src="assets/navigation.js?v=6" defer></script>
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+    <meta name="description" content="Audiovisual Intelligence está preparando una nueva publicación." />
+    <meta name="theme-color" content="#1a1714" />
+    <title>Audiovisual Intelligence</title>
+    <link rel="canonical" href="https://audiovisualintelligence.ai/" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/site-hold.css" />
   </head>
-  <body class="has-bg-video">
-    <!-- Fondo de video global -->
-    <video class="bg-video" autoplay muted loop playsinline aria-hidden="true" preload="metadata" poster="comingsoon.gif">
-      <source src="media/Materiales_de_estudio_01.mp4" type="video/mp4" />
-    </video>
-    <header class="site-header">
-      <div class="container inner">
-        <a class="brand" href="capacitaciones.html" aria-label="Inicio">AVI</a>
-        <button class="hamburger" id="hamburger" aria-label="Abrir menú"><span></span></button>
-      </div>
-      <nav class="mobile-menu" id="mobileMenu" aria-label="Navegación principal" hidden>
-        <ul class="menu-list">
-          <li><a href="capacitaciones.html">Capacitaciones</a></li>
-          <li><a href="quienes-somos.html">Quienes somos</a></li>
-          <li><a href="contenidos.html" aria-current="page">Contenidos de estudio</a></li>
-          <li><a href="clientes.html">Clientes</a></li>
-          <li><a href="id-lab.html">I+D Lab</a></li>
-        </ul>
-      </nav>
-    </header>
-
-    <main>
-      <section class="hero container">
-        <div class="eyebrow">Próximamente</div>
-        <h1 class="title-xxl">Contenidos de estudio</h1>
-        <p class="subtitle">Muy pronto publicaremos contenidos y capacitaciones. Manteniendo el enfoque minimalista.</p>
-        <div class="spacer-md"></div>
+  <body>
+    <main class="site-hold" aria-labelledby="site-hold-title">
+      <section class="site-hold__notice">
+        <p class="site-hold__mark">Audiovisual Intelligence</p>
+        <h1 id="site-hold-title">El sitio está temporalmente en pausa.</h1>
+        <p>Estamos preparando una nueva publicación.</p>
       </section>
-      <section class="container" style="text-align:center">
-        <div class="resource-grid">
-          <article class="resource-card" style="opacity:1;">
-            <div class="resource-thumb">
-              <button id="pdfPreview" class="pdf-preview" style="all:unset; display:block; width:100%; height:100%; cursor:pointer;">
-                <div class="badge-pdf">PDF</div>
-                <div class="thumb-label">Guía en PDF</div>
-              </button>
-            </div>
-            <div class="resource-title">Guía Visión A.I.</div>
-            <div class="resource-meta">Presentación — Español</div>
-            <div class="resource-actions">
-              <button id="openPdfModal" class="btn" style="padding:8px 12px">Ver</button>
-              <a class="link" id="pdfTab" href="#" target="_blank" rel="noopener noreferrer" hidden>Abrir en pestaña</a>
-            </div>
-          </article>
-        </div>
-      </section>
-      <div class="spacer-scroll"></div>
     </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <a class="footer-logo" href="capacitaciones.html" aria-label="Ir a Capacitaciones">
-          <video autoplay muted loop playsinline preload="none" style="opacity:0">
-            <source src="media/LogoHome.mp4" type="video/mp4" />
-          </video>
-        </a>
-        <div class="copyright">© <span id="y"></span> Audiovisual Intelligence</div>
-      </div>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.min.js" integrity="sha512-7bS9h1n0sV8mV9uJ2cG2q8pR2x7w5K1G3S5F6O0cKJ9m1q9a3b4c5d6e7f8g9h0i" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-      // Año en footer
-      document.getElementById('y').textContent = new Date().getFullYear();
-
-      // Suavizar fondo al hacer scroll y paneo vertical del video
-      const softenOnScroll = () => {
-        const y = window.scrollY || 0;
-        if (y > 40) document.body.classList.add('bg-soften');
-        else document.body.classList.remove('bg-soften');
-        const docH = document.body.scrollHeight - window.innerHeight;
-        const p = docH > 0 ? Math.min(Math.max(y / docH, 0), 1) : 0;
-        const yPct = Math.round(p * 100);
-        document.documentElement.style.setProperty('--bgY', `${yPct}%`);
-      };
-      softenOnScroll();
-      window.addEventListener('scroll', softenOnScroll, { passive: true });
-      // El PDF ya no vive en el sitio: se sirve desde Drive y solo lo abre una
-      // sesion con rol. Los enlaces se resuelven al vuelo desde Firestore.
-      (function () {
-        var enlaces = null;
-        var boton = document.getElementById('openPdfModal');
-        var preview = document.getElementById('pdfPreview');
-        var pestania = document.getElementById('pdfTab');
-
-        // gate.js carga firebase y firebase-init de forma asincrona: no podemos
-        // tocar Firestore hasta que confirme el acceso.
-        function listo() {
-          if (window.AVI_ACCESO) return Promise.resolve();
-          return new Promise(function (res) {
-            document.addEventListener('avi:access-ready', function () { res(); }, { once: true });
-          });
-        }
-
-        function resolver() {
-          if (enlaces) return Promise.resolve(enlaces);
-          return listo()
-            .then(function () { return window.AVI_ensureFirestore(); })
-            .then(function () { return firebase.firestore().collection('class_materials').doc('presentacion-general').get(); })
-            .then(function (doc) {
-              if (!doc.exists) throw new Error('sin-material');
-              enlaces = doc.data();
-              if (pestania && enlaces.viewUrl) { pestania.href = enlaces.viewUrl; pestania.hidden = false; }
-              return enlaces;
-            });
-        }
-
-        function modal(src) {
-          var m = document.getElementById('pdfModal');
-          if (m) return m;
-          m = document.createElement('dialog');
-          m.id = 'pdfModal';
-          m.className = 'modal';
-          m.innerHTML =
-            '<div class="modal-backdrop" onclick="this.closest(\'dialog\').close()"></div>' +
-            '<div class="modal-dialog">' +
-              '<div class="modal-hd"><div class="kicker">Presentación</div>' +
-              '<button class="btn" id="pdfClose">Cerrar</button></div>' +
-              '<div class="modal-bd" style="display:block; padding:0;">' +
-                '<iframe title="Guía Visión A.I." src="' + src + '" allow="autoplay" ' +
-                'style="width:min(96vw, 1040px); height:min(80vh, 860px); border:0; background:#0f0f0f"></iframe>' +
-              '</div>' +
-            '</div>';
-          document.body.appendChild(m);
-          m.querySelector('#pdfClose').addEventListener('click', function () { m.close(); });
-          return m;
-        }
-
-        function abrir() {
-          resolver()
-            .then(function (d) { modal(d.previewUrl || d.viewUrl).showModal(); })
-            .catch(function () {
-              if (boton) { boton.disabled = true; boton.textContent = 'No disponible'; }
-            });
-        }
-
-        if (boton) boton.addEventListener('click', abrir);
-        if (preview) preview.addEventListener('click', abrir);
-        // Prepara el enlace de pestaña sin esperar al clic
-        resolver().catch(function () {});
-      })();
-      // Mostrar logo de footer solo al entrar en viewport
-      if ('IntersectionObserver' in window) {
-        const fl = document.querySelector('.footer-logo');
-        const ioFL = new IntersectionObserver((entries)=>{
-          for (const e of entries) if (e.isIntersecting) { fl.classList.add('is-visible'); fl.querySelector('video')?.style && (fl.querySelector('video').style.opacity='1'); ioFL.unobserve(fl); }
-        }, {rootMargin:'0px 0px -10% 0px'});
-        if (fl) ioFL.observe(fl);
-      } else { document.querySelector('.footer-logo')?.classList.add('is-visible'); }
-    </script>
   </body>
-  
 </html>

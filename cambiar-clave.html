@@ -1,52 +1,23 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es" data-site-mode="holding">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Restablecer contraseña — Audiovisual Intelligence</title>
-    <meta name="robots" content="noindex, nofollow" />
-    <link rel="stylesheet" href="assets/styles.css?v=6" />
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <script src="assets/firebase-init.js?v=11"></script>
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+    <meta name="description" content="Audiovisual Intelligence está preparando una nueva publicación." />
+    <meta name="theme-color" content="#1a1714" />
+    <title>Audiovisual Intelligence</title>
+    <link rel="canonical" href="https://audiovisualintelligence.ai/" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/site-hold.css" />
   </head>
-  <body style="background:#000;">
-    <main style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;color:#fff;">
-      <div style="font-size:14px;letter-spacing:.35em;text-transform:uppercase;color:#ff6a00;margin-bottom:18px;">Audiovisual Intelligence</div>
-      <h1 style="font-size:clamp(26px,5vw,44px);margin:0 0 8px;font-weight:600;text-align:center;">Recuperar acceso</h1>
-      <p style="color:#999;margin:0 0 30px;font-size:15px;text-align:center;max-width:34em;">Ingresá el email del equipo AVI. Si está habilitado, recibirás un enlace seguro para definir una contraseña.</p>
-
-      <form id="resetForm" style="width:100%;max-width:360px;display:grid;gap:14px;">
-        <input id="email" type="email" required autocomplete="email" placeholder="Email"
-          style="padding:14px 16px;border-radius:12px;border:1px solid #262626;background:#0d0d0d;color:#fff;font-size:15px;" />
-        <button id="submitBtn" type="submit"
-          style="padding:14px;border-radius:999px;border:0;background:#ff6a00;color:#000;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;">
-          Enviar enlace
-        </button>
-        <div id="msg" role="status" aria-live="polite" style="min-height:2.8em;color:#ff6a00;font-size:14px;text-align:center;"></div>
-      </form>
-
-      <a href="login.html" style="margin-top:26px;color:#777;font-size:13px;text-decoration:none;">← Volver al acceso</a>
+  <body>
+    <main class="site-hold" aria-labelledby="site-hold-title">
+      <section class="site-hold__notice">
+        <p class="site-hold__mark">Audiovisual Intelligence</p>
+        <h1 id="site-hold-title">El sitio está temporalmente en pausa.</h1>
+        <p>Estamos preparando una nueva publicación.</p>
+      </section>
     </main>
-    <script>
-      if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG);
-      var auth = firebase.auth();
-      var form = document.getElementById('resetForm');
-      var msg = document.getElementById('msg');
-      var btn = document.getElementById('submitBtn');
-
-      form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        btn.disabled = true;
-        msg.textContent = '';
-        var email = document.getElementById('email').value.trim().toLowerCase();
-        auth.sendPasswordResetEmail(email)
-          .catch(function () { /* respuesta neutra: no revelar si la cuenta existe */ })
-          .then(function () {
-            msg.textContent = 'Si la cuenta está habilitada, el enlace llegará a ese email.';
-            btn.disabled = false;
-          });
-      });
-    </script>
   </body>
 </html>

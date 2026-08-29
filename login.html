@@ -1,80 +1,23 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es" data-site-mode="holding">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Acceso — Audiovisual Intelligence</title>
-    <meta name="robots" content="noindex" />
-    <link rel="stylesheet" href="assets/styles.css?v=6" />
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <script src="assets/firebase-init.js?v=11"></script>
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+    <meta name="description" content="Audiovisual Intelligence está preparando una nueva publicación." />
+    <meta name="theme-color" content="#1a1714" />
+    <title>Audiovisual Intelligence</title>
+    <link rel="canonical" href="https://audiovisualintelligence.ai/" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/site-hold.css" />
   </head>
-  <body style="background:#000;">
-    <main style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;color:#fff;">
-      <div style="font-size:14px;letter-spacing:.35em;text-transform:uppercase;color:#ff6a00;margin-bottom:18px;">Audiovisual Intelligence</div>
-      <h1 style="font-size:clamp(26px,5vw,44px);margin:0 0 8px;font-weight:600;">Acceso AVI</h1>
-      <p style="color:#999;margin:0 0 30px;font-size:15px;">Ingresá con la cuenta asociada a tu invitación o capacitación.</p>
-      <form id="loginForm" style="width:100%;max-width:360px;display:grid;gap:14px;">
-        <input id="email" type="email" required autocomplete="username" placeholder="Email"
-          style="padding:14px 16px;border-radius:12px;border:1px solid #262626;background:#0d0d0d;color:#fff;font-size:15px;" />
-        <input id="password" type="password" required autocomplete="current-password" placeholder="Contraseña"
-          style="padding:14px 16px;border-radius:12px;border:1px solid #262626;background:#0d0d0d;color:#fff;font-size:15px;" />
-        <button id="submitBtn" type="submit"
-          style="padding:14px;border-radius:999px;border:0;background:#ff6a00;color:#000;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;">
-          Entrar
-        </button>
-        <div id="msg" role="alert" style="min-height:1.4em;color:#ff6a00;font-size:14px;text-align:center;"></div>
-      </form>
-      <a href="cambiar-clave.html" style="margin-top:22px;color:#999;font-size:13px;text-underline-offset:4px;">Recuperar contraseña</a>
-      <div style="margin-top:34px;display:flex;gap:22px;flex-wrap:wrap;justify-content:center;">
-        <a href="/" style="color:#777;font-size:13px;text-decoration:none;">← Volver al inicio</a>
-        <a href="mailto:academy@audiovisualintelligence.ai?subject=Solicitud%20de%20informaci%C3%B3n%20AVI" style="color:#999;font-size:13px;">Solicitar información</a>
-      </div>
+  <body>
+    <main class="site-hold" aria-labelledby="site-hold-title">
+      <section class="site-hold__notice">
+        <p class="site-hold__mark">Audiovisual Intelligence</p>
+        <h1 id="site-hold-title">El sitio está temporalmente en pausa.</h1>
+        <p>Estamos preparando una nueva publicación.</p>
+      </section>
     </main>
-    <script>
-      if (!firebase.apps.length) firebase.initializeApp(window.AVI_FIREBASE_CONFIG);
-      var auth = firebase.auth();
-      var params = new URLSearchParams(location.search);
-      var pedido = params.get('next');
-      var next = window.AVI_safeNext(pedido);
-
-      // Un socio sin destino pedido vuelve a la portada, que se abre con su
-      // sesión. El aula queda como destino de alumnos o de un next explícito.
-      function continuar(acceso){
-        if (acceso && acceso.private && !pedido) { location.replace('/'); return; }
-        location.replace(next);
-      }
-
-      // Si ya hay sesión válida, pasar directo
-      auth.onAuthStateChanged(function(u){
-        if (!u) return;
-        Promise.all([window.AVI_privateAccess(u), window.AVI_access(u)]).then(function(resultados){
-          if (resultados[0].ok || ((next === 'aula.html' || next === 'hub.html') && resultados[1].ok)) continuar(resultados[0]);
-        });
-      });
-
-      document.getElementById('loginForm').addEventListener('submit', function(e){
-        e.preventDefault();
-        var btn = document.getElementById('submitBtn'), msg = document.getElementById('msg');
-        btn.disabled = true; msg.textContent = '';
-        var email = document.getElementById('email').value.trim().toLowerCase();
-        var pass = document.getElementById('password').value;
-        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-          .then(function(){ return auth.signInWithEmailAndPassword(email, pass); })
-          .then(function(cred){
-            return Promise.all([window.AVI_privateAccess(cred.user), window.AVI_access(cred.user)]).then(function(resultados){
-              if (!resultados[0].ok && !((next === 'aula.html' || next === 'hub.html') && resultados[1].ok)) { auth.signOut(); throw new Error('no-permitido'); }
-              return continuar(resultados[0]);
-            });
-          })
-          .catch(function(err){
-            btn.disabled = false;
-            msg.textContent = (err && err.message === 'no-permitido')
-              ? 'Esta cuenta no tiene acceso al aula.'
-              : 'Email o contraseña incorrectos.';
-        });
-      });
-    </script>
   </body>
 </html>
