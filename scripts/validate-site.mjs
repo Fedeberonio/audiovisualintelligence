@@ -74,8 +74,8 @@ if (holdingMode) {
   }
 
   const robots = readFileSync(resolve(root, 'robots.txt'), 'utf8');
-  if (!/^Disallow:\s*\/\s*$/m.test(robots)) {
-    failures.push('robots.txt debe bloquear el rastreo durante la pausa temporal.');
+  if (!/^Allow:\s*\/\s*$/m.test(robots) || /^Disallow:\s*\/\s*$/m.test(robots)) {
+    failures.push('robots.txt debe permitir el rastreo para que los buscadores reciban el noindex temporal.');
   }
 
   const sitemap = readFileSync(resolve(root, 'sitemap.xml'), 'utf8');
